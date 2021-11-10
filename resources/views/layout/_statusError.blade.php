@@ -1,12 +1,15 @@
 
+<div class="timeline">
+    <br>
+</div>
 <div class="timeline-item">
     <div class="timeline-icon">
             <img src="images/minusx40.png" alt="">
     </div>
     <div class="timeline-content">
-        <h2> ไม่พบรหัสดังกล่าว</h2>
+        <h2> {{ trans('message.tx_statuserror1') }}</h2>
         <p>
-            กรุณาติดต่อเจ้าหน้าที่เพื่อสอบถามข้อมูล
+            {{ trans('message.tx_statuserror2') }}
         </p>
 
     </div>

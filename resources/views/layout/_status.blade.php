@@ -1,98 +1,132 @@
-<? 
-$step=1;
+<?php 
+    $step=1;
 
-//$step=2;
-//$step=3;
-$thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-
+    //$step=2;
+    //$step=3;
 ?>
-{{-- @foreach($data as $Semidata)
- {{ $Semidata }} 
-@endforeach --}}
 
-<div class="timeline-item">
-
-
-@foreach($data as $Semidata)
-    
-    <input type="hidden" id="fcase" value="{{$Semidata->case_id}}">
-    {{-- @if ($step==1) --}}
-    @if ($step == 1)
-
-        @if($Semidata->operate_status == 1 )
-
-        <div class="timeline-icon">
-        <img src="images/markx40.png" alt="">
-        </div>
-        <div class="timeline-content">
-            <h2> {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}}{{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}  </h2>
-            <p>
-                ส่งเรื่องสำเร็จ
-            </p>
-
-        </div>
-        @else
-        <div class="timeline-icon">
-        <img src="images/minusx40.png" alt="">
-        </div>
-            <div class="timeline-content">
-                <h2>  </h2>
-                <p>
-                ส่งเรื่องสำเร็จ
-                </p>
-            </div>
-        @endif
-       
-        <? //$step++; ?>   
-
-</div>
-    
-    
-    @endif
-
-   
-@if ($step == 2)
-<div class="timeline-item">
-        @if($Semidata->operate_status == 2 )
-            <div class="timeline-icon">
-            <img src="images/markx40.png" alt="">
-            </div>
-                <div class="timeline-content right">
-                    <h2> {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}}{{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}} </h2>
-                    <p>
-                    เจ้าหน้าที่รับเรื่องแล้ว
-                    </p>
-                </div>
-        @else
-              <div class="timeline-icon">
-              <img src="images/minusx40.png" alt="">
-              </div>
-                    <div class="timeline-content right">
-                        <h2>  </h2>
-                        <p>
-                        เจ้าหน้าที่รับเรื่องแล้ว
-                        </p>
-                    </div>
-                    
-        @endif
-        <? //$step++; ?>
-</div>
-
-
-  
+@if(Config::get('app.locale') == 'en')
+    <?php 
+        $thaimonth = ["","Jan.","Feb.","Mar.","Apr.","May","Jun.","Jul.","Jul.","Sep.","Oct.","Nov.","Dec."];
+    ?>
+@elseif(Config::get('app.locale') == 'th')
+    <?php 
+        $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+    ?>
 @endif
 
-{{-- @if ($step==3) --}}
-@if ($step==3)   
-<div class="timeline-item">
+{{-- @foreach($data as $Semidata)
+ {{ $Semidata }}
+@endforeach --}}
+
+<div class="timeline">
+    <br>
+</div>
+
+@foreach($data as $Semidata)
+
+    <input type="hidden" id="fcase" value="{{$Semidata->case_id}}">
+    {{-- @if ($step==1) --}}
+   
+    @if ($step == 1)
+
+    <div class="timeline-item">
+
+            @if($Semidata->operate_status == 1 )
+                <div class="timeline-icon">
+                    <img src="images/markx40.png" alt="">
+                </div>
+                <div class="timeline-content">
+                    <h2> 
+                        @if(Config::get('app.locale') == 'en')
+                            {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))}}
+                        @elseif(Config::get('app.locale') == 'th')
+                            {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}
+                        @endif
+                    </h2>
+                    <p>
+                        {{ trans('message.tx_status1') }}
+                    </p>
+
+                </div>
+            @else
+                <div class="timeline-icon">
+                    <img src="images/minusx40.png" alt="">
+                </div>
+                <div class="timeline-content">
+                    <h2> </h2>
+                    <p>
+                        {{ trans('message.tx_status1') }}
+                    </p>
+                </div>
+            @endif
+
+        <? //$step++; ?>
+
+    </div>
+
+
+    @endif
+
+
+    @if ($step == 2)
+
+    <div class="timeline-item">
+
+        @if($Semidata->operate_status == 2 )
+        
+            <div class="timeline-icon">
+                <img src="images/markx40.png" alt="">
+            </div>
+            
+            <div class="timeline-content right">
+                <h2> 
+                    @if(Config::get('app.locale') == 'en')
+                        {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))}}
+                    @elseif(Config::get('app.locale') == 'th')
+                        {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}
+                    @endif
+                </h2>
+                <p>
+                    {{ trans('message.tx_status2_1') }}
+                </p>
+            </div>
+        @else
+        <div class="timeline-icon">
+            <img src="images/minusx40.png" alt="">
+        </div>
+        <div class="timeline-content right">
+            <h2> </h2>
+            <p>
+                {{ trans('message.tx_status2_1') }}
+            </p>
+        </div>
+
+        @endif
+        <? //$step++; ?>
+    </div>
+
+
+    @endif
+
+    {{-- @if ($step==3) --}}
+
+    @if ($step==3)
+    <div class="timeline-item">
         @if($Semidata->operate_status == 3 )
         <div class="timeline-icon">
-        <img src="images/markx40.png" alt="">
+            <img src="images/markx40.png" alt="">
         </div>
         <div class="timeline-content">
-            <h2> {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}}{{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}} </h2>
+            <h2> 
+                @if(Config::get('app.locale') == 'en')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))}}
+                @elseif(Config::get('app.locale') == 'th')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}
+                @endif
+            </h2>
             <p>
-            เจ้าหน้าที่สอบถามข้อมูลเพิ่มเติมแล้ว
+                {{ trans('message.tx_status3_1') }}
             </p>
         </div>
         @else
@@ -102,27 +136,33 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
         <div class="timeline-content">
             <h2> - </h2>
             <p>
-            เจ้าหน้าที่สอบถามข้อมูลเพิ่มเติมแล้ว
+                {{ trans('message.tx_status3_1') }}
             </p>
         </div>
-       
+
+        @endif
+        <? //$step++; ?>
+    </div>
+
     @endif
-    <? //$step++; ?>    
-</div>
-
-@endif
 
 
-@if ($step==4)   
-<div class="timeline-item">
+    @if ($step==4)
+    <div class="timeline-item">
         @if($Semidata->operate_status == 4 )
         <div class="timeline-icon">
-        <img src="images/markx40.png" alt="">
+            <img src="images/markx40.png" alt="">
         </div>
-        <div class="timeline-content">
-            <h2> {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}}{{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}} </h2>
+        <div class="timeline-content right">
+            <h2> 
+                @if(Config::get('app.locale') == 'en')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))}}
+                @elseif(Config::get('app.locale') == 'th')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}
+                @endif
+            </h2>
             <p>
-            อยู่ระหว่างดำเนินการช่วยเหลือ
+                {{ trans('message.tx_status4_1') }}
             </p>
         </div>
         @else
@@ -130,29 +170,35 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
             <img src="images/minusx40.png" alt="">
         </div>
         <div class="timeline-content">
-            <h2>  - </h2>
+            <h2> - </h2>
             <p>
-            อยู่ระหว่างดำเนินการช่วยเหลือ
+                {{ trans('message.tx_status4_1') }}
             </p>
         </div>
-       
+
+        @endif
+        <? //$step++; ?>
+    </div>
+
     @endif
-    <? //$step++; ?>    
-</div>
-
-@endif
 
 
-@if ($step==5)   
-<div class="timeline-item">
+    @if ($step==5)
+    <div class="timeline-item">
         @if($Semidata->operate_status == 5 or $Semidata->operate_status == 6 )
         <div class="timeline-icon">
-        <img src="images/markx40.png" alt="">
+            <img src="images/markx40.png" alt="">
         </div>
         <div class="timeline-content">
-            <h2> {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}}{{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}} </h2>
+            <h2> 
+                @if(Config::get('app.locale') == 'en')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))}}
+                @elseif(Config::get('app.locale') == 'th')
+                    {{date('d',strtotime(str_replace('-','/', $Semidata->operate_time)))}} {{$thaimonth[date('n',strtotime(str_replace('-','/', $Semidata->operate_time)))]}} {{date("Y",strtotime(str_replace('-','/', $Semidata->operate_time)))+543}}
+                @endif        
+            </h2>
             <p>
-             ดำเนินการเสร็จสิ้น
+                {{ trans('message.tx_status5_1') }}
             </p>
         </div>
         @else
@@ -160,87 +206,88 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
             <img src="images/minusx40.png" alt="">
         </div>
         <div class="timeline-content">
-            <h2>  - </h2>
+            <h2> - </h2>
             <p>
-                ดำเนินการเสร็จสิ้น
+                {{ trans('message.tx_status5_1') }}
             </p>
         </div>
-       
+
+        @endif
+        <? //$step++; ?>
+
     @endif
-    <? //$step++; ?>    
-
-@endif
 
 
-<? $step++; ?>   
- 
+    <?php $step++; ?>
+
 @endforeach
-<div class="timeline-item">
 
-@if ($step==1) 
+    <div class="timeline-item">
+
+        @if ($step==1)
         <div class="timeline-icon">
             <img src="images/minusx40.png" alt="">
         </div>
         <div class="timeline-content">
-            <h2>  - </h2>
+            <h2> - </h2>
             <p>
-            ส่งเรื่องสำเร็จ
+                {{ trans('message.tx_status1') }}
             </p>
         </div>
-@endif
-</div>
-<div class="timeline-item">
-@if ($step==2) 
+        @endif
+    </div>
+    <div class="timeline-item">
+        @if ($step==2)
         <div class="timeline-icon">
-        <img src="images/minusx40.png" alt="">
+            <img src="images/minusx40.png" alt="">
         </div>
-            <div class="timeline-content">
-                <h2> - </h2>
-                <p>
-                เจ้าหน้าที่รับเรื่องแล้ว
-                </p>
-            </div>
-@endif
-</div>
-<div class="timeline-item">
-@if ($step==3 or $step==2) 
+        <div class="timeline-content">
+            <h2> - </h2>
+            <p>
+                {{ trans('message.tx_status2_1') }}
+            </p>
+        </div>
+        @endif
+    </div>
+    <div class="timeline-item">
+        @if ($step==3 or $step==2)
 
         <div class="timeline-icon">
-        <img src="images/minusx40.png" alt="">
+            <img src="images/minusx40.png" alt="">
         </div>
-            <div class="timeline-content">
-                <h2> - </h2>
-                <p>
-                 เจ้าหน้าที่ยังไม่ได้สอบถามข้อมูลเพิ่มเติม
-                </p>
-        
+        <div class="timeline-content">
+            <h2> - </h2>
+            <p>
+                {{ trans('message.tx_status3_1') }}
+            </p>
+
         </div>
-@endif
-</div>
-<div class="timeline-item">
-@if ($step==4 or $step==3 or $step==2) 
+        @endif
+    </div>
+    <div class="timeline-item">
+        @if ($step==4 or $step==3 or $step==2)
         <div class="timeline-icon">
-        <img src="images/minusx40.png" alt="">
+            <img src="images/minusx40.png" alt="">
         </div>
-            <div class="timeline-content">
-                <h2> - </h2>
-                <p>
-                อยู่ระหว่างดำเนินการช่วยเหลือ
-                </p>
+        <div class="timeline-content">
+            <h2> - </h2>
+            <p>
+                {{ trans('message.tx_status4_1') }}
+            </p>
         </div>
-@endif
-</div>
-<div class="timeline-item">
-@if ($step==5 or $step==4 or $step==3 or $step==2) 
+        @endif
+    </div>
+    <div class="timeline-item">
+        @if ($step==5 or $step==4 or $step==3 or $step==2)
         <div class="timeline-icon">
-        <img src="images/minusx40.png" alt="">
+            <img src="images/minusx40.png" alt="">
         </div>
-            <div class="timeline-content">
-                <h2> - </h2>
-                <p>
-                ดำเนินการเสร็จสิ้น
-                </p>
+        <div class="timeline-content">
+            <h2> - </h2>
+            <p>
+                {{ trans('message.tx_status5_1') }}
+            </p>
         </div>
-@endif
-</div>
+        @endif
+    </div>
 </div>
