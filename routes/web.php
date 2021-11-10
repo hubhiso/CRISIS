@@ -99,3 +99,8 @@ Route::get('support2', function () {
 Route::get('/orgmap', function () {
     return view('orgmap');
 });
+
+Route::get('change/{locale}', function ($locale) {
+    Session::put('locale', $locale);
+    return Redirect::back();
+});

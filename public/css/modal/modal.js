@@ -2,20 +2,22 @@ $(document).ready(function () {
 
 	var id = '#dialog';
 
-
 	//Get the screen height and width
 	var maskHeight = $(document).height();
 	var maskWidth = $(window).width();
 
 	//Set heigth and width to mask to fill up the whole screen
-	$('#mask').css({
+	$('#mask_intro,#mask_home,#mask_confirm').css({
 		'width': maskWidth,
 		'height': maskHeight
 	});
 
 	//transition effect		
-	$('#mask').fadeIn(200);
-	$('#mask').fadeTo(200, 0.2);
+	$('#mask_intro').fadeIn(200);
+	$('#mask_intro').fadeTo(200, 0.2);
+
+	$('#mask_home').fadeIn(200);
+	$('#mask_home').fadeTo(200, 0.2);
 
 
 	//Get the window height and width
@@ -37,14 +39,21 @@ $(document).ready(function () {
 		//Cancel the link behavior
 		e.preventDefault();
 
-		$('#mask').hide();
+		$('#mask_intro').hide();
+		$('#mask_home').hide();
+		$('#mask_confirm').hide();
 		$('.window').hide();
+		$('#clip').attr("src", $("#clip").attr("src"));
 	});
 
 	//if mask is clicked
-	$('#mask').click(function () {
+
+	$('#mask_home').click(function () {
 		$(this).hide();
 		$('.window').hide();
+		$('#clip').attr("src", $("#clip").attr("src"));
 	});
+	
+	
 
 });
