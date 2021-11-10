@@ -18,10 +18,11 @@
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
     <script src="js/jquery.min.js"></script>
-    <link href="{{ asset('css/font-awesome5.0.6/css/fontawesome-all.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
 
     <!--modal popup -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
     <script src="css/modal/modal.js"></script>
     <link href="{{ asset('css/modal/modal.css') }}" rel="stylesheet">
     <title> ปกป้อง (CRS) </title>
