@@ -20,15 +20,6 @@
             </div>
         </div>
     </div>
-    <div class="hero-foot">
-        <div class="container">
-            <nav class="tabs is-boxed">
-                <ul>
-                    <li class="is-active"> <a href="{{ url('/') }}">หน้าหลัก</a> </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
 
 </section>
 <div class="tile is-ancestor">
@@ -36,7 +27,7 @@
         <div class="tile is-child box">
             <div class="notification has-text-centered is-large">
                 <h1>
-                    รหัสที่ใช้ติดตามข้อมูลของท่านคือ </br>
+                    {{ trans('message.tx_genid') }} </br>
                     <p class="title">{{ $case_id }}</p>
                     <?php
 
@@ -51,7 +42,7 @@
 
                             define("LINE_API","https://notify-api.line.me/api/notify");
 
-                        $token = "GOmBagL47ZPiK6XiWKKQDUkoWE9QuF5zTIsTLDlqkf8"; //ใส่Token ที่ copy เอาไว้
+                        $token = "GOmBagL47ZPiK6XiWKKQDUkoWE9QuF5zTIsTLDlqkf8";
                         $message = " $case_id $emer_tx เกิดเหตุร้องเรียน จังหวัด $provname->PROVINCE_NAME  🌐 https://crs.ddc.moph.go.th"; //ข้อความที่ต้องการส่ง สูงสุด 1000 ตัวอักษร
 
                         $queryData = array("message" => $message);
@@ -75,9 +66,9 @@
                 </h1>
             </div>
             @if(Auth::guard('officer')->check())
-                <a class="button is-success" href="{{ route('officer.main') }}">กลับสู้หน้าหลัก</a>
+                <a class="button is-success" href="{{ route('officer.main') }}">{{ trans('message.bt_cancle') }}</a>
             @else
-            <a class="button is-success" href="{{ route('guest_home') }}">กลับสู้หน้าหลัก</a>
+            <a class="button is-success" href="{{ route('guest_home') }}">{{ trans('message.bt_cancle') }}</a>
             @endif
         </div>
     </div>

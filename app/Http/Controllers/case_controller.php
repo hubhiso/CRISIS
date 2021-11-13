@@ -68,7 +68,8 @@ class case_controller extends Controller
         //
         //$input = Request::all();
         //case_input::create($request->all());
-        $YearAct = $request->input('YearAct')-543;
+        
+        $YearAct = $request->input('year_hidden');
 
         $accident_date = $YearAct."-".$request->input('MonthAct')."-".$request->input('DayAct');
         
@@ -76,23 +77,35 @@ class case_controller extends Controller
             $biosex_name = 'ชาย';
         }else if ($request->input('biosex') == 2) {
             $biosex_name = 'หญิง';
-        }
+        }else if ($request->input('biosex') == 0) {
+            $biosex_name = 'ไม่ประสงค์ตอบ';
+        }    
 
-        
+        if($request->input('sender_case')==""){
+            $sender_case = 1;
+        }elseif($request->input('sender_case')== 1){
+            $sender_case = 1;
+        }elseif($request->input('sender_case')== 2){
+            $sender_case = 2;
+        }elseif($request->input('sender_case')== 3 ){
+            $sender_case = 3;
+        }
 
         case_input::create([
             'emergency'=>$request->input('emergency'),
-            'sender_case'=>$request->input('sender_case'),
+            'sender_case'=>$sender_case,
             'sender'=>$request->input('sender'),
             'agent_tel'=>$request->input('agent_tel'),
 
             'case_id'=>$request->input('case_id'),
             'name'=>$request->input('name'),
             'victim_tel'=>$request->input('victim_tel'),
+
             'sex'=>$request->input('biosex'),
             'sex_name'=>$biosex_name,
             'biosex'=>$request->input('biosex'),
             'biosex_name'=>$biosex_name,
+
             'nation'=>$request->input('nation'),
             'nation_etc'=>$request->input('nation_etc'),
 
@@ -105,8 +118,9 @@ class case_controller extends Controller
             'group_code'=>$request->input('group_code'),
             'detail'=>$request->input('detail'),
             'need'=>$request->input('need'),
+            /*
             'group_code'=>$request->input('group_code'),
-            'group_code'=>$request->input('group_code'),
+            'group_code'=>$request->input('group_code'),*/
 
             'file1'=>$request->input('file1'),
             'file2'=>$request->input('file2'),
@@ -119,8 +133,6 @@ class case_controller extends Controller
         $emergency = Request::input('emergency');
         $prov_id = Request::input('prov_id');
         $provname = province::where('PROVINCE_CODE', $prov_id)->first();
-
-       
 
         $pathfile = "uploads/".$case_id;
         $file1 = "";
