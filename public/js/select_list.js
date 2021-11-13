@@ -3,7 +3,7 @@ $('#problem_case').on('change',function (e) {
     //console.log(prob_id);
     $('#group_code').empty();
     $('#group_code').attr('disabled', 'disabled');
-    if((prob_id==1)||(prob_id==5)){
+    if((prob_id==1)||(prob_id==5)||(prob_id==6)){
         $('#sub_problem').empty();
         $('#sub_problem').removeAttr('disabled');
         $('#sub_problem').append('<option value="1" style="width:250px">ผู้ติดเชื้อเอชไอวี</option>');
@@ -30,7 +30,8 @@ $('#problem_case').on('change',function (e) {
         $('#group_code').append('<option value="3" style="width:250px">ผู้ใช้สารเสพติด</option>');
         $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
         $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
-        $('#group_code').append('<option value="7" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+        $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+        $('#group_code').append('<option value="7" style="width:250px">ผู้พิการ</option>');
 
 
     }else{
@@ -48,7 +49,8 @@ $('#sub_problem').on('change',function (e) {
         $('#group_code').append('<option value="3" style="width:250px">ผู้ใช้สารเสพติด</option>');
         $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
         $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
-        $('#group_code').append('<option value="7" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+        $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+        $('#group_code').append('<option value="7" style="width:250px">ผู้พิการ</option>');
 
 
     }else{
