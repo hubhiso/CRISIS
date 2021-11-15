@@ -58,6 +58,20 @@ Route::prefix('officer')->group(function () {
     Route::resource('input_case','OfficerInputController');
     Route::get('ajax-amphur/{prov_id}','OfficerInputController@ajax_amphur');
 
+    Route::get('/contact', 'ContactController@contact');
+    
+    Route::get('/guide_t', 'ContactController@guide_t')->name('officer.guide_t');
+    Route::post('/update_count', 'ContactController@update_count')->name('officer.update_count');
+
+    Route::get('/m_officer', 'ManageofficerController@m_officer')->name('officer.m_officer');
+    Route::resource('/e_officer', 'ManageofficerController');
+
+    Route::get('/logOfficer', 'ManageofficerController@view_log')->name('officer.view_log');
+    Route::resource('/creategroup', 'ManageofficerController');
+
+    Route::get('/email', 'EmailController@create');
+    Route::post('/email', 'EmailController@sendEmail')->name('send.email');
+
 });
 
 Route::get('status', function () {
@@ -96,6 +110,10 @@ Route::get('/support', function () {
 Route::get('support2', function () {
     return view('support');
 });
+Route::get('manageu', function () {
+    return view('officer.manageuser');
+});
+
 Route::get('/orgmap', function () {
     return view('orgmap');
 });
@@ -104,3 +122,5 @@ Route::get('change/{locale}', function ($locale) {
     Session::put('locale', $locale);
     return Redirect::back();
 });
+
+Route::get('check-model','ContactController@getIndex');
