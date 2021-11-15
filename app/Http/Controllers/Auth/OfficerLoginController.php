@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use App\officer;
+use Carbon\Carbon;
 
 
 class OfficerLoginController extends Controller
@@ -28,13 +30,21 @@ class OfficerLoginController extends Controller
             'password' => 'required|string',
         ]);
 
-       if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password ]
-           , $request->remember)){
+        if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password, 'active' => 'yes' ]
+            , $request->remember)){
 
-           return redirect()->intended(route('officer.main'));
-       }
+            officer::where('username','=', $request->username)->update(['last_login_at' => Carbon::now()]);
+            return redirect()->intended(route('officer.main'));
+        }
+        
+        
+        if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'no']))
+        {
+            Auth::guard('officer')->logout();
+            return redirect()->back()->with(['message' => 'ID นี้ถูกระงับชั่วคราวจากการที่ไม่ได้ login เป็นเวลานาน โปรดแจ้งผู้ดูแลเพื่อเข้าใช้งาน']);
+        }
 
-       return redirect()->back()->withInput($request->only('username','remember'));
+        return redirect()->back()->withInput($request->only('username','remember'));
     }
 
     public  function  logout()
