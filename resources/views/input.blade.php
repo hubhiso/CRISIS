@@ -821,9 +821,9 @@
                 </p>
                 <br>
 
-                <div class="buttons">
+                <div class="buttons has-text-centered">
 
-                    <a class="button is-medium  is-outlined is-danger close">ทราบ</a>
+                    <a class="button  is-outlined is-danger close">ทราบ</a>
 
                     <a href="{{ 'index.php' }}" class="button is-outlined ">{{ trans('message.bt_cancle') }}</a>
                     <!--span class="is-size-7">By clicking Accept, you agree to be bound by the terms of this
