@@ -108,7 +108,7 @@
                         style="white-space: nowrap;">
                         <thead>
                         <tr>
-                            <th class="has-text-danger has-text-centered" colspan="22">จัดการายชื่อเจ้าหน้าที่</th>
+                            <th class="has-text-danger has-text-centered" colspan="24">จัดการายชื่อเจ้าหน้าที่</th>
                         </tr>
                             <tr>
                                 <th class="has-text-danger">ลำดับ</th>
@@ -119,6 +119,8 @@
                                 <th class="has-text-danger">เข้าใช้</th>
                                 <th class="has-text-danger" style="white-space: nomal; max-width: 60px">ชื่อ</th>
                                 <th class="has-text-danger" style="white-space: nomal; max-width: 60px">หน่วยงาน</th>
+                                <th class="has-text-danger" style="display:none;">เบอร์ติดต่อ</th>
+                                <th class="has-text-danger" style="display:none;">Email</th>
                                 <th style="display:none;"></th>
                                 <th class="has-text-danger">ตำแหน่ง</th>
                                 <th style="display:none;"></th>
@@ -173,6 +175,8 @@
 
                                 <td>{{$show->name}}</td>
                                 <td>{{$show->nameorg}}</td>
+                                <td style="display:none;">{{$show->tel}}</td>
+                                <td style="display:none;">{{$show->email}}</td>
                                 <td style="display:none;">{{$show->position}}</td>
 
                                 <td>
@@ -704,27 +708,27 @@
             $('#e_position').val(data[10]);
 
 
-            if (data[11] == '<p class="has-text-secondary"><i class="fas fa-minus-circle"></i></p>') {
+            if (data[15] == '<p class="has-text-secondary"><i class="fas fa-minus-circle"></i></p>') {
                 $('#e_area').val('0');
                 $('#e_area').prop('disabled', true);
             } else {
-                $('#e_area').val(data[11]);
+                $('#e_area').val(data[15]);
                 $('#e_area').prop('disabled', false);
             }
 
-            if (data[13] == '<p class="has-text-secondary"><i class="fas fa-minus-circle"></i></p>') {
+            if (data[17] == '<p class="has-text-secondary"><i class="fas fa-minus-circle"></i></p>') {
                 $('#e_prov').val('0');
                 $('#e_prov').prop('disabled', true);
             } else {
-                $('#e_prov').val(data[12]);
+                $('#e_prov').val(data[16]);
                 $('#e_prov').prop('disabled', false);
 
             }
 
 
-            $('#e_group').val(data[14]);
-            if (data[16] == "yes") {
-                $('#e_v_group').val(data[16]);
+            $('#e_group').val(data[11]);
+            if (data[13] == "yes") {
+                $('#e_v_group').val(data[13]);
             } else {
                 $('#e_v_group').val('no');
             }
