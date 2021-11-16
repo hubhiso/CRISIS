@@ -209,7 +209,7 @@
 <script>
 $('table.paginated').each(function() {
     var currentPage = 0;
-    var numPerPage = 20;
+    var numPerPage = 30;
     var $table = $(this);
     $table.bind('repaginate', function() {
         $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage)
