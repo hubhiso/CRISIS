@@ -21,9 +21,16 @@ Route::prefix('manager')->group(function (){
     Route::get('/transfer_case/{case_id}', 'ManagerController@transfer')->name('manager.transfer_frm');
     Route::get('/register', 'ManagerController@load_register')->name('manager.register');
 
+    Route::get('ajax-email/{email}','ManagerController@ajax_email');
+    Route::get('ajax-tel/{tel}','ManagerController@ajax_tel');
+
     Route::post('/reject_cfm', 'ManagerController@reject_cfm')->name('manager.reject_cfm');
     Route::post('/transfer_cfm', 'ManagerController@transfer_cfm')->name('manager.transfer_cfm');
     Route::post('/register_cfm', 'ManagerController@create_officer')->name('manager.register_cfm');
+
+    Route::prefix('transfer_case')->group(function (){
+        Route::get('ajax-amphur/{prov_id}','ManagerController@ajax_amphur');
+    });
 });
 Route::prefix('officer')->group(function () {
     Route::get('/', 'OfficerController@index')->name('officer.main');

@@ -12,7 +12,8 @@
     <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/font-awesome5.0.6/css/fontawesome-all.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
     {{ Html::script('js/jquery.min.js') }}
     <link href="{{ asset('/css/uploadicon/new3.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/nicelabel/css/jquery-nicelabel.css') }}" rel="stylesheet">
@@ -26,7 +27,7 @@
     {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
     {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
 
-    <title> CRS </title>
+    <title> ปกป้อง (CRS) </title>
 
 </head>
 
@@ -149,19 +150,21 @@
 
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
-                        <label class="label">เพศกำเนิด</label>
+                        <label class="label">เพศ</label>
                     </div>
                     <div class="field-body">
-                        <div class="field is-grouped">
-                            <p class="control is-expanded has-icons-left ">
-                                <label class="radio">
-                                    {{ Form::radio('biosex', '1' , true) }}
-                                    ชาย
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('biosex', '2' , false) }} หญิง
-                                </label>
-                            </p>
+                        <div class="field">
+                            <label class="radio">
+                                {{ Form::radio('biosex', '1' , true) }} ชาย
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('biosex', '2' , false) }} หญิง
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('biosex', '0' , false) }} ไม่ประสงค์ตอบ
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -170,32 +173,35 @@
                         <label class="label">สัญชาติ</label>
                     </div>
                     <div class="field-body">
-                        <div class="field is-grouped">
-                            <p class="control is-expanded has-icons-left ">
-                                <label class="radio">
-                                    {{ Form::radio('nation', '1' , true) }} ไทย
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('nation', '2' , false) }} ลาว
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('nation', '3' , false) }} เวียดนาม
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('nation', '4' , false) }} พม่า
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('nation', '5' , false) }} กัมพูชา
-                                </label>
-                                <label class="radio">
-                                    {{ Form::radio('nation', '6' , false) }} อื่นๆ ระบุ
-                                </label>
-                                <label class="radio">
-                                    {!!
-                                    Form::text('nation_etc',null,['class'=>'input','placeholder'=>'ระบุสัญชาติ','style'=>'display:
-                                    none']) !!}
-                                </label>
-                            </p>
+                        <div class="field">
+                            <label class="radio">
+                                {{ Form::radio('nation', '1' , true) }} ไทย
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('nation', '2' , false) }} ลาว
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('nation', '3' , false) }} เวียดนาม
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('nation', '4' , false) }} พม่า
+                            </label>
+                            <br>
+                            <label class="radio">
+                                {{ Form::radio('nation', '5' , false) }} กัมพูชา
+                            </label>
+                            &nbsp;
+                            <label class="radio">
+                                {{ Form::radio('nation', '6' , false) }} อื่นๆ ระบุ
+                            </label>
+                            &nbsp;
+                            {!!
+                            Form::text('nation_etc',null,['class'=>'input','placeholder'=>
+                            'ระบุสัญชาติง', 'style'=>'display:
+                            none']) !!}
                         </div>
                     </div>
                 </div>
@@ -210,36 +216,64 @@
                         <label class="label"> วันที่เกิดเหตุ </label>
                     </div>
                     <div class="field-body">
-                        <div class="field is-narrow is-grouped ">
-                            <div class="input-group date control" data-provide="datepicker">
-                                ปี พ.ศ. <input style="width: 100px;" type="number" min="2400" max="2570" maxlength="4"
-                                    id="YearAct" name="YearAct" class="form-control input" placeholder="ปปปป"
-                                    value="{{date('Y')+543}}" onchange="date_acc();">
-                                เดือน <div class="select"><select id="MonthAct" name="MonthAct" onchange="date_acc();">
-                                        <option value="1" @if(date('m')==1){ selected } @endif> มกราคม </option>
-                                        <option value="2" @if(date('m')==2){ selected } @endif> กุมภาพันธ์ </option>
-                                        <option value="3" @if(date('m')==3){ selected } @endif> มีนาคม </option>
-                                        <option value="4" @if(date('m')==4){ selected } @endif> เมษายน </option>
-                                        <option value="5" @if(date('m')==5){ selected } @endif> พฤษภาคม </option>
-                                        <option value="6" @if(date('m')==6){ selected } @endif> มิถุนายน </option>
-                                        <option value="7" @if(date('m')==7){ selected } @endif> กรกฎาคม </option>
-                                        <option value="8" @if(date('m')==8){ selected } @endif> สิงหาคม </option>
-                                        <option value="9" @if(date('m')==9){ selected } @endif> กันยายน </option>
-                                        <option value="10" @if(date('m')==10){ selected } @endif> ตุลาคม </option>
-                                        <option value="11" @if(date('m')==11){ selected } @endif> พฤศจิกายน
-                                        </option>
-                                        <option value="12" @if(date('m')==12){ selected } @endif> ธันวาคม </option>
-                                    </select></div>
-                                วันที่ <div class="select"><select class="input" id="DayAct" name="DayAct" onchange="">
+                        <div class="columns" data-provide="datepicker">
+                            <div class="column ">
+                                ปี พ.ศ.
+                                <input style="width: 100px;" type="number" min="2400" max="2570" maxlength="4"
+                                    id="YearAct" name="YearAct" class="form-control input"
+                                    placeholder="{{ trans('message.txt_year_h') }}" value="{{date('Y')+543}}"
+                                    onchange="date_acc();">
+                            </div>
+                            <div class="column ">
+
+                                เดือน
+                                <div class="select">
+                                    <select id="MonthAct" name="MonthAct" onchange="date_acc();">
+                                        <option value="1" @if(date('m')==1){ selected } @endif>
+                                            มกราคม </option>
+                                        <option value="2" @if(date('m')==2){ selected } @endif> 
+                                            กุมภาพันธ์ </option>
+                                        <option value="3" @if(date('m')==3){ selected } @endif>
+                                            มีนาคม </option>
+                                        <option value="4" @if(date('m')==4){ selected } @endif>
+                                            เมษายน </option>
+                                        <option value="5" @if(date('m')==5){ selected } @endif>
+                                            พฤษภาคม </option>
+                                        <option value="6" @if(date('m')==6){ selected } @endif>
+                                            มิถุนายน </option>
+                                        <option value="7" @if(date('m')==7){ selected } @endif>
+                                            กรกฎาคม </option>
+                                        <option value="8" @if(date('m')==8){ selected } @endif>
+                                            สิงหาคม </option>
+                                        <option value="9" @if(date('m')==9){ selected } @endif>
+                                            กันยายน </option>
+                                        <option value="10" @if(date('m')==10){ selected } @endif>
+                                            ตุลาคม </option>
+                                        <option value="11" @if(date('m')==11){ selected } @endif>
+                                            พฤศจิกายน </option>
+                                        <option value="12" @if(date('m')==12){ selected } @endif>
+                                            ธันวาคม </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="column  ">
+                                วันที่ 
+                                <div class="select">
+                                    <select class="input" id="DayAct" name="DayAct" onchange="">
                                         @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}" @if(date('d')==$i){
                                             selected } @endif>{{$i}}</option>
                                             @endfor
-                                    </select></div>
+                                    </select>
+                                </div>
+                            </div>
 
+                            <div class="column  is-3">
                                 <input type="hidden" id="DateAct" name="DateAct" class="form-control"
                                     value="{{date('m/d/Y')}}">
-
-
+                                <input type="hidden" id="year_hidden" name="year_hidden" class="form-control"
+                                    value="{{date('Y')}}">
                             </div>
                         </div>
                     </div>
@@ -319,7 +353,6 @@
                     </div>
                 </div>
 
-
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label">ปัญหาที่พบ</label>
@@ -339,6 +372,7 @@
                                             ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง
                                         </option>
                                         <option value="5">อื่นๆ ที่เกี่ยวข้องกับ HIV</option>
+                                        <option value="6">อื่นๆ</option>
                                     </select>
 
                                 </span>
@@ -346,7 +380,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">

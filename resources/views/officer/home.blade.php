@@ -71,7 +71,7 @@
                 <a id="btn_new1" class="button ft1 i-margin" href="{{ 'officer/input_case' }}">แจ้งเหตุ</a>
                 <a id="btn_new1" class="button ft1 i-margin"
                     href="{{ route('officer.show',['mode_id' => "0"]) }}">จัดการเหตุ</a>
-                <a id="btn_new1" class="button ft1 i-margin" href="../php/dashboard3_new.php">รายงาน</a>
+                <a id="btn_new1" class="button ft1 i-margin" href="../php/dashboard3.php">รายงาน</a>
 
                 <br>
                 <br>
