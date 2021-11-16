@@ -11,7 +11,7 @@
     <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+    <link href="{{ asset('css/font-awesome5.0.6/css/fontawesome-all.css') }}" rel="stylesheet">
     {{ Html::script('js/jquery.min.js') }}
     <link href="{{ asset('/css/uploadicon/new3.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/nicelabel/css/jquery-nicelabel.css') }}" rel="stylesheet">
@@ -692,10 +692,23 @@
 
             </div>
 
+
+
+
         </div>
     </div>
 
-    @extends('officer.footer_m')
+
+
+    <footer class="footer " style="background-color: #EEE;">
+        <div class="container  ">
+            <div class="content has-text-centered  ">
+                <p>Crisis Response System (CRS)
+                </p>
+                <p id="tsp"> <small> Source code licensed <a href="http://www.hiso.or.th">HISO</a>. </small> </p>
+            </div>
+        </div>
+    </footer>
 
     <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
     <script src="{{ asset('bulma/main.js') }}"></script>

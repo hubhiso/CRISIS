@@ -183,8 +183,9 @@ class case_controller extends Controller
         try {
             // Validate the value...
             $case = case_input::where('case_id','=',$case_id)->orWhere('victim_tel','=',$case_id)->first();
-            $id = $case->case_id;
-            if ($case!=[]) {
+            //$id = $case->case_id;
+            if ($case != null) {
+                $id = $case->case_id;
                 $data = timeline::where('case_id','=',$id)->orderBy('operate_status', 'asc')->get();
                 $html = view('layout._status', compact('data'))->render();
                 return response()->json(compact('html'));

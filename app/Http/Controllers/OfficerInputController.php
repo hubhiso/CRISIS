@@ -48,7 +48,7 @@ class OfficerInputController extends Controller
         //
 
         //$caseinputs = new case_input();
-        $provinces = province::orderBy('PROVINCE_NAME', 'asc')->get();;
+        $provinces = province::orderBy('PROVINCE_NAME', 'asc')->get();
         $amphurs= amphur::where('PROVINCE_ID', '=', 1)->get();
         $new_id = $this->gen_id();
         return view('officer.input_case',compact('provinces','amphurs', 'new_id'));
@@ -82,7 +82,9 @@ class OfficerInputController extends Controller
             $biosex_name = 'ชาย';
         }else if ($request->input('biosex') == 2) {
             $biosex_name = 'หญิง';
-        }
+        }else if ($request->input('biosex') == 0) {
+            $biosex_name = 'ไม่ประสงค์ตอบ';
+        }    
 
         case_input::create([
             'emergency'=>$request->input('emergency'),
@@ -93,10 +95,12 @@ class OfficerInputController extends Controller
             'case_id'=>$request->input('case_id'),
             'name'=>$request->input('name'),
             'victim_tel'=>$request->input('victim_tel'),
+
             'sex'=>$request->input('biosex'),
             'sex_name'=>$biosex_name,
             'biosex'=>$request->input('biosex'),
             'biosex_name'=>$biosex_name,
+
             'nation'=>$request->input('nation'),
             'nation_etc'=>$request->input('nation_etc'),
 
@@ -207,6 +211,26 @@ class OfficerInputController extends Controller
         $show_detail = add_detail::where('case_id','=',$case_id)->first();
         return view('officer.edit_detail2',compact('show_data', 'show_detail'));
     }
+
+    public function view_detail2($case_id)
+    {
+        $show_data = case_input::where('case_id','=',$case_id)->first();
+        $show_detail = add_detail::where('case_id','=',$case_id)->first();
+
+        return view('officer.viewdetail2',compact('show_data', 'show_detail'));
+    }
+
+    public function view_activities($case_id)
+    {
+        $show_data = case_input::where('case_id','=',$case_id)->first();
+        $show_timeline = timeline::where('case_id',$case_id)->where('operate_status',2)->first();
+        $activities = operate_detail::where('case_id','=',$case_id)->orderBy('operate_date', 'asc')->get();
+        $operate_datas = operate_detail::where('case_id','=',$case_id)->get();
+        $provinces = province::all();
+        
+        return view('officer.viewactivities',compact('show_data', 'show_timeline', 'activities', 'operate_datas', 'provinces'));
+    }
+
     public function add_activities($case_id)
     {
         $show_data = case_input::where('case_id','=',$case_id)->first();
@@ -219,6 +243,15 @@ class OfficerInputController extends Controller
         $html = view('officer._edit_operate',compact('operate_datas'))->render();
         return response()->json(compact('html'));
     }
+
+    public function view_operate($operate_id)
+    {
+        $operate_datas = operate_detail::where('id','=',$operate_id)->get();
+        $html = view('officer._view_operate',compact('operate_datas'))->render();
+        return response()->json(compact('html'));
+    }
+
+
     public function load_activities_table($case_id)
     {
         $activities = operate_detail::where('case_id','=',$case_id)->orderBy('operate_date', 'asc')->get();

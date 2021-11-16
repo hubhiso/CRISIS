@@ -17,7 +17,7 @@ class Officer extends Authenticatable
     protected $guard = 'officer';
 
     protected $fillable = [
-        'username','name', 'nameorg', 'tel', 'email', 'password', 'position', 'area_id', 'prov_id','p_view_all','p_receive',
+        'active','username','name', 'nameorg', 'tel', 'email', 'password', 'position', 'area_id', 'prov_id','p_view_all','p_receive',
     ];
 
     /**

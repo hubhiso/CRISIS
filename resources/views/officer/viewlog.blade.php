@@ -174,7 +174,7 @@
                                     <p class="has-text-success"><i class="fas fa-check-circle"></i></p>
                                     @endif
                                 </td>
-                                <td>{{ $show->timeat }}</td>
+                                <td>{{ $show->timesat }}</td>
                             </tr>
 
                             <?php $i++ ?>

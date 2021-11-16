@@ -25,10 +25,16 @@ class ManagerController extends Controller
         $show_data = case_input::where('case_id','=',$case_id)->first();
         return view('Manager.reject_frm',compact('show_data'));
     }
+
     public  function transfer($case_id){
         $show_data = case_input::where('case_id','=',$case_id)->first();
+
+        $provinces = province::orderBy('PROVINCE_NAME', 'asc')->get();
+    
+        $of_receiver = officer::where('name','=',$show_data->receiver)->first();
         $officers = officer::where('prov_id','=',$show_data->prov_id)->get();
-        return view('Manager.transfer_frm',compact('show_data','officers'));
+
+        return view('Manager.transfer_frm',compact('show_data', 'of_receiver','officers', 'provinces' ));
     }
     public  function reject_cfm(Request $request){
         $case_id = $request->input('case_id');
@@ -40,10 +46,51 @@ class ManagerController extends Controller
         return redirect('officer/show/0');
     }
     public  function transfer_cfm(Request $request){
+        
         $case_id = $request->input('case_id');
+        $prev_provid = $request->input('prev_provid');
+
+        $prev_o_username = $request->input('prev_o_username');
+
+        $o_username = $request->input('o_username');
+
         $officer_id = $request->input('officer');
-        $officer = $officers = officer::where('id','=',$officer_id)->first();
-        case_input::where('case_id','=',$case_id)->update(['receiver_id' => "$officer_id" , 'receiver' => $officer->name]);
+
+        $prov_id = $request->input('province');
+
+        $amphur_id = $request->input('amphur_id');
+
+
+
+        if($officer_id != ""){
+            $officer = $officers = officer::where('id','=',$officer_id)->first();
+
+            case_input::where('case_id','=',$case_id)->update([
+                'receiver_id' => "$officer_id" , 
+                'receiver' => $officer->name
+            ]);
+            $officername = $officer->name;
+        }else{
+
+            case_input::where('case_id','=',$case_id)->update([
+                'status' => 1 , 
+                'prov_id' => $prov_id , 
+                'amphur_id' => $amphur_id , 
+                'receiver_id' => NULL , 
+                'receiver' => ""
+            ]);
+
+            $officername = NULL;
+
+        }
+
+        casetransfer::create([
+            'case_id'=>$case_id,
+            'provid'=>$prov_id,
+            'prev_provid'=>$prev_provid,
+            'ousername'=>$officername,
+            'prev_ousername'=>$prev_o_username
+        ]);
 
         return redirect('officer/show/0');
     }
@@ -53,6 +100,7 @@ class ManagerController extends Controller
         $ck_officer = officer::all();
         return view('Manager.create_officer',compact('provinces','ck_officer'));
     }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -112,11 +160,12 @@ class ManagerController extends Controller
        
         return response()->json($ck_tel);
     }
-    
+
     protected function create(array $data)
     {
 
         return officer::create([
+            'active' => 'yes',
             'username' => $data['username'],
             'name' => $data['name'],
             'nameorg' => $data['nameorg'],
@@ -133,6 +182,7 @@ class ManagerController extends Controller
     }
      function create_officer(Request $request)
     {
+
         $this->validator($request->all())->validate();
         $this->create($request->all());
         return redirect('officer/show/0');
