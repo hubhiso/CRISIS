@@ -246,7 +246,7 @@
 	$query .= " order by cast(nhso as signed),prov_id asc;";
 
 
-		//echo $query;
+		echo $query;
 				
 			
 					$result = mysqli_query($conn,$query);
