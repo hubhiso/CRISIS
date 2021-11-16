@@ -46,7 +46,14 @@ Route::prefix('officer')->group(function () {
     Route::get('/add_activities/{case_id}', 'OfficerInputController@add_activities')->name('officer.add_activities');
     Route::get('/load_activities/{case_id}', 'OfficerInputController@load_activities_table')->name('officer.load_activities');
     Route::get('/load_edit_operate/{operate_id}', 'OfficerInputController@edit_operate')->name('officer.edit_operate');
+
+    Route::get('/load_view_operate/{operate_id}', 'OfficerInputController@view_operate')->name('officer.view_operate');
+
     Route::get('/load_edit_detail2/{case_id}', 'OfficerInputController@edit_detail2')->name('officer.edit_detail2');
+
+    Route::get('/view_detail2/{case_id}', 'OfficerInputController@view_detail2')->name('officer.view_detail2');
+    Route::get('/view_activities/{case_id}', 'OfficerInputController@view_activities')->name('officer.view_activities');
+
 
   //  Route::post('/password/email', 'UserForgotPasswordController@sendResetLinkEmail')->name('officer.password.email');
   //  Route::post('/password/reset', 'UserResetPasswordController@reset');
@@ -69,6 +76,8 @@ Route::prefix('officer')->group(function () {
     
     Route::get('/guide_t', 'ContactController@guide_t')->name('officer.guide_t');
     Route::post('/update_count', 'ContactController@update_count')->name('officer.update_count');
+
+    Route::get('/printcase/{case_id}', 'OfficerUpdateController@printcase')->name('officer.printpage');
 
     Route::get('/m_officer', 'ManageofficerController@m_officer')->name('officer.m_officer');
     Route::resource('/e_officer', 'ManageofficerController');
@@ -131,3 +140,8 @@ Route::get('change/{locale}', function ($locale) {
 });
 
 Route::get('check-model','ContactController@getIndex');
+
+
+
+
+
