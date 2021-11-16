@@ -1,0 +1,94 @@
+body {
+    font-family: 'Mitr', sans-serif;
+    -webkit-print-color-adjust:exact;
+}
+
+#result_ac{
+    font-family: Arial, Helvetica, sans-serif;
+    size:14px
+}
+
+.indent1 {
+	text-indent: 50px;
+	width:800px;
+	align:center;
+	}
+	.indent2 {
+	width:800px;
+	align:center;
+	}
+
+	.bindent2{
+	text-indent: -2em;
+	}
+
+	.indent3 {
+	text-indent: 30%;
+	}
+
+A:link {
+    text-decoration: none !important; 
+}
+  
+A:visited {
+    text-decoration: none !important; 
+}
+
+.btn-rounded{
+    border-radius: 40px;
+}
+
+.chart-rounded{
+    border-radius: 20px;
+}
+
+
+.textcolor1{
+    color: #de0867;
+}
+
+.bgcolor1{
+    background: #de0867;
+    color: #ffffff;
+}
+
+
+#table1 th {
+    color: #ffffff;
+    background: #de0867;
+    border: 1px solid #ffffff;
+}
+
+#table1 td {
+    background: #f9e7f8;
+    border: 1px solid #ffffff;
+}
+
+.div-h {
+    height:80px;
+}
+.short-div {
+    height:40px;
+}
+
+
+.hideextra { white-space: nowrap; overflow: hidden; text-overflow:ellipsis; }
+
+.box-top {
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+    height: 80px;
+}
+.box-buttom {
+    border-bottom-left-radius: 10px; 
+    border-bottom-right-radius: 10px;
+}
+
+
+.datepicker {
+    background-color: #fff;
+    color: #333;
+    padding: 5px;
+    border: 2px solid #eee;
+    padding: 20px;
+}
