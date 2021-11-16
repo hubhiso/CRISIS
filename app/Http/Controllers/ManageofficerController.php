@@ -41,7 +41,7 @@ class ManageofficerController extends Controller
     public function view_log()
     {
         /*$show_list = officer::all(); */
-        $show_list = log_officer::leftJoin('officer_groups', 'log_officers.group', '=', 'officer_groups.code')->orderBy('log_officers.id')->get();
+        $show_list = log_officer::leftJoin('officer_groups', 'log_officers.group', '=', 'officer_groups.code')->select('log_officers.created_at as timeat', 'log_officers.*')->orderBy('log_officers.id')->get();
         $nowdate =  Carbon::now();
         $show_group = officer_group::all();
 
