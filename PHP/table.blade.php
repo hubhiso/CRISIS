@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
     <title>CRS</title>
 
     <link rel="shortcut icon" href="../public/images/favicon.ico">
@@ -49,49 +50,58 @@
                 <div class="tabs is-centered  is-toggle is-toggle-rounded">
                     <ul>
                         <li>
-                            <a href="dashboard3.blade.php">
+                            <a href="dashboard3_new.php">
                                 <span class="icon is-small"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>
-                                <span> กราฟแสดงข้อมูล<br>แยกตามประเด็น </span>
+                                <span> Dashboard<br>สรุปสถานการณ์ </span>
                             </a>
                         </li>
+
                         <li>
-                            <a href="mapcrisis.blade.php">
+                            <a href="automated.php">
                                 <span class="icon is-small"><i class="far fa-map" aria-hidden="true"></i></span>
-                                <span>พิกัด<br>การละเมิดสิทธิ์</span>
+                                <span>รายงาน<br>การละเมิดสิทธิ</span>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a href="mapcrisis_new.php">
+                                <span class="icon is-small"><i class="far fa-map" aria-hidden="true"></i></span>
+                                <span>พิกัด<br>การละเมิดสิทธิ</span>
                             </a>
 
                         </li>
                         <li class="is-active">
                             <a href="table.blade.php">
                                 <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ตารางสรุป<br>ในภาพรวม</span>
+                                <span>สรุปข้อมูล<br>ในภาพรวม</span>
                             </a>
 
                         </li>
                         <li>
-                            <a href="report_c1.blade.php">
+                            <a href="report_c1_new.php">
                                 <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ตารางสรุปการ<br>จัดการเหตุรายหน่วย</span>
+                                <span>สรุปกรณี<br>ละเมิดสิทธิ</span>
                             </a>
                         </li>
                         <li>
-                            <a href="report_c2.blade.php">
+                            <a href="report_c2_new.php">
                                 <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ตารางสรุป<br>การละเมิดสิทธิ์</span>
+                                <span>ตารางสรุป<br>การละเมิดสิทธิ</span>
                             </a>
                         </li>
                         <li>
-                            <a href="report_perfomance.blade.php">
+                            <a href="report_performance_new.php">
                                 <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ตารางสรุป<br>การให้บริการ</span>
+                                <span>ระยะเวลา<br>ดำเนินการ</span>
                             </a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="field is-horizontal">
-                    <?
+                    <?php
 		include "index.php";
+		//echo "test db ".$database;
 	    ?>
                 </div>
 
