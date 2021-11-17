@@ -217,7 +217,21 @@
 		$quarter_text = $quarter_get;
 		$query_date_range = " and ((month(c.created_at) between '".$mstart."' and  '".$mstop."') and (year(c.created_at) = '".$years."'))";
 		$quarter_title = "ระหว่างเดือน";
-	}
+	}else{
+
+        $years = date("Y");
+        $quarter_get = "ปี ";	
+		$quarter_detail = ($years+543);
+		$quarter_text = $quarter_get.$quarter_detail;
+		
+		//$query_date_range = " and (year(c.created_at) = '".$years."')";
+
+        $query_date_range = " and (date(c.created_at) between '".($years-1)."-10-01' and '".($years)."-09-30') ";
+
+		
+		$quarter_title = "ปี ";
+
+    }
 
 	if ($years == ""){
 		$years = date("Y");	
