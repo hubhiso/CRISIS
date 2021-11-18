@@ -220,6 +220,11 @@
 	}else{
 
         $years = date("Y");
+
+        if(date("m")>9){
+            $years++;
+        }
+
         $quarter_get = "ปี ";	
 		$quarter_detail = ($years+543);
 		$quarter_text = $quarter_get.$quarter_detail;
@@ -640,6 +645,7 @@
                 <div class="col-auto">
                     <div class="select">
                         <select id="years" name="years" class="form-select">
+                            <option value="2022" <?php if ($years == "2022"){ echo "selected";} ?>>2565</option>
                             <option value="2021" <?php if ($years == "2021"){ echo "selected";} ?>>2564</option>
                             <option value="2020" <?php if ($years == "2020"){ echo "selected";} ?>>2563</option>
                             <option value="2019" <?php if ($years == "2019"){ echo "selected";} ?>>2562</option>
@@ -654,7 +660,7 @@
                 <div class="col-auto">
                     <div class="select">
                         <select id="type" name="type" class="form-select">
-                            <option value="0" <?php if ($type == "0"){ echo "selected";} ?>>ทั้งปี</option>
+                            <option value="0" <?php if ($type == "0"){ echo "selected";} ?>>ทั้งปี (ปีงบประมาณ)</option>
                             <option value="1" <?php if ($type == "1"){ echo "selected";} ?>>รายเดือน</option>
                             <option value="2" <?php if ($type == "2"){ echo "selected";} ?>>รายไตรมาส</option>
                         </select>

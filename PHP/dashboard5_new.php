@@ -47,29 +47,16 @@
 
     $year_now =  date("Y");
 
-    if($years == ''){$years = $year_now;}
-    /*
-	$p_case = $_POST["pcase"];
-	   if($p_case > '0'){
-		$sub_q = ' sum(CASE WHEN problem_case = '.$p_case.' THEN 1 ELSE 0 END) as ccase ';
-	   }else{
-		$sub_q = ' count(problem_case) as ccase';
-	   }
-    */
+    if(date("m")>9){
+        $year_now++;
+    }
 
-    /*
-	$sql = "SELECT prov_id, prov_geo.prov_name_en, prov_geo.name,
-	$sub_q
-	FROM case_inputs, prov_geo
-	where prov_geo.code = case_inputs.prov_id
-	and date_format(created_at, '%Y') = '$years'
-	group by prov_id order by ccase desc";
-    */
+    if($years == ''){$years = $year_now;}
 
     $sql = "SELECT prov_id, prov_geo.prov_name_en, prov_geo.name, count(*) as ccase
 	FROM case_inputs, prov_geo
 	where prov_geo.code = case_inputs.prov_id
-	and date_format(created_at, '%Y') = '$years'
+    and created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql); 
@@ -97,9 +84,8 @@
 
     $sql_q1  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where date_format(created_at, '%Y') = '$years' 
-    and date_format(created_at, '%m') > 9 
-    and date_format(created_at, '%m') <= 12
+	where 
+    created_at BETWEEN '".($years-1)."-10-01' and '".($years-1)."-12-31'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q1); 
@@ -112,9 +98,8 @@
 
     $sql_q2  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where date_format(created_at, '%Y') = '$years' 
-    and date_format(created_at, '%m') > 1 
-    and date_format(created_at, '%m') <= 3
+	where 
+    created_at BETWEEN '".$years."-01-01' and '".$years."-03-31'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q2); 
@@ -127,9 +112,8 @@
 
     $sql_q3  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where date_format(created_at, '%Y') = '$years' 
-    and date_format(created_at, '%m') > 4 
-    and date_format(created_at, '%m') <= 6
+	where 
+    created_at BETWEEN '".$years."-04-01' and '".$years."-06-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q3); 
@@ -142,9 +126,8 @@
 
     $sql_q4  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where date_format(created_at, '%Y') = '$years' 
-    and date_format(created_at, '%m') > 7 
-    and date_format(created_at, '%m') <= 9
+	where 
+    created_at BETWEEN '".$years."-07-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q4); 
@@ -316,9 +299,11 @@
 
         </div>
 
-        <div class="p-3 text-center">
+        <!--div class="p-3 text-center">
             <p class="h5">รายงานการละเมิดสิทธิในระบบ CRS รายปี</p>
-        </div>
+        </div-->
+
+        <br>
 
         <div class=" p-3">
 
@@ -350,7 +335,7 @@
 
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-auto">
-                        <label class="col-form-label"><strong> ปี </strong> </label>
+                        <label class="col-form-label"><strong> ปีงบประมาณ </strong> </label>
                     </div>
                     <div class="col-auto">
                         <select id="years" name="years" class="form-select">
@@ -392,7 +377,8 @@
         </div>
 
         <div class="mb-3 text-center h5">
-            <strong>รายงานการละเมิดสิทธิในระบบ CRS งบประมาณ <?php echo $years+543 ?></strong>
+            <strong>รายงานการละเมิดสิทธิในระบบ CRS ปีงบประมาณ <?php echo $years+543 ?></strong>
+            <p>จำแนกรายจังหวัด</p>
         </div>
 
         <div class="text-end p-2">
@@ -625,7 +611,7 @@
                     "data": 
                     [
                         {
-                            "label" : "ต.ค.-ธ.ค. <?php echo $years+543 ?>",
+                            "label" : "ต.ค.-ธ.ค. <?php echo $years+543-1 ?>",
                             "value" : "<?php echo $q1_case ?>"
                         },
                         {
