@@ -46,13 +46,19 @@
         $last_year = date("Y");
         $last_month = date("M");
 
+        if(date("m")>9){
+            $last_year++;
+        }
+
         $years = $_POST["y"];
+
 
         if($years == ''){$years = $last_year;}
         
         $sql = "select count(case_id) as count,c.group_code,month(c.created_at) as month,year(c.created_at)
         from case_inputs c 
-        where sub_problem = '2' and year(c.created_at) = '".$years."'
+        where sub_problem = '2' and 
+        created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         group by year(c.created_at),month(created_at),group_code
         order by year(c.created_at),month(created_at),c.group_code";
 
@@ -65,6 +71,10 @@
             $month[$i] = $row1[month];
             $count[$i] = $row1[count];
             $last_i = $i;
+        }
+
+        for($i = 1; $i <=7; $i++){
+            $sum[$i] = 0;
         }
 
 
@@ -243,7 +253,7 @@
 
                 <div class="row g-3 mb-3 align-items-center">
                     <div class="col-auto">
-                        <strong class="col-form-label">เลือกปี</strong>
+                        <strong class="col-form-label">เลือกปีงบประมาณ</strong>
                     </div>
                     <div class="col-auto">
                         <div class="select">
@@ -289,6 +299,9 @@
                         <thead>
                             <tr>
                                 <td>กลุ่มเปราะบาง</td>
+                                <td>ต.ค.</td>
+                                <td>พ.ย.</td>
+                                <td>ธ.ค.</td>
                                 <td>ม.ค.</td>
                                 <td>ก.พ.</td>
                                 <td>มี.ค.</td>
@@ -298,43 +311,25 @@
                                 <td>ก.ค.</td>
                                 <td>ส.ค.</td>
                                 <td>ก.ย.</td>
-                                <td>ต.ค.</td>
-                                <td>พ.ย.</td>
-                                <td>ธ.ค.</td>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-start">กลุ่มชาติพันธิ์และชนเผ่า</td>
-                                <?php
-                                    for($i =1; $i <=12; $i++){
 
-                                        $ck = 0;
-                                        for($j =1; $j <= $last_i; $j++){
-
-                                            if($i == $month[$j] and $g_code[$j] == 6){
-                                                echo '<td style="color: #8455d3;">'.$count[$j].'</td>';
-                                                $ck =1;
-                                            }
-                                        }
-                                        if($ck ==0){
-                                            echo "<td></td>";
-                                        }
-                                        
-                                    }
-                                ?>
-                            </tr>
                             <tr>
                                 <td class="text-start">กลุ่มหลากหลายทางเพศ</td>
                                 <?php
-                                    for($i =1; $i <=12; $i++){
+
+                                    for($i =10; $i <=12; $i++){
 
                                         $ck = 0;
                                         for($j =1; $j <= $last_i; $j++){
 
                                             if($i == $month[$j] and $g_code[$j] == 1){
-                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                echo '<td style="color: #ef4f91;">'.$count[$j].'</td>';
                                                 $ck =1;
+
+                                                $sum[$i] += $count[$j];
                                             }
                                         }
                                         if($ck ==0){
@@ -342,19 +337,17 @@
                                         }
                                         
                                     }
-                                ?>
-                            </tr>
-                            <tr>
-                                <td class="text-start">ประชากรข้ามชาติ</td>
-                                <?php
-                                    for($i =1; $i <=12; $i++){
+
+                                    for($i =1; $i <=9; $i++){
 
                                         $ck = 0;
                                         for($j =1; $j <= $last_i; $j++){
 
-                                            if($i == $month[$j] and $g_code[$j] == 4){
-                                                echo '<td style="color: #c41cac;">'.$count[$j].'</td>';
+                                            if($i == $month[$j] and $g_code[$j] == 1){
+                                                echo '<td style="color: #ef4f91;">'.$count[$j].'</td>';
                                                 $ck =1;
+
+                                                $sum[$i] += $count[$j];
                                             }
                                         }
                                         if($ck ==0){
@@ -364,17 +357,81 @@
                                     }
                                 ?>
                             </tr>
+
+                            <tr>
+                                <td class="text-start">พนักงานบริการ</td>
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 2){
+                                                echo '<td style="color: #673888;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 2){
+                                                echo '<td style="color: #673888;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                ?>
+                            </tr>
+
                             <tr>
                                 <td class="text-start">ผู้ใช้สารเสพติด</td>
                                 <?php
-                                    for($i =1; $i <=12; $i++){
+
+                                    for($i =10; $i <=12; $i++){
 
                                         $ck = 0;
                                         for($j =1; $j <= $last_i; $j++){
 
                                             if($i == $month[$j] and $g_code[$j] == 3){
-                                                echo '<td style="color: #b13825;">'.$count[$j].'</td>';
+                                                echo '<td style="color: #fd8a5e;">'.$count[$j].'</td>';
                                                 $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 3){
+                                                echo '<td style="color: #fd8a5e;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
                                             }
                                         }
                                         if($ck ==0){
@@ -384,6 +441,200 @@
                                     }
                                 ?>
                             </tr>
+
+                            <tr>
+                                <td class="text-start">ประชากรข้ามชาติ</td>
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 4){
+                                                echo '<td style="color: #b7ded2;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 4){
+                                                echo '<td style="color: #b7ded2;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                ?>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start">ผู้ถูกคุมขัง</td>
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 5){
+                                                echo '<td style="color: #0084ff;">'.$count[$j].'</td>';
+                                                $ck =1;
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 5){
+                                                echo '<td style="color: #0084ff;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                ?>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start">กลุ่มชาติพันธิ์และชนเผ่า</td>
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 6){
+                                                echo '<td style="color: #00bfaf;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 6){
+                                                echo '<td style="color: #00bfaf;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                ?>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start">ผู้พิการ</td>
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 7){
+                                                echo '<td style="color: #8455d3;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        $ck = 0;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 7){
+                                                echo '<td style="color: #8455d3;">'.$count[$j].'</td>';
+                                                $ck =1;
+
+                                                $sum[$i] += $count[$j];
+                                            }
+                                        }
+                                        if($ck ==0){
+                                            echo "<td></td>";
+                                        }
+                                        
+                                    }
+                                ?>
+                            </tr>
+                            <tr>
+                                <td class="text-start ">รวม</td>
+
+                                <?php
+
+                                    for($i =10; $i <=12; $i++){
+
+                                        if($sum[$i] == 0){
+                                            $sum[$i] = ''; 
+                                        }
+
+                                        echo '<td >'.$sum[$i].'</td>';
+                                        
+                                    }
+
+                                    for($i =1; $i <=9; $i++){
+
+                                        if($sum[$i] == 0){
+                                            $sum[$i] = ''; 
+                                        }
+
+                                        echo '<td >'.$sum[$i].'</td>';
+                                        
+                                    }
+                                ?>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -424,8 +675,8 @@
                 dataFormat: 'json',
                 dataSource: {
                     "chart": {
-                        "caption": "สถิติการถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบางฯ",
-                        "subCaption": " จำแนกตามกลุ่ม",
+                        "caption": "สถิติการถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบางฯ ปีงบ ",
+                        "subCaption": " จำแนกรายเดือน ตามปีงบ <?php echo ($years+543) ?>",
                         "placeValuesInside": "0",
                         "yAxisName": "จำนวนการถูกเลือกปฏิบัติ",
                         "yAxisMinValue": "0",
@@ -440,13 +691,23 @@
                         "numberScaleValue": "0",
                         "legendIconBorderThickness": "0",
                         "theme": "hulk-light",
-                        "palettecolors": "#8455d3,#df4591,#c41cac,#b13825,#f8b4cd,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",
+                        "palettecolors": "#ef4f91,#673888,#fd8a5e,#b7ded2,#0084ff,#00bfaf,#8455d3,#e0e300,#fa3c4c",
                         "exportEnabled": "1"
 
                     },
 
                     "categories": [{
-                        "category": [{
+                        "category": [
+                            {
+                                "label": "ต.ค."
+                            },
+                            {
+                                "label": "พ.ย."
+                            },
+                            {
+                                "label": "ธ.ค."
+                            },
+                            {
                                 "label": "ม.ค."
                             },
                             {
@@ -472,52 +733,18 @@
                             },
                             {
                                 "label": "ก.ย."
-                            },
-                            {
-                                "label": "ต.ค."
-                            },
-                            {
-                                "label": "พ.ย."
-                            },
-                            {
-                                "label": "ธ.ค."
                             }
+                            
                         ]
                     }],
-                    "dataset": [{
-                            "seriesname": "กลุ่มชาติพันธิ์และชนเผ่า",
-                            "data": [
-                                <?php
-
-                                for ($i = 1;$i <= 12; $i++) {
-                                    echo "{";
-
-                                    for($j =1; $j <= $last_i; $j++){
-
-                                        if($i == $month[$j] and $g_code[$j] == 6){
-                                            echo '"value": "'.$count[$j].'"';
-                                        }
-
-                                    }
-
-                            
-                                    if($i == 12){
-                                        echo "}";
-                                    }else{
-                                        echo "},";
-                                    }
-                                }
-
-                                ?>
-                            ]
-                        },
+                    "dataset": [
 
                         {
                             "seriesname": "กลุ่มหลากหลายทางเพศ",
                             "data": [
                                 <?php
 
-                                    for ($i = 1;$i <= 12; $i++) {
+                                    for ($i = 10;$i <= 12; $i++) {
                                         echo "{";
 
                                         for($j =1; $j <= $last_i; $j++){
@@ -527,32 +754,58 @@
                                             }
                                         }
 
-                                        if($i == 12){
+                                        echo "},";
+                                    }
+
+                                    for ($i = 1;$i <= 9; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 1){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        if($i == 9){
                                             echo "}";
                                         }else{
                                             echo "},";
                                         }
                                     }
 
-                                    ?>
+                                ?>
                             ]
                         },
                         {
-                            "seriesname": "ประชากรข้ามชาติ",
+                            "seriesname": "พนักงานบริการ",
                             "data": [
                                 <?php
 
-                                    for ($i = 1;$i <= 12; $i++) {
+                                    for ($i = 10;$i <= 12; $i++) {
                                         echo "{";
 
                                         for($j =1; $j <= $last_i; $j++){
 
-                                            if($i == $month[$j] and $g_code[$j] == 4){
+                                            if($i == $month[$j] and $g_code[$j] == 2){
                                                 echo '"value": "'.$count[$j].'"';
                                             }
                                         }
 
-                                        if($i == 12){
+                                        echo "},";
+                                    }
+
+                                    for ($i = 1;$i <= 9; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 2){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        if($i == 9){
                                             echo "}";
                                         }else{
                                             echo "},";
@@ -567,7 +820,7 @@
                             "data": [
                                 <?php
 
-                                    for ($i = 1;$i <= 12; $i++) {
+                                    for ($i = 10;$i <= 12; $i++) {
                                         echo "{";
 
                                         for($j =1; $j <= $last_i; $j++){
@@ -577,7 +830,20 @@
                                             }
                                         }
 
-                                        if($i == 12){
+                                        echo "},";
+                                    }
+
+                                    for ($i = 1;$i <= 9; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 3){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        if($i == 9){
                                             echo "}";
                                         }else{
                                             echo "},";
@@ -586,7 +852,167 @@
 
                                     ?>
                             ]
+                        },
+                        {
+                            "seriesname": "ประชากรข้ามชาติ",
+                            "data": [
+                                <?php
+
+                                    for ($i = 10;$i <= 12; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 4){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        echo "},";
+                                    }
+
+                                    for ($i = 1;$i <= 9; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 4){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        if($i == 9){
+                                            echo "}";
+                                        }else{
+                                            echo "},";
+                                        }
+                                    }
+
+                                    ?>
+                            ]
+                        },
+                        {
+                            "seriesname": "ผู้ถูกคุมขัง",
+                            "data": [
+                                <?php
+
+                                    for ($i = 10;$i <= 12; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 5){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        echo "},";
+                                    }
+
+                                    for ($i = 1;$i <= 9; $i++) {
+                                        echo "{";
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if($i == $month[$j] and $g_code[$j] == 5){
+                                                echo '"value": "'.$count[$j].'"';
+                                            }
+                                        }
+
+                                        if($i == 9){
+                                            echo "}";
+                                        }else{
+                                            echo "},";
+                                        }
+                                    }
+
+                                    ?>
+                            ]
+                        },
+                        {
+                            "seriesname": "กลุ่มชาติพันธิ์และชนเผ่า",
+                            "data": [
+                                <?php
+
+                                for ($i = 10;$i <= 12; $i++) {
+                                    echo "{";
+
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                        if($i == $month[$j] and $g_code[$j] == 6){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                    }
+
+                                    echo "},";
+                                }
+
+                                for ($i = 1;$i <= 9; $i++) {
+                                    echo "{";
+
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                        if($i == $month[$j] and $g_code[$j] == 6){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+
+                                    }
+
+                            
+                                    if($i == 9){
+                                        echo "}";
+                                    }else{
+                                        echo "},";
+                                    }
+                                }
+
+                                ?>
+                            ]
+                        },
+                        {
+                            "seriesname": "ผู้พิการ",
+                            "data": [
+                                <?php
+
+                                for ($i = 10;$i <= 12; $i++) {
+                                    echo "{";
+
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                        if($i == $month[$j] and $g_code[$j] == 7){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                    }
+
+                                    echo "},";
+                                }
+
+                                for ($i = 1;$i <= 9; $i++) {
+                                    echo "{";
+
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                        if($i == $month[$j] and $g_code[$j] == 7){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+
+                                    }
+
+                            
+                                    if($i == 9){
+                                        echo "}";
+                                    }else{
+                                        echo "},";
+                                    }
+                                }
+
+                                ?>
+                            ]
                         }
+
+                        
+                        
+                        
                     ]
 
                 }

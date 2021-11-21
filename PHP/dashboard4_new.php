@@ -43,12 +43,27 @@
         // Change character set to utf8
         mysqli_set_charset($conn,"utf8");
 
+        $last_year = date("Y");
+        $last_month = date("M");
+
+        if(date("m")>9){
+            $last_year++;
+        }
+
+        $years = $_POST["y"];
+
+
+        if($years == ''){$years = $last_year;}
+
         
         $sql = "select group_code, r_group_code.name, count(group_code) as count
         from case_inputs
         left join r_group_code
         on r_group_code.code = case_inputs.group_code
+        where 
+        created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         GROUP BY group_code";
+
 
         $result1 = mysqli_query($conn, $sql); 
         $row1 = mysqli_num_rows($result1); 
@@ -66,6 +81,7 @@
         left join r_group_code
         on r_group_code.code = case_inputs.group_code
         where group_code <> '' and group_code = '1'
+        and created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         GROUP BY group_code, case_inputs.sex";
 
         $result2 = mysqli_query($conn, $sql2); 
@@ -76,6 +92,10 @@
             $ch2_sex[$i] = $row2[sex];
             $ch2_count[$i] = $row2[count];
             $last_i2 = $i;
+        }
+
+        for($i = 1; $i <=7; $i++){
+            $sum = 0;
         }
 
 
@@ -251,11 +271,42 @@
         <div class="container p-3">
 
 
-            <p class="subtitle ">
-                <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
+            <form name="form_menu" method="post" action="dashboard4_new.php">
 
-                <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
-            </p>
+                <div class="row g-3 mb-3 align-items-center">
+                    <div class="col-auto">
+                        <strong class="col-form-label">เลือกปีงบประมาณ</strong>
+                    </div>
+                    <div class="col-auto">
+                        <div class="select">
+                            <select id="y" name="y" class="form-select">
+                                <?php
+                                for($i = 2019; $i <= $last_year; $i++){
+                                    if ($years == $i) { $se =  "selected";}
+                                    echo "<option value='$i' $se> ".($i+543)." </option>";
+                                    $se = '';
+                                }
+                            ?>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-auto ">
+                        <input type="submit" class="btn btn-danger" id="submit" name="submit" value="ตกลง">
+
+                    </div>
+                </div>
+
+                <p class="subtitle ">
+                    <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
+
+                    <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                </p>
+
+
+
+            </form>
 
 
             <br>
@@ -278,27 +329,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-start">กลุ่มชาติพันธิ์และชนเผ่า</td>
-                                    <?php
-
-                                        $ck = 0;
-
-                                        for($j =1; $j <= $last_i; $j++){
-
-                                            if( $g_code[$j] == 6){
-                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
-                                                $ck = 1;
-                                            }
-                                        }
-
-                                        if($ck == 0){
-                                            echo '<td >0</td>';
-                                        }
-
-                                        ?>
-                                </tr>
-                                <tr>
+                            <tr>
                                     <td class="text-start">กลุ่มหลากหลายทางเพศ</td>
                                     <?php
                                     
@@ -309,6 +340,8 @@
                                         if( $g_code[$j] == 1){
                                             echo '<td style="color: #df4591;">'.$count[$j].'</td>';
                                             $ck = 1;
+
+                                            $sum += $count[$j];
                                         }
                                     }
                                     if($ck == 0){
@@ -318,13 +351,29 @@
                                     ?>
                                 </tr>
                                 <tr>
+                                    <td class="text-start">&nbsp;&nbsp;&nbsp;- ชาย (ชายมีเพศสัมพันธ์กับชาย)</td>
+                                    <?php
+                                     $ck = 0;
+                                        for($j =1; $j <= 3; $j++){
+
+                                            if( $ch2_sex[$j] == 1){
+                                                echo '<td style="color: #8455d3;">'.$ch2_count[$j].'</td>';
+                                                $ck = 1;
+                                            }
+                                        }
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+                                    ?>
+                                </tr>
+                                <tr>
                                     <td class="text-start">&nbsp;&nbsp;&nbsp;- หญิง</td>
                                     <?php
                                      $ck = 0;
                                         for($j =1; $j <= 3; $j++){
 
                                             if( $ch2_sex[$j] == 2){
-                                                echo '<td style="color: #8455d3;">'.$ch2_count[$j].'</td>';
+                                                echo '<td style="color: #F8DF8B;">'.$ch2_count[$j].'</td>';
                                                 $ck = 1;
                                             }
                                         }
@@ -340,22 +389,6 @@
                                         for($j =1; $j <= 3; $j++){
 
                                             if( $ch2_sex[$j] == 3){
-                                                echo '<td style="color: #F8DF8B;">'.$ch2_count[$j].'</td>';
-                                                $ck = 1;
-                                            }
-                                        }
-                                        if($ck == 0){
-                                            echo '<td >0</td>';
-                                        }
-                                    ?>
-                                </tr>
-                                <tr>
-                                    <td class="text-start">&nbsp;&nbsp;&nbsp;- ชาย (ชายมีเพศสัมพันธ์กับชาย)</td>
-                                    <?php
-                                     $ck = 0;
-                                        for($j =1; $j <= 3; $j++){
-
-                                            if( $ch2_sex[$j] == 1){
                                                 echo '<td style="color: #B85C38;">'.$ch2_count[$j].'</td>';
                                                 $ck = 1;
                                             }
@@ -366,40 +399,141 @@
                                     ?>
                                 </tr>
                                 <tr>
-                                    <td class="text-start">ประชากรข้ามชาติ</td>
+                                    <td class="text-start">พนักงานบริการ</td>
                                     <?php
-                                     $ck = 0;
 
-                                    for($j =1; $j <= $last_i; $j++){
+                                        $ck = 0;
 
-                                        if( $g_code[$j] == 4){
-                                            echo '<td style="color: #df4591;">'.$count[$j].'</td>';
-                                            $ck = 1;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 2){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
                                         }
-                                    }
-                                    if($ck == 0){
-                                        echo '<td >0</td>';
-                                    }
 
-                                    ?>
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
                                 </tr>
                                 <tr>
                                     <td class="text-start">ผู้ใช้สารเสพติด</td>
                                     <?php
-                                     $ck = 0;
 
-                                    for($j =1; $j <= $last_i; $j++){
+                                        $ck = 0;
 
-                                        if( $g_code[$j] == 3){
-                                            echo '<td style="color: #df4591;">'.$count[$j].'</td>';
-                                            $ck = 1;
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 3){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
                                         }
-                                    }
-                                    if($ck == 0){
-                                        echo '<td >0</td>';
-                                    }
 
-                                    ?>
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-start">ประชากรข้ามชาติ</td>
+                                    <?php
+
+                                        $ck = 0;
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 4){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
+                                        }
+
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-start">ผู้ถูกคุมขัง</td>
+                                    <?php
+
+                                        $ck = 0;
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 5){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
+                                        }
+
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-start">กลุ่มชาติพันธิ์และชนเผ่า</td>
+                                    <?php
+
+                                        $ck = 0;
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 6){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
+                                        }
+
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
+                                </tr>
+                                <tr>
+                                    <td class="text-start">ผู้พิการ</td>
+                                    <?php
+
+                                        $ck = 0;
+
+                                        for($j =1; $j <= $last_i; $j++){
+
+                                            if( $g_code[$j] == 7){
+                                                echo '<td style="color: #df4591;">'.$count[$j].'</td>';
+                                                $ck = 1;
+
+                                                $sum += $count[$j];
+                                            }
+                                        }
+
+                                        if($ck == 0){
+                                            echo '<td >0</td>';
+                                        }
+
+                                        ?>
+                                </tr>
+                                
+                                <tr>
+                                    <td>รวม</td>
+                                    <td><?php echo $sum; ?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -465,7 +599,7 @@
                     dataSource: {
                         "chart": {
                             "caption": "สัดส่วนการรายงานข้อร้องเรียนการถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง",
-                            "subCaption": "",
+                            "subCaption": "จำแนกตามปีงบ <?php echo ($years+543) ?>",
                             "placeValuesInside": "0",
                             "yAxisName": "จำนวน (เรื่อง)",
                             "basefontsize": "14",
@@ -477,34 +611,66 @@
                             "showAlternateVGridColor": "1",
                             "numberScaleValue": "0",
                             "theme": "hulk-light",
-                            "palettecolors": "#df4591,#8455d3,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",
+                            "palettecolors": "#8455d3,#F8DF8B,#B85C38,#df4591,#31112C,#32E0C4",
                             "exportEnabled": "1"
 
                         },
 
                         "categories": [{
-                            "category": [{
+                            "category": [
+                            {
+                                "label": "กลุ่มหลากหลายทางเพศ"
+                            },{
+                                "label": "พนักงานบริการ"
+                            }, {
+                                "label": "ผู้ใช้สารเสพติด"
+                            }, {
+                                "label": "ประชากรข้ามชาติ"
+                            }, {
+                                "label": "ผู้ถูกคุมขัง"
+                            }, {
                                 "label": "กลุ่มชาติพันธิ์และชนเผ่า"
                             }, {
-                                "label": "กลุ่มหลากหลายทางเพศ	"
-                            }, {
-                                "label": "ประชากรข้ามชาติ	"
-                            }, {
-                                "label": "ผู้ใช้สารเสพติด	"
+                                "label": "ผู้พิการ"
                             }]
                         }],
 
-                        "dataset": [{
-                            "seriesname": "กลุ่มเปราะบาง",
-                            "data": [
+                        "dataset": [
 
+                        {
+                            "seriesname": "ชายมีเพศสัมพันธ์กับชาย",
+                            "data": [
                                 <?php
                                     echo '{';
                                     for($j =1; $j <= $last_i; $j++){
 
                                     
-                                        if( $g_code[$j] == 6){
-                                            echo '"value": "'.$count[$j].'"';
+                                        if( $ch2_sex[$j] == 1){
+                                            echo '"value": "'.$ch2_count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                            ?>
+                                {
+                                    "value": ""
+                                }, {
+                                    "value": ""
+                                },{
+                                    "value": ""
+                                }
+                            ]
+                        }, {
+                            "seriesname": "หญิง",
+                            "data": [
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $ch2_sex[$j] == 2){
+                                            echo '"value": "'.$ch2_count[$j].'"';
                                         }
                                         
                                     }
@@ -512,7 +678,70 @@
 
                                 ?> {
                                     "value": ""
+                                },{
+                                    "value": ""
+                                }, {
+                                    "value": ""
+                                }
+                            ]
+                        }, {
+                            "seriesname": "สาวประเภทสอง",
+                            "data": [
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $ch2_sex[$j] == 3){
+                                            echo '"value": "'.$ch2_count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                                ?>{
+                                    "value": ""
                                 },
+
+                                {
+                                    "value": ""
+                                },
+                                {
+                                    "value": ""
+                                }
+                            ]
+                        }, {
+                            "seriesname": "กลุ่มเปราะบาง",
+                            "data": [
+                                {
+                                    "value": ""
+                                },
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $g_code[$j] == 2){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                                ?> 
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $g_code[$j] == 3){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                                ?>
 
                                 <?php
                                     echo '{';
@@ -526,93 +755,49 @@
                                     }
                                     echo '},';
 
-                                ?>
+                                ?>  
 
                                 <?php
                                     echo '{';
                                     for($j =1; $j <= $last_i; $j++){
 
                                     
-                                        if( $g_code[$j] == 3){
+                                        if( $g_code[$j] == 5){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                                ?> 
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $g_code[$j] == 6){
+                                            echo '"value": "'.$count[$j].'"';
+                                        }
+                                        
+                                    }
+                                    echo '},';
+
+                                ?> 
+                                <?php
+                                    echo '{';
+                                    for($j =1; $j <= $last_i; $j++){
+
+                                    
+                                        if( $g_code[$j] == 7){
                                             echo '"value": "'.$count[$j].'"';
                                         }
                                         
                                     }
                                     echo '}';
 
-                                ?>
-                            ]
-                        }, {
-                            "seriesname": "หญิง",
-                            "data": [{
-                                    "value": ""
-                                },
-                                <?php
-                                    echo '{';
-                                    for($j =1; $j <= $last_i; $j++){
+                                ?> 
 
-                                    
-                                        if( $ch2_sex[$j] == 2){
-                                            echo '"value": "'.$ch2_count[$j].'"';
-                                        }
-                                        
-                                    }
-                                    echo '},';
-
-                            ?> {
-                                    "value": ""
-                                }, {
-                                    "value": ""
-                                }
-                            ]
-                        }, {
-                            "seriesname": "สาวประเภทสอง",
-                            "data": [{
-                                    "value": ""
-                                },
-                                <?php
-                                    echo '{';
-                                    for($j =1; $j <= $last_i; $j++){
-
-                                    
-                                        if( $ch2_sex[$j] == 3){
-                                            echo '"value": "'.$ch2_count[$j].'"';
-                                        }
-                                        
-                                    }
-                                    echo '},';
-
-                            ?>
-
-                                {
-                                    "value": ""
-                                },
-                                {
-                                    "value": ""
-                                }
-                            ]
-                        }, {
-                            "seriesname": "ชายมีเพศสัมพันธ์กับชาย",
-                            "data": [{
-                                    "value": ""
-                                },
-                                <?php
-                                    echo '{';
-                                    for($j =1; $j <= $last_i; $j++){
-
-                                    
-                                        if( $ch2_sex[$j] == 1){
-                                            echo '"value": "'.$ch2_count[$j].'"';
-                                        }
-                                        
-                                    }
-                                    echo '},';
-
-                            ?> {
-                                    "value": ""
-                                }, {
-                                    "value": ""
-                                }
+                                
                             ]
                         }]
 
