@@ -46,6 +46,10 @@
         $last_year = date("Y");
         $last_month = date("M");
 
+        if(date("m")>9){
+            $last_year++;
+        }
+
         $years = $_POST["y"];
         $area = $_POST["area"];
 
@@ -70,10 +74,13 @@
             $a_prname[$i] = $row_a['name'];
             $a_loop = $i;
         }
+
+        
+
         if($pr == ''){$pr = $a_code[1];}
 
-        $sql_o = "select * from officers where prov_id = $pr";
-        //echo  $sql_o;
+        $sql_o = "select * from officers where prov_id = $pr or username = 'adminfar'";
+        
         $result_o = mysqli_query($conn, $sql_o); 
         $i=0;
         while($row_o = $result_o->fetch_assoc()) {
@@ -89,7 +96,7 @@
         from case_inputs ca
         left join prov_geo pr
         on ca.prov_id = pr.code
-        where  year(created_at) = '$years' and pr.nhso = '$area'
+        where created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'  and pr.nhso = '$area'
         group by  year(ca.created_at),month(ca.created_at), ca.prov_id";
 
         $result1 = mysqli_query($conn, $sql); 
@@ -109,11 +116,12 @@
         from case_inputs ca
         left join officers f
         on f.name = ca.receiver
-        where  year(ca.created_at) = '".$years."' and ca.prov_id ='".$pr."'  and ca.receiver <> ''
+        where ca.created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' and ca.prov_id ='".$pr."'  and ca.receiver <> ''
         group by  year(ca.created_at),month(ca.created_at), prov_id, receiver, f.nameorg, f.username";
 
+
         $result2 = mysqli_query($conn, $sql2); 
-        $row2 = mysqli_num_rows($result2); 
+        //$row2 = mysqli_num_rows($result2); 
         $i = 0;        
         while($row2 = $result2->fetch_assoc()) {
             $i++;
@@ -290,7 +298,7 @@
 
                 <div class="row g-3 mb-3 align-items-center">
                     <div class="col-auto">
-                        <strong class="col-form-label">เลือกปี</strong>
+                        <strong class="col-form-label">เลือกปีงบประมาณ</strong>
                     </div>
                     <div class="col-auto">
                         <div class="select">
@@ -418,7 +426,7 @@
                 dataSource: {
                     "chart": {
                         "caption": "การบันทึกข้อมูลการถูกละเมิดสิทธิในระบบ CRS ตั้งแต่เปิดใช้ระบบ ",
-                        "subCaption": "เปรียบเทียบตามปี จำแนกรายเดือน",
+                        "subCaption": "เปรียบเทียบตามปี จำแนกรายเดือน ปีงบ <?php echo ($years+543) ?>",
                         "placeValuesInside": "0",
                         "yAxisName": "จำนวนการถูกละเมิดสิทธิ",
                         "yAxisMinValue": "0",
@@ -437,7 +445,18 @@
                     },
 
                     "categories": [{
-                        "category": [{
+                        "category": [
+                            
+                            {
+                                "label": "ต.ค."
+                            },
+                            {
+                                "label": "พ.ย."
+                            },
+                            {
+                                "label": "ธ.ค."
+                            },
+                            {
                                 "label": "ม.ค."
                             },
                             {
@@ -463,15 +482,6 @@
                             },
                             {
                                 "label": "ก.ย."
-                            },
-                            {
-                                "label": "ต.ค."
-                            },
-                            {
-                                "label": "พ.ย."
-                            },
-                            {
-                                "label": "ธ.ค."
                             }
                         ]
                     }],
@@ -484,7 +494,7 @@
                                 echo '"seriesname": "'.$a_prname[$i].'",';
                                 echo '"data" : [';
 
-                                for ($j = 1;$j <= 12; $j++) {
+                                for ($j = 10;$j <= 12; $j++) {
                                     echo "{";
 
                                     
@@ -503,7 +513,30 @@
                                     }
 
 
-                                    if($j == 12){
+                                        echo "},";
+                                    
+                                }
+
+                                for ($j = 1;$j <= 9; $j++) {
+                                    echo "{";
+
+                                    
+                                    $ck1 = 0;  
+
+                                    for($ck = 1; $ck <= $last_i; $ck++){
+                                        if($a_code[$i] == $p_id[$ck] and $j == $m[$ck] ){
+                                            echo '"value": "'.$count[$ck].'"';
+                                            $ck1 = 1;
+                                        }
+                                        
+                                    }
+
+                                    if($ck1 == 0){
+                                        echo '"value": "0"';
+                                    }
+
+
+                                    if($j == 9){
                                         echo "}]";
                                     }else{
                                         echo "},";
@@ -538,7 +571,7 @@
                 dataSource: {
                     "chart": {
                         "caption": "การบันทึกข้อมูลการถูกละเมิดสิทธิในระบบ CRS ตั้งแต่เปิดใช้ระบบ ",
-                        "subCaption": "เปรียบเทียบตามหน่วยงาน จำแนกรายเดือน",
+                        "subCaption": "เปรียบเทียบตามหน่วยงาน จำแนกรายเดือน ปีงบ <?php echo ($years+543) ?>",
                         "placeValuesInside": "0",
                         "yAxisName": "จำนวนการถูกละเมิดสิทธิ",
                         "yAxisMinValue": "0",
@@ -557,7 +590,17 @@
                     },
 
                     "categories": [{
-                        "category": [{
+                        "category": [
+                            {
+                                "label": "ต.ค."
+                            },
+                            {
+                                "label": "พ.ย."
+                            },
+                            {
+                                "label": "ธ.ค."
+                            },
+                            {
                                 "label": "ม.ค."
                             },
                             {
@@ -583,16 +626,8 @@
                             },
                             {
                                 "label": "ก.ย."
-                            },
-                            {
-                                "label": "ต.ค."
-                            },
-                            {
-                                "label": "พ.ย."
-                            },
-                            {
-                                "label": "ธ.ค."
                             }
+                            
                         ]
                     }],
                     "dataset": [
@@ -605,7 +640,7 @@
                                 echo '"seriesname": "'.$o_nameorg[$i].'",';
                                 echo '"data" : [';
 
-                                for ($j = 1;$j <= 12; $j++) {
+                                for ($j = 10;$j <= 12; $j++) {
                                     echo "{";
 
                                     $ck2 = 0;
@@ -622,7 +657,28 @@
                                     }
 
 
-                                    if($j == 12){
+                                    echo "},";
+                                    
+                                }
+
+                                for ($j = 1;$j <= 9; $j++) {
+                                    echo "{";
+
+                                    $ck2 = 0;
+
+                                    for($k = 1; $k <= $last_i2; $k++){
+                                        if($j == $ch2_month[$k] and $o_nameorg[$i] == $ch2_nameorg[$k] ){
+                                            echo '"value": "'.$ch2_count[$k].'"';
+                                            $ck2 = 1;
+                                        }
+                                    }
+
+                                    if($ck2 == 0){
+                                        echo '"value": "0"';
+                                    }
+
+
+                                    if($j == 9){
                                         echo "}]";
                                     }else{
                                         echo "},";

@@ -43,6 +43,10 @@
         $last_year = date("Y");
         $last_month = date("M");
 
+        if(date("m")>9){
+            $last_year++;
+        }
+
         $years = $_GET["y"];
 
         if($years == ''){$years = $last_year;}
@@ -52,6 +56,7 @@
 
         $sql = "select year(created_at) as y ,month(created_at) as m,count(*) as count
         from case_inputs
+        
         group by year(created_at), month(created_at)";
 
         $result1 = mysqli_query($conn, $sql); 
@@ -66,16 +71,17 @@
         }
 
         $sql2 = "select month(created_at) as month, 
-        sum(case when problem_case = 1 THEN 1 ELSE 0 END) as case1,
-        sum(case when problem_case = 2 THEN 1 ELSE 0 END) as case2,
-        sum(case when problem_case = 3 THEN 1 ELSE 0 END) as case3,
-        sum(case when problem_case = 4 THEN 1 ELSE 0 END) as case4,
-        sum(case when problem_case = 5 THEN 1 ELSE 0 END) as case5,
-        sum(case when problem_case = 6 THEN 1 ELSE 0 END) as case6
-        from case_inputs
-        where year(created_at) = '$years'
-        group by  month(created_at)";
+        sum(case when problem_case = 1 THEN 1 ELSE 0 END) as case1, 
+        sum(case when problem_case = 2 THEN 1 ELSE 0 END) as case2, 
+        sum(case when problem_case = 3 THEN 1 ELSE 0 END) as case3, 
+        sum(case when problem_case = 4 THEN 1 ELSE 0 END) as case4, 
+        sum(case when problem_case = 5 THEN 1 ELSE 0 END) as case5, 
+        sum(case when problem_case = 6 THEN 1 ELSE 0 END) as case6 
+        from case_inputs 
+        where created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' 
+        group by month";
 
+        
         $result2 = mysqli_query($conn, $sql2); 
         $row2 = mysqli_num_rows($result2); 
         $i = 0;        
@@ -269,7 +275,7 @@
 
                 <div class="row g-3 mb-3 align-items-center">
                     <div class="col-auto">
-                        <strong class="col-form-label">ปี</strong>
+                        <strong class="col-form-label">ปีงบประมาณ</strong>
                     </div>
                     <div class="col-auto">
                         <div class="select">
@@ -343,14 +349,25 @@
                         "drawcrossline": "1",
 
                         "theme": "hulk-light",
-                        "palettecolors": "#8455d3,#df4591,#c41cac,#b13825,#f8b4cd,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",
+                        /*"palettecolors": "#8455d3,#df4591,#c41cac,#b13825,#f8b4cd,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",*/
+                        "palettecolors": "#8455d3,#F8DF8B,#B85C38,#df4591,#31112C,#32E0C4",
                         "exportEnabled": "1"
 
                     },
 
                     "categories": [{
 
-                        "category": [{
+                        "category": [
+                            {
+                                "label": "ต.ค."
+                            },
+                            {
+                                "label": "พ.ย."
+                            },
+                            {
+                                "label": "ธ.ค."
+                            },
+                            {
 
                                 "label": "ม.ค."
                             },
@@ -377,16 +394,8 @@
                             },
                             {
                                 "label": "ก.ย."
-                            },
-                            {
-                                "label": "ต.ค."
-                            },
-                            {
-                                "label": "พ.ย."
-                            },
-                            {
-                                "label": "ธ.ค."
                             }
+                            
                         ]
                     }],
                     "dataset": [
@@ -395,10 +404,29 @@
                             for($iy = $y[1]; $iy <= $last_year; $iy++){
 
                                 echo '{';
-                                echo '"seriesname": "'.$iy.'",';
+                                echo '"seriesname": "ปีงบ '.($iy+543).'",';
                                 echo '"data" : [';
 
-                                for ($i = 1;$i <= 12; $i++) {
+                                for ($i = 10;$i <= 12; $i++) {
+                                    echo "{";
+
+                                    $ck1 = 0;  
+                                    for($ck = 1; $ck <= $last_i; $ck++){
+                                        if(($iy-1) == $y[$ck] and $i == $m[$ck]){
+                                            echo '"value": "'.$count[$ck].'"';
+                                            $ck1 = 1;
+                                        }
+                                        
+                                    }
+                                    if($ck1 == 0){
+                                        echo '"value": "0"';
+                                    }
+
+                                    echo "},";
+                                    
+                                }
+
+                                for ($i = 1;$i <= 9; $i++) {
                                     echo "{";
 
                                     $ck1 = 0;  
@@ -414,7 +442,7 @@
                                     }
 
 
-                                    if($i == 12){
+                                    if($i == 9){
                                         echo "}]";
                                     }else{
                                         echo "},";
@@ -449,7 +477,7 @@
                 dataSource: {
                     "chart": {
                         "caption": "การบันทึกข้อมูลการถูกละเมิดสิทธิในระบบ CRS ตั้งแต่เปิดใช้ระบบ ",
-                        "subCaption": "เปรียบเทียบตามกรณี จำแนกรายเดือน",
+                        "subCaption": "เปรียบเทียบตามกรณี จำแนกรายเดือน ปีงบประมาณ <?php echo ($years+543) ?>",
                         "placeValuesInside": "0",
                         "yAxisName": "จำนวนการถูกละเมิดสิทธิ",
                         "yAxisMinValue": "0",
@@ -462,13 +490,24 @@
                         "drawcrossline": "1",
                         "legendIconBorderThickness": "3",
                         "theme": "hulk-light",
-                        "palettecolors": "#8455d3,#df4591,#c41cac,#b13825,#f8b4cd,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",
+                        /*"palettecolors": "#8455d3,#df4591,#c41cac,#b13825,#f8b4cd,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",*/
+                        "palettecolors": "#8455d3,#F8DF8B,#B85C38,#df4591,#31112C,#32E0C4",
                         "exportEnabled": "1"
 
                     },
 
                     "categories": [{
-                        "category": [{
+                        "category": [
+                            {
+                                "label": "ต.ค."
+                            },
+                            {
+                                "label": "พ.ย."
+                            },
+                            {
+                                "label": "ธ.ค."
+                            },
+                            {
                                 "label": "ม.ค."
                             },
                             {
@@ -494,16 +533,8 @@
                             },
                             {
                                 "label": "ก.ย."
-                            },
-                            {
-                                "label": "ต.ค."
-                            },
-                            {
-                                "label": "พ.ย."
-                            },
-                            {
-                                "label": "ธ.ค."
                             }
+                            
                         ]
                     }],
                     "dataset": [
@@ -514,7 +545,7 @@
                             echo '"seriesname": "'.$list_pb[0].'",';
                             echo '"data" : [';
 
-                            for($i = 1; $i <= 12; $i++){
+                            for($i = 10; $i <= 12; $i++){
                                 echo '{';
 
                                 $ck2 = 0;  
@@ -528,7 +559,25 @@
                                     echo '"value": "0"';
                                 }
 
-                                if($i == 12){
+                                    echo '},';
+                                
+                            }
+
+                            for($i = 1; $i <= 9; $i++){
+                                echo '{';
+
+                                $ck2 = 0;  
+                                for($j = 1;$j <= $last_i2; $j++ ){
+                                    if($i == $ch2_month[$j]){
+                                        echo '"value" : "'.$case1[$j].'",';
+                                        $ck2 = 1; 
+                                    }
+                                }
+                                if($ck2 == 0){
+                                    echo '"value": "0"';
+                                }
+
+                                if($i == 9){
                                     echo '}';
                                 }else{
                                     echo '},';
@@ -540,8 +589,8 @@
                             echo '{';
                                 echo '"seriesname": "'.$list_pb[1].'",';
                                 echo '"data" : [';
-    
-                                for($i = 1; $i <= 12; $i++){
+
+                                for($i = 10; $i <= 12; $i++){
                                     echo '{';
     
                                     $ck2 = 0;  
@@ -555,7 +604,25 @@
                                         echo '"value": "0"';
                                     }
     
-                                    if($i == 12){
+                                        echo '},';
+                                    
+                                }
+    
+                                for($i = 1; $i <= 9; $i++){
+                                    echo '{';
+    
+                                    $ck2 = 0;  
+                                    for($j = 1;$j <= $last_i2; $j++ ){
+                                        if($i == $ch2_month[$j]){
+                                            echo '"value" : "'.$case2[$j].'",';
+                                            $ck2 = 1; 
+                                        }
+                                    }
+                                    if($ck2 == 0){
+                                        echo '"value": "0"';
+                                    }
+    
+                                    if($i == 9){
                                         echo '}';
                                     }else{
                                         echo '},';
@@ -567,8 +634,8 @@
                                 echo '{';
                                 echo '"seriesname": "'.$list_pb[2].'",';
                                 echo '"data" : [';
-    
-                                for($i = 1; $i <= 12; $i++){
+
+                                for($i = 10; $i <= 12; $i++){
                                     echo '{';
     
                                     $ck2 = 0;  
@@ -582,7 +649,25 @@
                                         echo '"value": "0"';
                                     }
     
-                                    if($i == 12){
+                                        echo '},';
+                                    
+                                }
+    
+                                for($i = 1; $i <= 9; $i++){
+                                    echo '{';
+    
+                                    $ck2 = 0;  
+                                    for($j = 1;$j <= $last_i2; $j++ ){
+                                        if($i == $ch2_month[$j]){
+                                            echo '"value" : "'.$case3[$j].'",';
+                                            $ck2 = 1; 
+                                        }
+                                    }
+                                    if($ck2 == 0){
+                                        echo '"value": "0"';
+                                    }
+    
+                                    if($i == 9){
                                         echo '}';
                                     }else{
                                         echo '},';
@@ -594,8 +679,8 @@
                                 echo '{';
                                 echo '"seriesname": "'.$list_pb[3].'",';
                                 echo '"data" : [';
-    
-                                for($i = 1; $i <= 12; $i++){
+
+                                for($i = 10; $i <= 12; $i++){
                                     echo '{';
     
                                     $ck2 = 0;  
@@ -609,7 +694,25 @@
                                         echo '"value": "0"';
                                     }
     
-                                    if($i == 12){
+                                        echo '},';
+                                    
+                                }
+    
+                                for($i = 1; $i <= 9; $i++){
+                                    echo '{';
+    
+                                    $ck2 = 0;  
+                                    for($j = 1;$j <= $last_i2; $j++ ){
+                                        if($i == $ch2_month[$j]){
+                                            echo '"value" : "'.$case4[$j].'",';
+                                            $ck2 = 1; 
+                                        }
+                                    }
+                                    if($ck2 == 0){
+                                        echo '"value": "0"';
+                                    }
+    
+                                    if($i == 9){
                                         echo '}';
                                     }else{
                                         echo '},';
@@ -621,8 +724,8 @@
                                 echo '{';
                                 echo '"seriesname": "'.$list_pb[4].'",';
                                 echo '"data" : [';
-    
-                                for($i = 1; $i <= 12; $i++){
+
+                                for($i = 10; $i <= 12; $i++){
                                     echo '{';
     
                                     $ck2 = 0;  
@@ -636,7 +739,25 @@
                                         echo '"value": "0"';
                                     }
     
-                                    if($i == 12){
+                                        echo '},';
+                                    
+                                }
+    
+                                for($i = 1; $i <= 9; $i++){
+                                    echo '{';
+    
+                                    $ck2 = 0;  
+                                    for($j = 1;$j <= $last_i2; $j++ ){
+                                        if($i == $ch2_month[$j]){
+                                            echo '"value" : "'.$case5[$j].'",';
+                                            $ck2 = 1; 
+                                        }
+                                    }
+                                    if($ck2 == 0){
+                                        echo '"value": "0"';
+                                    }
+    
+                                    if($i == 9){
                                         echo '}';
                                     }else{
                                         echo '},';
@@ -648,8 +769,8 @@
                                 echo '{';
                                     echo '"seriesname": "'.$list_pb[5].'",';
                                     echo '"data" : [';
-        
-                                    for($i = 1; $i <= 12; $i++){
+
+                                    for($i = 10; $i <= 12; $i++){
                                         echo '{';
         
                                         $ck2 = 0;  
@@ -663,7 +784,25 @@
                                             echo '"value": "0"';
                                         }
         
-                                        if($i == 12){
+                                            echo '},';
+                                        
+                                    }
+        
+                                    for($i = 1; $i <= 9; $i++){
+                                        echo '{';
+        
+                                        $ck2 = 0;  
+                                        for($j = 1;$j <= $last_i2; $j++ ){
+                                            if($i == $ch2_month[$j]){
+                                                echo '"value" : "'.$case6[$j].'",';
+                                                $ck2 = 1; 
+                                            }
+                                        }
+                                        if($ck2 == 0){
+                                            echo '"value": "0"';
+                                        }
+        
+                                        if($i == 9){
                                             echo '}';
                                         }else{
                                             echo '},';

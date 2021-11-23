@@ -92,8 +92,23 @@
             if( $ch2_sex[$j] == 3){
                 $sex3 = $ch2_count[$j];
             }
+            if( $g_code[$j] == 2){
+                $sexwork =  $count[$j];
+            }
+            if( $g_code[$j] == 3){
+                $druger =  $count[$j];
+            }
             if( $g_code[$j] == 4){
                 $foreign = $count[$j];
+            }
+            if( $g_code[$j] == 5){
+                $prisoner =  $count[$j];
+            }
+            if( $g_code[$j] == 6){
+                $tribe =  $count[$j];
+            }
+            if( $g_code[$j] == 7){
+                $handicap =  $count[$j];
             }
         }
 
@@ -355,7 +370,7 @@
                             "caption": "",
                             "subCaption": "",
                             "animateClockwise" :"0",
-                            "defaultCenterLabel": " <?php echo $lgbtq+$foreign; ?> เรื่อง",
+                            "defaultCenterLabel": " <?php echo $lgbtq+$foreign+$sexwork+$druger+$prisoner+$tribe+$handicap; ?> เรื่อง",
                             "placeValuesInside": "0",
                             "yAxisName": "จำนวน (เรื่อง)",
                             "basefontsize": "14",
@@ -372,13 +387,35 @@
 
                         },
 
-                        "data": [{
+                        "data": [
+                            {
                                 "label": "กลุ่มหลากหลายทางเพศ",
                                 "value": "<?php echo $lgbtq; ?>"
                             },
                             {
+                                "label": "พนักงานบริการ",
+                                "value": "<?php echo $sexwork; ?>"
+                            },
+                            {
+                                "label": "ผู้ใช้สารเสพติด",
+                                "value": "<?php echo $druger; ?>"
+                            },
+                            
+                            {
                                 "label": "ประชากรข้ามชาติ",
                                 "value": "<?php echo $foreign; ?>"
+                            },
+                            {
+                                "label": "ผู้ถูกคุมขัง",
+                                "value": "<?php echo $prisoner; ?>"
+                            },
+                            {
+                                "label": "กลุ่มชาติพันธุ์และชนเผ่า",
+                                "value": "<?php echo $tribe; ?>"
+                            },
+                            {
+                                "label": "ผู้พิการ",
+                                "value": "<?php echo $handicap; ?>"
                             }
                         ]
 
@@ -388,62 +425,6 @@
         });
         </script>
 
-        <script type="text/javascript">
-        FusionCharts.ready(function() {
-
-            var salesChart = new FusionCharts({
-                    type: 'stackedcolumn2d',
-                    renderAt: 'chart-container-a1',
-                    width: '100%',
-                    height: '400',
-                    dataFormat: 'json',
-                    dataSource: {
-                        "chart": {
-                            "caption": "",
-                            "subCaption": "",
-                            "placeValuesInside": "0",
-                            
-                            "yAxisName": "",
-                            "basefontsize": "14",
-                            "captionFontSize": "16",
-                            "subcaptionFontSize": "16",
-                            "showAxisLines": "1",
-                            "axisLineAlpha": "25",
-                            "alignCaptionWithCanvas": "0",
-                            "showAlternateVGridColor": "1",
-                            "showValues": "1",
-                            "plotBorderThickness": "5",
-                            "numberScaleValue": "0",
-                            "showYAxisValues": "0",
-                            "theme": "hulk-light",
-                            "palettecolors": "#df4591,#8455d3,#F8DF8B,#B85C38,#334756,#31112C,#32E0C4",
-                            "exportEnabled": "1"
-
-                        },
-
-                        "categories": [{
-                            "category": [{
-                                "label": "Q1"
-                            }]
-                        }],
-
-                        "dataset": [{
-                            "seriesname": "Food Products",
-                            "data": [{
-                                "value": "11000"
-                            }]
-                        }, {
-                            "seriesname": "Non-Food Products",
-                            "data": [{
-                                "value": "11400"
-                            }]
-                        }]
-
-                    }
-                })
-                .render();
-        });
-        </script>
 
         <script type="text/javascript">
         FusionCharts.ready(function() {
