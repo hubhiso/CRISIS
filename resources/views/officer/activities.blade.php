@@ -789,8 +789,7 @@
                 //console.log(data);
                 $("#ajaxResponse").append("<div>" + data.msg + "</div>");
                 //alert("อัพเดตสถาณะเสร็จสมบูรณ์");
-                window.location = "{{ route('officer.show',['mode_id' => "
-                0 "]) }}";
+                window.location = "{{ route('officer.show',['mode_id' => "0"]) }}";
             }
         });
     }
