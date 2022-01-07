@@ -92,3 +92,9 @@ A:visited {
     border: 2px solid #eee;
     padding: 20px;
 }
+
+@media (min-width: 768px) {
+    .boxstatus {
+        width: 14.284%;
+    }
+  }
