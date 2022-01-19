@@ -79,6 +79,17 @@
                         </script>
                     @endif
                     <div class="columns is-multiline">
+                        <div class="column is-12">
+                            <div class=" box_text">
+                                
+                                <div class="videoWrapper is-parent">
+
+                                <iframe width="100%" height="530" src="https://www.youtube.com/embed/OJfDiar6LYg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                                </div>
+                                
+                            </div>
+                        </div>
                         <div class="column is-4">
 
                             <div class="box_text">
@@ -116,8 +127,8 @@
                         </div>
                         <div class="column is-4">
                             <div class=" box_text">
-                                <img src="../images/guide/crsprogram_cover.png" alt="Avatar" class="image_cover">
-                                <a href="../contents/guide/crsprogram.pdf" onclick="update_count(103)" target="_blank">
+                                <img src="../images/guide/คู่มือCRSversionปี2564(new)_cover.jpg" alt="Avatar" class="image_cover">
+                                <a href="../contents/guide/คู่มือCRSversionปี2564(new).pdf" onclick="update_count(103)" target="_blank">
                                     <div class="overlay_cover">
                                         คู่มือการใช้งานข้อมูลละเมิดสิทธิ(ฉบับสมบูรณ์)
                                         <div class="buttons is-right">
