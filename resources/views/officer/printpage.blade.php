@@ -272,48 +272,48 @@
                                     <label class="label"><b>วันที่เกิดเหตุ</b> </label>
                                 </div>
                                 <div class="column is-9">
-                                    วันที่ {{ date('d',strtotime(str_replace('-','/', $show_data->accident_date))) }}
+                                    วันที่ {{ date('d',strtotime(str_replace('-','/', $show_detail->accident_date))) }}
 
                                     เดือน
-                                    @if ( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 1 )
+                                    @if ( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 1 )
                                     มกราคม
-                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     2 )
                                     กุมภาพันธ์
-                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     3 )
                                     มีนาคม
-                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif ( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     4 )
                                     เมษายน
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 5
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 5
                                     )
                                     พฤษภาคม
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 6
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 6
                                     )
                                     มิถุนายน
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 7
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 7
                                     )
                                     กรกฎาคม
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 8
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 8
                                     )
                                     สิงหาคม
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) == 9
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 9
                                     )
                                     กันยายน
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     10 )
                                     ตุลาคม
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     11 )
                                     พฤศจิกายน
-                                    @elseif( date('m',strtotime(str_replace('-','/', $show_data->accident_date))) ==
+                                    @elseif( date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) ==
                                     12 )
                                     ธันวาคม
                                     @endif
 
                                     ปี พ.ศ.
-                                    {{date('Y',strtotime(str_replace('-','/', $show_data->accident_date))) + 543 }}
+                                    {{date('Y',strtotime(str_replace('-','/', $show_detail->accident_date))) + 543 }}
                                 </div>
                             </div>
                             <div class="columns">
@@ -506,7 +506,7 @@
                                             @else
                                             <i class="far fa-square fa-lg"></i>
                                             @endif
-                                            สืบหาข้อเท๊จจริง &nbsp;
+                                            สืบหาข้อเท็จจริง &nbsp;
                                         </span>
                                     </label>
                                     <label>

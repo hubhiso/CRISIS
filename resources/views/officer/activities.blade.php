@@ -235,7 +235,7 @@
                         <div class="control">
                             <label>
                                 <input type="checkbox" name="investigate" id="investigate">
-                                สืบหาข้อเท๊จจริง
+                                สืบหาข้อเท็จจริง
                             </label>
                         </div>
                         <div class="control">

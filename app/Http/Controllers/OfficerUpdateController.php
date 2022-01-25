@@ -552,10 +552,11 @@ class OfficerUpdateController extends Controller
     {
 
         $show_data = case_input::where('case_id','=',$case_id)->first();
+        $show_detail = add_detail::where('case_id','=',$case_id)->first();
         $show_timeline = timeline::where('case_id',$case_id)->where('operate_status',2)->first();
         $activities = operate_detail::where('case_id','=',$case_id)->orderBy('operate_date', 'asc')->get();
 
-        return view('officer.printpage',compact('show_data', 'show_timeline', 'activities'));
+        return view('officer.printpage',compact('show_data', 'show_timeline', 'activities', 'show_detail'));
     }
 
     

@@ -98,7 +98,7 @@
                     <label>
                         <input type="checkbox" name="edit_investigate" id="edit_investigate{{$operate_data->id}}"
                             @if($operate_data->investigate == 1 ) checked @endif>
-                        สืบหาข้อเท๊จจริง
+                        สืบหาข้อเท็จจริง
                     </label>
                 </div>
                 <div class="control">
