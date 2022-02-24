@@ -5,6 +5,7 @@ $database="crisis";
 $hostname = "localhost";
 
 $connection=mysql_connect ($hostname, $username, $password);
+date_default_timezone_set("Asia/Bangkok");
 
 mysql_query("SET NAMES UTF8",$connection); 
 if (!$connection) {
