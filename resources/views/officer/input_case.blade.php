@@ -518,7 +518,7 @@
                 <p class="control">
                     @if (Auth::user()->p_receive == 'no')
                     @elseif (Auth::user()->p_receive == 'yes')
-                    {!! Form::submit('ส่งข้อมูล',['class'=>'button is-primary']) !!}
+                    <button type="submit" id="btn_submit" class="button is-primary">ส่งข้อมูล</button>
                     @endif
                 </p>
                 <p class="control">
@@ -533,6 +533,14 @@
     {!! Form::close() !!}
 
     {{ Html::script('js/select_list.js') }}
+
+    <script>
+        $(document).ready(function() {
+            $('#btn_submit').on('click', function(){
+                $(this).addClass('is-loading');
+            });
+        });
+    </script>
 
     <script>
     $('#prov_id').on('change', function(e) {

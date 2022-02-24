@@ -790,6 +790,10 @@
             document.RegForm.submit();
         });
 
+        $('#submit').on('click', function(){
+            $(this).addClass('is-loading');        
+        });
+
         //button to able accept button
 
         $('#popup_ck').click(function() {
