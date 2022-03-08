@@ -143,7 +143,7 @@
                 </div>
                 <div class=" div-detail ">
                     <img class="img_detail" style="vertical-align:middle" src="images/circle_x50.png">
-                    <span><b>ถูกกีดกันหรือเลือกปฏิบัติ เนื่องมาจากการติเชื้อเอชไอวี</b></span>
+                    <span><b>ถูกกีดกันหรือเลือกปฏิบัติ เนื่องมาจากการติดเชื้อเอชไอวี</b></span>
                 </div>
                 <div class=" div-detail ">
                     <img class="img_detail" style="vertical-align:middle" src="images/circle_x50.png">
