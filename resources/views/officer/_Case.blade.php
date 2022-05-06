@@ -82,7 +82,7 @@
                 @endif
             </td>
 
-            @if(($case->receiver == $username )||($case->status == 1)||($username == "Adminfar"))
+            @if(($case->receiver == $username )||($case->status == 1)||($username == "Adminfar")||($username == 'adminhatc'))
 
             @if($case->status == 99)
             <td>ปฏิเสธการรับเรื่อง</td>

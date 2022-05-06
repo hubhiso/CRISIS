@@ -79,7 +79,7 @@
 
         if($pr == ''){$pr = $a_code[1];}
 
-        $sql_o = "select * from officers where prov_id = $pr or username = 'adminfar'";
+        $sql_o = "select * from officers where prov_id = $pr or username = 'adminfar' or username = 'adminhatc'";
         
         $result_o = mysqli_query($conn, $sql_o); 
         $i=0;

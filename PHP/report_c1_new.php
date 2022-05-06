@@ -308,7 +308,7 @@
                 FROM officers o left join prov_geo p
                 on p.code = o.prov_id 
                 where
-                position = 'officer' or o.name = 'adminfar'
+                position = 'officer' or o.name = 'adminfar' or o.Name = 'adminhatc'
                 order by prov_id";
 
                 $result1 = mysqli_query($conn, $sql1); 

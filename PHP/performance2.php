@@ -51,7 +51,7 @@
 						
 				$strSQL_office = "SELECT p.name,o.nameorg as nameorg,p.name as prov_name,o.prov_id,count(c.receiver) as total
 FROM officers o left join  case_inputs c on
-o.name = c.receiver left join prov_geo p on o.prov_id = p.code  where (position ='officer' or o.Name = 'adminfar') 
+o.name = c.receiver left join prov_geo p on o.prov_id = p.code  where (position ='officer' or o.Name = 'adminfar' or o.Name = 'adminhatc') 
 group by o.prov_id,o.nameorg
 order by p.code;";
 
