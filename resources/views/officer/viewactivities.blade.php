@@ -210,7 +210,7 @@
                                             @else
                                             <i class="far fa-square fa-lg "></i>
                                             @endif
-                                            ไม่รู้กฎหมาย
+                                            สืบหาข้อเท๊จจริง
                                         </span>
                                     </label>
                                     &nbsp;
