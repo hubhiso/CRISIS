@@ -96,7 +96,7 @@ return [
     "se_problem_6" => "อื่นๆ",
 
     "tx_group" => "ประเภทกลุ่ม",
-    "tx_sub_group" => "รายละเอียดของปัญหา",
+    "tx_sub_group" => "ประเภทกลุ่มย่อย",
 
     "tx_problem_detail" => "รายละเอียดของปัญหา",
 
