@@ -202,7 +202,7 @@
 
         <div class=" p-4">
 
-            <form name="form_menu" method="post" action="report_c23_new.php">
+            <form name="form_menu" method="post" action="report_c3_new.php">
 
                 <div class="row g-3 align-items-center">
 
