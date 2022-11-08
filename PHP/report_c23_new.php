@@ -321,7 +321,7 @@
                 <th class="" style="vertical-align: middle; color: white;" rowspan="2">
                     กลุ่มชาติพันธุ์และชนเผ่า</th>
                     <th class="" style="vertical-align: middle; color: white;" rowspan="2">
-                    ผู้พิการ</th>
+                    คนพิการ</th>
                 <th class="" style="vertical-align: middle; color: white;" rowspan="2">รวม</th>
                 </tr>
                 <tr>

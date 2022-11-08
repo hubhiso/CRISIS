@@ -1153,7 +1153,7 @@
                                                 selected } @endif>กลุ่มชนเผ่า</option>
                                             <option value="7" style="width:250px" @if($show_data->group_code ==
                                                     7){
-                                                    selected } @endif> ผู้พิการ</option>
+                                                    selected } @endif> คนพิการ</option>
                                             @endif
                                         </select>
                                     </span>

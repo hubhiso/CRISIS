@@ -441,7 +441,7 @@
             $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
             $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
             $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
-            $('#group_code').append('<option value="7" style="width:250px">ผู้พิการ</option>');
+            $('#group_code').append('<option value="7" style="width:250px">คนพิการ</option>');
 
 
 
@@ -465,7 +465,7 @@
             $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
             $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
             $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
-            $('#group_code').append('<option value="7" style="width:250px">ผู้พิการ</option>');
+            $('#group_code').append('<option value="7" style="width:250px">คนพิการ</option>');
 
 
 

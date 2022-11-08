@@ -414,7 +414,7 @@
                                 "value": "<?php echo $tribe; ?>"
                             },
                             {
-                                "label": "ผู้พิการ",
+                                "label": "คนพิการ",
                                 "value": "<?php echo $handicap; ?>"
                             }
                         ]

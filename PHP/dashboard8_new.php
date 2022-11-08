@@ -568,7 +568,7 @@
                             </tr>
 
                             <tr>
-                                <td class="text-start">ผู้พิการ</td>
+                                <td class="text-start">คนพิการ</td>
                                 <?php
 
                                     for($i =10; $i <=12; $i++){
@@ -970,7 +970,7 @@
                             ]
                         },
                         {
-                            "seriesname": "ผู้พิการ",
+                            "seriesname": "คนพิการ",
                             "data": [
                                 <?php
 
