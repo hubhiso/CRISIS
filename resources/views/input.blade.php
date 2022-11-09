@@ -821,13 +821,13 @@
     <div id="boxes">
         <div style="top: 250px; left: 551.5px; display: none; " id="dialog" class="window sizebox2">
             <div class="box">
-                <p>ข้อมูลที่บันทึกจะถูกเก็บเป็นความลับและโปรดตรวจสอบเบอร์โทรศัพท์ให้ถูกต้องเพื่อให้เจ้าหน้าที่ติดต่อกลับ
+                <p>{{ trans('message.txt_new_explain_popup') }}
                 </p>
                 <br>
 
                 <div class="buttons has-text-centered">
 
-                    <a class="button  is-outlined is-danger close">ทราบ</a>
+                    <a class="button  is-outlined is-danger close">{{ trans('message.txt_accept') }}</a>
 
                     <a href="{{ 'index.php' }}" class="button is-outlined ">{{ trans('message.bt_cancle') }}</a>
                     <!--span class="is-size-7">By clicking Accept, you agree to be bound by the terms of this

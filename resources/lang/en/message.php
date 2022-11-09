@@ -25,6 +25,9 @@ return [
     "bt_agree_popup" => "I agree to the terms and conditions for the disclosure of personal information.",
     "txt_explain_popup" => "All information provided will be kept confidential. Please re-check and fill the correct phone number for agent to contact you later.",
 
+    "txt_new_explain_popup" => "All information collected will be kept strictly confidential. Please verify your phone number for our staffs to contact you soon.",
+    "txt_accept" => "Accept",
+    
     "nav_home" => "Home",
     "nav_complaint" => "Report a Complaint",
 
