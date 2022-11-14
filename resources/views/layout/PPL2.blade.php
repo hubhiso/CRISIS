@@ -4,14 +4,20 @@
         <div class="navbar">
             <div class="navbar-end has-text-right">
                 <div class="navbar-item">
+                    
+                    <a class=" button is-danger is-inverted is-rounded is-small  " href="contents/แบบฟอร์ม_ขอสถานะผู้ใช้งานโปรแกรมCRS.docx.pdf" target="_blank">
+                        แบบฟอร์มขอสถานะผู้ใช้&nbsp; <span class="fa-stack fa-1x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-download fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+
                     <a class=" button is-danger is-inverted is-rounded is-small  " href="{{ 'officer' }}">
                         {{ trans('message.bt_admin') }}&nbsp; <span class="fa-stack fa-1x">
                             <i class="fa fa-circle fa-stack-2x"></i>
                             <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
                         </span>
                     </a>
-
-                    &nbsp;&nbsp;
 
                     @if(Config::get('app.locale') == 'en')
 
