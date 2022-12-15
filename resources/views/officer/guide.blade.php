@@ -93,7 +93,7 @@
                         <div class="column is-4">
 
                             <div class="box_text">
-                                <img src="../contents/cover1-คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.png" alt="Avatar" class="image_cover">
+                                <img src="../contents/cover2-คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.png" alt="Avatar" class="image_cover">
                                 <!--a href="../contents/guide/CRSmannual.pdf" onclick="update_count(1)" target="_blank"-->
                                 <a href="../contents/guide/คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.pdf" onclick="update_count(101)"  target="_blank" >
                                     <div class="overlay_cover" >
