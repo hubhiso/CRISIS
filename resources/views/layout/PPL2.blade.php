@@ -187,7 +187,7 @@
         </div>
         <div class="column">
             <article class="tile is-child box">
-                <a href="contents/คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.pdf"><img src="contents/cover2-คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.png" height="360"></a>
+                <a href="contents/guide/คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.pdf"><img src="contents/cover2-คู่มือแนวทางการจัดการรับเรื่องร้องเรียน.png" height="360"></a>
             </article>
         </div>
     </div>
