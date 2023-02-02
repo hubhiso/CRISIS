@@ -294,6 +294,7 @@ class OfficerUpdateController extends Controller
             case_input::where('case_id','=',$case_id)->update([
                 'status' => $request->input('status'),
                 'operate_result_status' => null,
+                'final_operate_result' => null,
                 'problemfix' => null,
                 'compensation' => null,
                 'change_policy' => null,
@@ -305,6 +306,7 @@ class OfficerUpdateController extends Controller
             case_input::where('case_id','=',$case_id)->update([
                 'status' => $request->input('status'),
                 'operate_result_status' => $request->input('operate_result_status'),
+                'final_operate_result' => $request->input('final_operate_result'),
                 'problemfix' => $request->input('problemfix'),
                 'compensation' => $request->input('compensation'),
                 'change_policy' => $request->input('change_policy'),
@@ -319,6 +321,7 @@ class OfficerUpdateController extends Controller
             case_input::where('case_id','=',$case_id)->update([
                 'status' => $request->input('status'),
                 'operate_result_status' => null,
+                'final_operate_result' => null,
                 'problemfix' => null,
                 'compensation' => null,
                 'change_policy' => null,

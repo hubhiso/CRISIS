@@ -428,6 +428,20 @@
                         </div>
                     </div>
 
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label"></label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea" name="final_operate_result" id="final_operate_result"
+                                        placeholder="กรอกรายละเอียด" disabled>{{$show_data->final_operate_result}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>

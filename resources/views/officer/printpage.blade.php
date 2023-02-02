@@ -638,6 +638,15 @@
                             </div>
                             @endif
 
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <label class="label"><b></b> </label>
+                                </div>
+                                <div class="column is-9">
+                                    <label for="">{{$show_data->final_operate_result}}</label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

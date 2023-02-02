@@ -433,7 +433,19 @@
                 </div>
             </div>
 
-
+            <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label"></label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <textarea class="textarea" name="final_operate_result" id="final_operate_result"
+                                    placeholder="กรอกรายละเอียด">{{$show_data->final_operate_result}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
@@ -756,6 +768,9 @@
         var compensation = 0;
         var change_policy = 0;
         var problemfix = 0;
+
+        var final_operate_result = $('#final_operate_result').val();
+
         if ($('#compensation').is(':checked') == true) {
             compensation = 1;
         }
@@ -783,7 +798,8 @@
                 change_policy: change_policy,
                 prov_refer: prov_refer,
                 refer_type: refer_type,
-                refer_name: refer_name
+                refer_name: refer_name,
+                final_operate_result: final_operate_result
             },
             success: function(data) {
                 //console.log(data);
