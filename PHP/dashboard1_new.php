@@ -52,9 +52,104 @@
 	    $se3 = $_POST["group_code"];
 	   //echo $se1,' ',$se2," ",$se3," ";
 	
-	   if($date_end==''){
-		$date_end = date("m/d/Y");
-	   }
+	   $se_time = $_POST["se_time"];
+       $se_year = $_POST["se_year"];
+       $se_quarter = $_POST["se_quarter"];
+       $se_month = $_POST["se_month"];
+
+       $year_now =  date("Y");
+
+        if(date("m")>9){
+            $year_now++;
+        }
+
+        if($years == ''){$years = $year_now;}
+
+       
+       if($se_year == ''){
+           $se_year = $year_now;
+       }
+
+       if($se_time == ''){
+           $se_time = 1;
+
+           $date_start = "10/1/".($se_year-1);
+           $date_end = "9/30/".$se_year;
+       }
+
+       if($se_time== 1){
+
+           if($se_quarter== 0){
+               $date_start = "10/1/".($se_year-1);
+               $date_end = "9/30/".$se_year;
+           }else if($se_quarter== 1){
+               $date_start = "10/1/".($se_year-1);
+               $date_end = "12/31/".($se_year-1);
+           }else if($se_quarter== 2){
+               $date_start = "1/1/".$se_year;
+               $date_end = "3/31/".$se_year;
+           }else if($se_quarter== 3){
+               $date_start = "4/1/".$se_year;
+               $date_end = "6/30/".$se_year;
+           }else if($se_quarter== 4){
+               $date_start = "7/1/".$se_year;
+               $date_end = "9/30/".$se_year;
+           }else if($se_quarter== 12){
+               $date_start = "10/1/".($se_year-1);
+               $date_end = "3/31/".$se_year;
+           }else if($se_quarter== 13){
+               $date_start = "10/1/".($se_year-1);
+               $date_end = "6/30/".$se_year;
+           }else if($se_quarter== 99){
+               if($se_month== 10){
+                   $date_start = "10/1/".($se_year-1);
+                   $date_end = "10/31/".($se_year-1);
+               }else if($se_month== 11){
+                   $date_start = "11/1/".($se_year-1);
+                   $date_end = "11/30/".($se_year-1);
+               }else if($se_month== 12){
+                   $date_start = "12/1/".($se_year-1);
+                   $date_end = "12/31/".($se_year-1);
+               }else if($se_month== 1){
+                   $date_start = "1/1/".$se_year;
+                   $date_end = "1/31/".$se_year;
+               }else if($se_month== 2){
+                   $date_start = "2/1/".$se_year;
+                   $date_end = strtotime("3/31/".$se_year)-1;
+               }else if($se_month== 3){
+                   $date_start = "3/1/".$se_year;
+                   $date_end = "3/31/".$se_year;
+               }else if($se_month== 4){
+                   $date_start = "4/1/".$se_year;
+                   $date_end = "4/30/".$se_year;
+               }else if($se_month== 5){
+                   $date_start = "5/1/".$se_year;
+                   $date_end = "5/31/".$se_year;
+               }else if($se_month== 6){
+                   $date_start = "6/1/".$se_year;
+                   $date_end = "6/30/".$se_year;
+               }else if($se_month== 7){
+                   $date_start = "7/1/".$se_year;
+                   $date_end = "7/31/".$se_year;
+               }else if($se_month== 8){
+                   $date_start = "8/1/".$se_year;
+                   $date_end = "8/31/".$se_year;
+               }else if($se_month== 9){
+                   $date_start = "9/1/".$se_year;
+                   $date_end = "9/30/".$se_year;
+               }
+           }
+
+       }else if($se_time== 2){
+
+           $date_start = $_POST["date_start"];
+           $date_end = $_POST["date_end"];
+           
+           if($date_end==''){
+               $date_end = date("m/d/Y");
+           }
+
+       }
 	
 	   if($pr != 0){
 			$pr_q = " and c.prov_id= '".$pr."' ";
@@ -281,7 +376,7 @@
                     </div>
                 </div>
 
-                <div class="row g-3 align-items-center">
+                <div class="row g-3 align-items-center mb-3">
                     <div class="col-auto">
                         <strong class="col-form-label">จังหวัด</strong>
                     </div>
@@ -309,22 +404,78 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div class="row g-3 align-items-center">
 
                     <div class="col-auto">
-                        <strong> เลือกวันที่ </strong>
+                        <label class="col-form-label">ช่วงเวลา</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select form-control" id="se_time" name="se_time">
+                            <option value='1' <?php if($se_time == 1){ echo "selected"; } ?>> ตามตัวเลือก </option>
+                            <option value='2' <?php if($se_time == 2){ echo "selected"; } ?>> ระบุวันที่ </option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto se_time_g1">
+                        <label class="col-form-label">ปีงบประมาณ</label>
+                    </div>
+                    <div class="col-auto se_time_g1">
+                        <select class="form-select form-control" id="se_year" name="se_year">
+                        <?php
+                                for($y = 2019; $y <= $year_now; $y++){
+                                    if ($se_year == $y) { $se =  "selected";}
+                                    echo "<option value='$y' $se> ".($y+543)." </option>";
+                                    $se = '';
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-auto se_time_g1">
+                        <select class="form-select form-control" id="se_quarter" name="se_quarter">
+                            <option value='0'  <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ </option>
+                            <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
+                            <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
+                            <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
+                            <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
+                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2 </option>
+                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3 </option>
+                            <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
+                        </select>
+                    </div>
+                    <div class="col-auto se_time_g11">
+                        <select class="form-select form-control" id="se_month" name="se_month">
+                            <option value='1' <?php if($se_month == 1){ echo "selected"; } ?>> มกราคม </option>
+                            <option value='2' <?php if($se_month == 2){ echo "selected"; } ?>> กุมภาพันธ์ </option>
+                            <option value='3' <?php if($se_month == 3){ echo "selected"; } ?>> มีนาคม </option>
+                            <option value='4' <?php if($se_month == 4){ echo "selected"; } ?>> เมษายน </option>
+                            <option value='5' <?php if($se_month == 5){ echo "selected"; } ?>> พฤษภาคม </option>
+                            <option value='6' <?php if($se_month == 6){ echo "selected"; } ?>> มิถุนายน </option>
+                            <option value='7' <?php if($se_month == 7){ echo "selected"; } ?>> กรกฎาคม </option>
+                            <option value='8' <?php if($se_month == 8){ echo "selected"; } ?>> สิงหาคม </option>
+                            <option value='9' <?php if($se_month == 9){ echo "selected"; } ?>> กันยายน </option>
+                            <option value='10' <?php if($se_month == 10){ echo "selected"; } ?>> ตุลาคม </option>
+                            <option value='11' <?php if($se_month == 11){ echo "selected"; } ?>> พฤศจิกายน </option>
+                            <option value='12' <?php if($se_month == 12){ echo "selected"; } ?>> ธันวาคม </option>
+                        </select>
+                    </div>
+
+                    <div class="col-auto se_time_g2">
+                        <strong> วันที่ </strong>
 
                     </div>
 
-                    <div class="col-auto input-daterange">
+                    <div class="col-auto se_time_g2 input-daterange">
                         <input type="text" class="form-control" id="date_start" name="date_start"
                             value='<?php echo $date_start; ?>'>
                     </div>
 
-                    <div class="col-auto">
+                    <div class="col-auto se_time_g2">
                         ถึง
                     </div>
 
-                    <div class="col-auto input-daterange">
+                    <div class="col-auto se_time_g2 input-daterange">
                         <input type="text" class="form-control" id="date_end" name="date_end"
                             value='<?php echo $date_end; ?>'>
                     </div>
@@ -334,15 +485,15 @@
 
                     </div>
 
+                    <br>
+
+                    <p class="subtitle ">
+                        <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
+
+                        <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                    </p>
+
                 </div>
-
-                <br>
-
-                <p class="subtitle ">
-                    <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                    <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
-                </p>
 
             </form>
 
@@ -394,6 +545,56 @@
     <script type="text/javascript" src="../public/NewFusionChart/js/themes/fusioncharts.theme.hulk-light.js"></script>
 
     <script>
+    $(document).ready(function() {
+        $('.se_time_g11').hide();
+        $('.se_time_g2').hide();
+
+        <?php 
+        if($se_time == 1){
+            echo "$('.se_time_g1').show();";
+            echo "$('.se_time_g11').hide();";
+            echo "$('.se_time_g2').hide();";
+            if($se_quarter == 99){
+                echo "$('.se_time_g11').show();";
+            }
+        }else if($se_time == 2){
+            echo "$('.se_time_g1').hide();";
+            echo "$('.se_time_g11').hide();";
+            echo "$('.se_time_g2').show();";
+        }else{
+            echo "$('.se_time_g1').show();";
+            echo "$('.se_time_g11').hide();";
+            echo "$('.se_time_g2').hide();";
+        }
+        ?>
+    });
+
+    $('#se_quarter').on('change', function(e) {
+
+        var se_quarter = $('#se_quarter').val();
+
+        if (se_quarter == '99') {
+            $('.se_time_g11').show();
+        } else {
+            $('.se_time_g11').hide();
+        }
+    });
+
+    $('#se_time').on('change', function(e) {
+
+        if ($('#se_time').val() == '1') {
+            $('.se_time_g1').show();
+            $('.se_time_g2').hide();
+            $('.se_time_g11').hide();
+        } else {
+            $('.se_time_g1').hide();
+            $('.se_time_g2').show();
+            $('.se_time_g11').hide();
+        }
+    });
+    </script>
+
+    <script>
     $('.input-daterange input').each(function() {
 
         $(this).datepicker('');
@@ -442,8 +643,6 @@
             $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
             $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
             $('#group_code').append('<option value="7" style="width:250px">คนพิการ</option>');
-
-
 
         } else {
             $('#sub_problem').empty();
