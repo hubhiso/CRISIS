@@ -39,19 +39,30 @@
 
 		$conn = mysqli_connect($hostname, $username, $password, $database);
 		if (mysqli_connect_errno()) 
-        { 
-            echo "Database connection failed."; 
-        }
-        // Change character set to utf8
-		mysqli_set_charset($conn,"utf8");
-        $date_start = $_POST["date_start"];
-		$date_end = $_POST["date_end"];
+    { 
+        echo "Database connection failed."; 
+	}
+	// Change character set to utf8
+	mysqli_set_charset($conn,"utf8");
 	
-		$se_time = $_POST["se_time"];
+	$date_start = $_POST["date_start"];
+	$date_end = $_POST["date_end"];
+
+    $ck_group = $_POST["group"];
+
+    if ( $ck_group <> ''){
+        $query_group = "and o.group = '".$ck_group."' ";
+    }else{
+        $query_group = " or o.name = 'adminfar' or o.name = 'adminhatc' or o.name = 'hisoDev'";
+    }
+    
+ 
+	$se_time = $_POST["se_time"];
        $se_year = $_POST["se_year"];
        $se_quarter = $_POST["se_quarter"];
        $se_month = $_POST["se_month"];
 
+       
        $year_now =  date("Y");
 
         if(date("m")>9){
@@ -146,28 +157,18 @@
 
        }
 
-        $ck_group = $_POST["group"];
+    $sql = "select * from officer_groups";
+    $result = mysqli_query($conn, $sql); 
+    $i = 0;
+    while($row1 = $result->fetch_assoc()) {
+        $i++;
+        $g_code[$i] = $row1[code];
+        $g_name[$i] = $row1[groupname];
+        $loop_group = $i;
 
-        if ( $ck_group <> ''){
-            $query_group = "and o.group = '".$ck_group."' ";
-        }else{
-            $query_group = " or o.name = 'adminfar' or o.Name = 'adminhatc'";
-        }
+    }
 
-        $sql = "select * from officer_groups";
-        $result = mysqli_query($conn, $sql); 
-        $i = 0;
-        while($row1 = $result->fetch_assoc()) {
-            $i++;
-            $g_code[$i] = $row1[code];
-            $g_name[$i] = $row1[groupname];
-            $loop_group = $i;
-
-        }
-		
-		
 	?>
-
 </head>
 
 <body class="bg-light">
@@ -183,7 +184,7 @@
 
     <div class="container-fluid p-4">
 
-    <nav aria-label="breadcrumb ">
+        <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="../public/"><span class="icon is-small">
@@ -266,7 +267,7 @@
 
 
                 <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
-                    href="report_c2_new.php">
+                    href="report_c43.php">
                     <div class=" icon-left d-flex align-items-center justify-content-center h4">
                         <i class="far fa-file-alt" aria-hidden="true"></i>
                     </div>
@@ -306,7 +307,8 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>แยกกรณีละเมิดสิทธิ</span>
                 </a>
-                <a class="btn btn-white btn-rounded border" href="report_c2_new.php">
+                
+                <a class="btn btn-white btn-rounded border " href="report_c2_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>รวมทุกกรณี</span>
                 </a>
@@ -314,11 +316,11 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>กรณี 1 บังคับตรวจเอชไอวี</span>
                 </a>
-                <a class="btn btn-white btn-rounded border " href="report_c22_new.php">
+                <a class="btn btn-white btn-rounded border" href="report_c22_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>กรณี 3 เลือกปฎิบัติในกลุ่มผู้ติดเชื้อ</span>
                 </a>
-                <a class="btn btn-primary btn-rounded" href="report_c23_new.php">
+                <a class="btn btn-white btn-rounded border" href="report_c23_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>กรณี 4 เลือกปฎิบัติในกลุ่มเปราะบาง</span>
                 </a>
@@ -342,7 +344,7 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>สัดส่วนประเภทหน่วยงาน</span>
                 </a>
-                <a class="btn btn-white btn-rounded border" href="report_c43.php">
+                <a class="btn btn-primary btn-rounded" href="report_c43.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>สัดส่วนการดำเนินการ</span>
                 </a>
@@ -354,25 +356,26 @@
 
         </div>
 
+
         <div class=" p-4">
 
-            <form name="form_menu" method="post" action="report_c23_new.php">
+            <form name="form_menu" method="post" action="report_c43.php">
 
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-auto">
                         <label class="col-form-label"><strong> กลุ่ม </strong> </label>
                     </div>
                     <div class="col-auto">
-                            <select class="form-select form-control" id="group" name="group">
-                                <option value='' >ทั้งหมด</option>
-                                <?php
+                        <select class="form-select form-control" id="group" name="group">
+                            <option value=''>ทั้งหมด</option>
+                            <?php
                                     for($i = 1; $i <= $loop_group ; $i++){
                                         if ($ck_group == $g_code[$i]) { $se_g = "selected";}
                                         echo "<option value='$g_code[$i]' $se_g > $g_name[$i] </option>";
                                         $se_g = "";
                                     }
-                                ?>  
-                            </select>
+                                ?>
+                        </select>
                     </div>
                 </div>
 
@@ -475,166 +478,397 @@
         <table id='crisisc1' width="100%"
             class=" dt-responsive nowrap table table-responsive table-bordered table-striped table-hover">
             <thead class="bgcolor1">
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">ลำดับ</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">ชื่อ</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">จังหวัด</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">เขต</th>
-                <th class="" style="vertical-align: middle; color: white;" colspan="4">
-                    กลุ่มหลากหลายทางเพศ</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">พนักงานบริการ
-                </th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">
-                    ผู้ใช้สารเสพติด</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">
-                    ประชากรข้ามชาติ</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">ผู้ถูกคุมขัง
-                </th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">
-                    กลุ่มชาติพันธุ์และชนเผ่า</th>
-                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">
-                    คนพิการ</th>
-                <th class="" style="vertical-align: middle; color: white;" rowspan="2">รวม</th>
+                <tr class="hideextra  ">
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ลำดับ</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ชื่อ</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">จังหวัด</th>
+                    <th class=" " style="vertical-align: middle; color: white;" rowspan="2">เขต</th>
+
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">1.
+                        บังคับตรวจเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">2.
+                        เปิดเผยสถานะการติดเชื้อเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">3.
+                        ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">4.
+                        ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">5.
+                        กรณีอื่นๆ ที่เกี่ยวข้องกับเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="6">6.
+                        กรณีอื่นๆ ที่ไม่เกี่ยวข้องกับเอชไอวี
+                    </th>
+
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ทั้งหมด</th>
                 </tr>
                 <tr>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                    <th class="" style="vertical-align: middle; color: white;">ชาย
-                        (ชายมีเพศสัมพันธ์กับชาย)</th>
-                    <th class="" style="vertical-align: middle; color: white;">หญิง</th>
-                    <th class="" style="vertical-align: middle; color: white;">สาวประเภทสอง</th>
-                    <th class="" style="vertical-align: middle; color: white;">อื่นๆ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
+
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
+
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
+
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
+
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สืบหาข้อเท็จจริง</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ให้คำปรึกษา </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาเป็นรายบุคคล</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        เจรจาระดับนโยบายขององค์กร</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ดำเนินคดี</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
+
                 </tr>
+
             </thead>
             <?php
+                    
 
-                        $sql1 = "SELECT o.id, o.name, o.nameorg, o.prov_id, p.name as provname, nhso
-                        FROM officers o left join prov_geo p
-                        on p.code = o.prov_id 
-                        where
-                        position = 'officer' $query_group
-                        order by prov_id";
-                        $result1 = mysqli_query($conn, $sql1); 
-                        $row1 = mysqli_num_rows($result1); 
-                        $i = '0';
-                        while($row1 = $result1->fetch_assoc()) {
+					$sql1 = "SELECT o.id, o.name, o.nameorg, o.prov_id, p.name as provname, nhso
+					FROM officers o left join prov_geo p
+					on p.code = o.prov_id 
+					where
+					position = 'officer' $query_group
+					order by prov_id";
 
-                            $sql2 = "SELECT receiver,
-                            sum(CASE WHEN problem_case = '4' and group_code = '1'  and sex = '1' THEN 1 ELSE 0 END) as case4_1_1,
-                            sum(CASE WHEN problem_case = '4' and group_code = '1'  and sex = '2' THEN 1 ELSE 0 END) as case4_1_2,
-                            sum(CASE WHEN problem_case = '4' and group_code = '1'  and sex = '3' THEN 1 ELSE 0 END) as case4_1_3,
-                            sum(CASE WHEN problem_case = '4' and group_code = '1'  and sex = '4' THEN 1 ELSE 0 END) as case4_1_4,
-                            sum(CASE WHEN problem_case = '4' and group_code = '2' THEN 1 ELSE 0 END) as case4_2,
-                            sum(CASE WHEN problem_case = '4' and group_code = '3' THEN 1 ELSE 0 END) as case4_3,
-                            sum(CASE WHEN problem_case = '4' and group_code = '4' THEN 1 ELSE 0 END) as case4_4,
-                            sum(CASE WHEN problem_case = '4' and group_code = '5' THEN 1 ELSE 0 END) as case4_5,
-                            sum(CASE WHEN problem_case = '4' and group_code = '6' THEN 1 ELSE 0 END) as case4_6,
-                            sum(CASE WHEN problem_case = '4' and group_code = '7' THEN 1 ELSE 0 END) as case4_7,
-                            sum(CASE WHEN problem_case = '4' THEN 1 ELSE 0 END) as sum
-                            FROM case_inputs
-                            where receiver='".$row1['name']."'
-                            and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
-                            group by receiver";
+					$result1 = mysqli_query($conn, $sql1); 
+					$row1 = mysqli_num_rows($result1); 
+					$i = '0';
+                    
+					while($row1 = $result1->fetch_assoc()) {
 
 
+						$sql2 = "SELECT receiver,
+                        sum( CASE WHEN problem_case = '1'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case1_1,
+                        sum( CASE WHEN problem_case = '1'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case1_2,
+                        sum( CASE WHEN problem_case = '1'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case1_3,
+                        sum( CASE WHEN problem_case = '1'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case1_4,
+                        sum( CASE WHEN problem_case = '1'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case1_5,
+                        sum( CASE WHEN problem_case = '2'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case2_1,
+                        sum( CASE WHEN problem_case = '2'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case2_2,
+                        sum( CASE WHEN problem_case = '2'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case2_3,
+                        sum( CASE WHEN problem_case = '2'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case2_4,
+                        sum( CASE WHEN problem_case = '2'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case2_5,
+                        sum( CASE WHEN problem_case = '3'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case3_1,
+                        sum( CASE WHEN problem_case = '3'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case3_2,
+                        sum( CASE WHEN problem_case = '3'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case3_3,
+                        sum( CASE WHEN problem_case = '3'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case3_4,
+                        sum( CASE WHEN problem_case = '3'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case3_5,
+                        sum( CASE WHEN problem_case = '4'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case4_1,
+                        sum( CASE WHEN problem_case = '4'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case4_2,
+                        sum( CASE WHEN problem_case = '4'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case4_3,
+                        sum( CASE WHEN problem_case = '4'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case4_4,
+                        sum( CASE WHEN problem_case = '4'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case4_5,
+                        sum( CASE WHEN problem_case = '5'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case5_1,
+                        sum( CASE WHEN problem_case = '5'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case5_2,
+                        sum( CASE WHEN problem_case = '5'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case5_3,
+                        sum( CASE WHEN problem_case = '5'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case5_4,
+                        sum( CASE WHEN problem_case = '5'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case5_5,
+                        sum( CASE WHEN problem_case = '6'  AND o.investigate = '1' THEN 1 ELSE 0 END ) AS case6_1,
+                        sum( CASE WHEN problem_case = '6'  AND o.advice = '1' THEN 1 ELSE 0 END ) AS case6_2,
+                        sum( CASE WHEN problem_case = '6'  AND o.negotiate_individual = '1' THEN 1 ELSE 0 END ) AS case6_3,
+                        sum( CASE WHEN problem_case = '6'  AND o.negotiate_policy = '1' THEN 1 ELSE 0 END ) AS case6_4,
+                        sum( CASE WHEN problem_case = '6'  AND o.prosecution = '1' THEN 1 ELSE 0 END ) AS case6_5
+                        
+						FROM case_inputs c
+                        LEFT JOIN operate_details o ON c.case_id = o.case_id 
+						where receiver='".$row1['name']."'
+						and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+						group by receiver";
 
-                            //echo $sql2,'<br>';
+                        //echo $sql2."<br><BR><BR>";
 
-                            $result2 = mysqli_query($conn, $sql2); 
-                            $row2 = mysqli_num_rows($result2); 
-                            $i++;
-                            if ($result2->num_rows > 0) {
-                                
-                                // output data of each row
-                                while($row2 = $result2->fetch_assoc()) {
+						$result2 = mysqli_query($conn, $sql2); 
+						$row2 = mysqli_num_rows($result2); 
+						$i++;
+						if ($result2->num_rows > 0) {
+							
+							// output data of each row
+							while($row2 = $result2->fetch_assoc()) {
 
-                                    $c_s411 = $c_s411 + $row2["case4_1_1"];
-                                    $c_s412 = $c_s412 + $row2["case4_1_2"];
-                                    $c_s413 = $c_s413 + $row2["case4_1_3"];
-                                    $c_s414 = $c_s414 + $row2["case4_1_4"];
-                                    $c_s42 = $c_s42 + $row2["case4_2"];
-                                    $c_s43 = $c_s43 + $row2["case4_3"];
-                                    $c_s44 = $c_s44 + $row2["case4_4"];
-                                    $c_s45 = $c_s45 + $row2["case4_5"];
-                                    $c_s46 = $c_s46 + $row2["case4_6"];
-                                    $c_s47 = $c_s47 + $row2["case4_7"];
-                                    $c_as = $c_as + $row2["sum"];
-                                    
-                                    //echo $row['receiver'];
-                                    $sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
-                                    FROM officers left join prov_geo 
-                                    on officers.prov_id = prov_geo.code
-                                    WHERE officers.name = '".$row2['receiver']."'";
-                                    //echo $sql2;
-                                    $result3 = mysqli_query($conn, $sql3); 
+                                $c_s1_1 = $c_s1_1 + $row2["case1_1"];
+                                $c_s1_2 = $c_s1_2 + $row2["case1_2"];
+                                $c_s1_3 = $c_s1_3 + $row2["case1_3"];
+                                $c_s1_4 = $c_s1_4 + $row2["case1_4"];
+                                $c_s1_5 = $c_s1_5 + $row2["case1_5"];
+                                $c_s1 = $c_s1 + $c_s1_1 + $c_s1_2 + $c_s1_3 + $c_s1_4 + $c_s1_5;
 
-                                    $row3 = mysqli_num_rows($result3);
-                                    $row3 = $result3->fetch_assoc();
+                                $c_s2_1 = $c_s2_1 + $row2["case2_1"];
+                                $c_s2_2 = $c_s2_2 + $row2["case2_2"];
+                                $c_s2_3 = $c_s2_3 + $row2["case2_3"];
+                                $c_s2_4 = $c_s2_4 + $row2["case2_4"];
+                                $c_s2_5 = $c_s2_5 + $row2["case2_5"];
+                                $c_s2 = $c_s2 + $c_s2_1 + $c_s2_2 + $c_s2_3 + $c_s2_4 + $c_s2_5;
 
-                                    //echo $row2["prov_id"];
-                                    
-                                    echo "<tr>";
-                                    echo "<th>".$i."</th>";
-                                                        echo "<td>".$row1["nameorg"]."</td>";
-                                                        echo "<td>".$row3["provname"]."</td>";
-                                                        echo "<td>".$row3["nhso"]."</td>";
-                                                        echo "<td>".$row2["case4_1_1"]."</td>";
-                                                        echo "<td>".$row2["case4_1_2"]."</td>";
-                                                        echo "<td>".$row2["case4_1_3"]."</td>";
-                                                        echo "<td>".$row2["case4_1_4"]."</td>";
-                                                        echo "<td>".$row2["case4_2"]."</td>";
-                                                        echo "<td>".$row2["case4_3"]."</td>";
-                                                        echo "<td>".$row2["case4_4"]."</td>";
-                                                        echo "<td>".$row2["case4_5"]."</td>";
-                                                        echo "<td>".$row2["case4_6"]."</td>";
-                                                        echo "<td>".$row2["case4_7"]."</td>";
-                                                        echo "<td>".$row2["sum"]."</td>";
-                                    echo "</tr>";
-                                                            
-                                }
-                            } else {
-                                echo "<tr>";
-                                    echo "<th>".$i."</th>";
-                                    echo "<td>".$row1["nameorg"]."</td>";
-                                    echo "<td>".$row1["provname"]."</td>";
-                                    echo "<td>".$row1["nhso"]."</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "<td>0</td>";
-                                    echo "</tr>";
-                            }
+                                $c_s3 = $c_s3 + $row2["case3"];
+                                $c_s3_1 = $c_s3_1 + $row2["case3_1"];
+                                $c_s3_2 = $c_s3_2 + $row2["case3_2"];
+                                $c_s3_3 = $c_s3_3 + $row2["case3_3"];
+                                $c_s3_4 = $c_s3_4 + $row2["case3_4"];
+                                $c_s3_5 = $c_s3_5 + $row2["case3_5"];
+                                $c_s3 = $c_s3 + $c_s3_1 + $c_s3_2 + $c_s3_3 + $c_s3_4 + $c_s3_5;
 
-                        }
-                                echo "<tr>";
-                                    echo "<th colspan='4' style='vertical-align: center; color: white; background: #de0867;' >รวม</th>";
-                                    echo "<td style='display: none;'></td>";
-                                    echo "<td style='display: none;'></td>";
-                                    echo "<td style='display: none;'></td>";
-                                    echo "<td>".$c_s411."</td>";
-                                    echo "<td>".$c_s412."</td>";
-                                    echo "<td>".$c_s413."</td>";
-                                    echo "<td>".$c_s414."</td>";
-                                    echo "<td>".$c_s42."</td>";
-                                    echo "<td>".$c_s43."</td>";
-                                    echo "<td>".$c_s44."</td>";
-                                    echo "<td>".$c_s45."</td>";
-                                    echo "<td>".$c_s46."</td>";
-                                    echo "<td>".$c_s47."</td>";
-                                    echo "<td>".$c_as."</td>";
-							    echo "</tr>";
-                                echo "</tbody>";
-                                echo "</table>";
+                                $c_s4_1 = $c_s4_1 + $row2["case4_1"];
+                                $c_s4_2 = $c_s4_2 + $row2["case4_2"];
+                                $c_s4_3 = $c_s4_3 + $row2["case4_3"];
+                                $c_s4_4 = $c_s4_4 + $row2["case4_4"];
+                                $c_s4_5 = $c_s4_5 + $row2["case4_5"];
+                                $c_s4 = $c_s4 + $c_s4_1 + $c_s4_2 + $c_s4_3 + $c_s4_4 + $c_s4_5;
 
-                            $conn->close();
+                                $c_s5_1 = $c_s5_1 + $row2["case5_1"];
+                                $c_s5_2 = $c_s5_2 + $row2["case5_2"];
+                                $c_s5_3 = $c_s5_3 + $row2["case5_3"];
+                                $c_s5_4 = $c_s5_4 + $row2["case5_4"];
+                                $c_s5_5 = $c_s5_5 + $row2["case5_5"];
+                                $c_s5 = $c_s5 + $c_s5_1 + $c_s5_2 + $c_s5_3 + $c_s5_4 + $c_s5_5;
+
+                                $c_s6_1 = $c_s6_1 + $row2["case6_1"];
+                                $c_s6_2 = $c_s6_2 + $row2["case6_2"];
+                                $c_s6_3 = $c_s6_3 + $row2["case6_3"];
+                                $c_s6_4 = $c_s6_4 + $row2["case6_4"];
+                                $c_s6_5 = $c_s6_5 + $row2["case6_5"];
+                                $c_s6 = $c_s6 + $c_s6_1 + $c_s6_2 + $c_s6_3 + $c_s6_4 + $c_s6_5;
+                                $c_as = $c_as + $c_s1 + $c_s2 +$c_s3+ $c_s4+ $c_s5+$c_s6;
+								
+								//echo $row['receiver'];
+								$sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
+								FROM officers left join prov_geo 
+								on officers.prov_id = prov_geo.code
+								WHERE officers.name = '".$row2['receiver']."'";
+								//echo $sql2;
+								$result3 = mysqli_query($conn, $sql3); 
+
+								$row3 = mysqli_num_rows($result3);
+								$row3 = $result3->fetch_assoc();
+
+								//echo $row2["prov_id"];
+								
+								echo "<tr>";
+								echo "<th >".$i."</th>";
+                                echo "<td>".$row1["nameorg"]."</td>";
+                                echo "<td>".$row3["provname"]."</td>";
+                                echo "<td>".$row3["nhso"]."</td>";
+                                echo "<td>".$c_s1_1."</td>";
+                                echo "<td>".$c_s1_2."</td>";
+                                echo "<td>".$c_s1_3."</td>";
+                                echo "<td>".$c_s1_4."</td>";
+                                echo "<td>".$c_s1_5."</td>";
+                                echo "<td>".$c_s1."</td>";
+
+                                echo "<td>".$c_s2_1."</td>";
+                                echo "<td>".$c_s2_2."</td>";
+                                echo "<td>".$c_s2_3."</td>";
+                                echo "<td>".$c_s2_4."</td>";
+                                echo "<td>".$c_s2_5."</td>";
+                                echo "<td>".$c_s2."</td>";
+
+                                echo "<td>".$c_s3_1."</td>";
+                                echo "<td>".$c_s3_2."</td>";
+                                echo "<td>".$c_s3_3."</td>";
+                                echo "<td>".$c_s3_4."</td>";
+                                echo "<td>".$c_s3_5."</td>";
+                                echo "<td>".$c_s3."</td>";
+
+                                echo "<td>".$c_s4_1."</td>";
+                                echo "<td>".$c_s4_2."</td>";
+                                echo "<td>".$c_s4_3."</td>";
+                                echo "<td>".$c_s4_4."</td>";
+                                echo "<td>".$c_s4_5."</td>";
+                                echo "<td>".$c_s4."</td>";
+
+                                echo "<td>".$c_s5_1."</td>";
+                                echo "<td>".$c_s5_2."</td>";
+                                echo "<td>".$c_s5_3."</td>";
+                                echo "<td>".$c_s5_4."</td>";
+                                echo "<td>".$c_s5_5."</td>";
+                                echo "<td>".$c_s5."</td>";
+
+                                echo "<td>".$c_s6_1."</td>";
+                                echo "<td>".$c_s6_2."</td>";
+                                echo "<td>".$c_s6_3."</td>";
+                                echo "<td>".$c_s6_4."</td>";
+                                echo "<td>".$c_s6_5."</td>";
+                                echo "<td>".$c_s6."</td>";
+
+                                echo "<td>".$c_as."</td>";
+								echo "</tr>";
+														
+							}
+						} else {
+							echo "<tr>";
+								echo "<th >".$i."</th>";
+								echo "<td>".$row1["nameorg"]."</td>";
+								echo "<td>".$row1["provname"]."</td>";
+								echo "<td>".$row1["nhso"]."</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "</tr>";
+						}
+					}
+
+							echo "<tr>";
+							echo "<td colspan='4' style='vertical-align: center; color: white; background: #de0867' >รวม</td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td>".$c_s1_1."</td>";
+							echo "<td>".$c_s1_2."</td>";
+							echo "<td>".$c_s1_3."</td>";
+							echo "<td>".$c_s1_4."</td>";
+                            echo "<td>".$c_s1_5."</td>";
+                            echo "<td>".$c_s1."</td>";
+
+                            echo "<td>".$c_s2_1."</td>";
+							echo "<td>".$c_s2_2."</td>";
+							echo "<td>".$c_s2_3."</td>";
+							echo "<td>".$c_s2_4."</td>";
+                            echo "<td>".$c_s2_5."</td>";
+                            echo "<td>".$c_s2."</td>";
+
+                            echo "<td>".$c_s3_1."</td>";
+							echo "<td>".$c_s3_2."</td>";
+							echo "<td>".$c_s3_3."</td>";
+							echo "<td>".$c_s3_4."</td>";
+                            echo "<td>".$c_s3_5."</td>";
+                            echo "<td>".$c_s3."</td>";
+
+                            echo "<td>".$c_s4_1."</td>";
+							echo "<td>".$c_s4_2."</td>";
+							echo "<td>".$c_s4_3."</td>";
+							echo "<td>".$c_s4_4."</td>";
+                            echo "<td>".$c_s4_5."</td>";
+                            echo "<td>".$c_s4."</td>";
+
+                            echo "<td>".$c_s5_1."</td>";
+							echo "<td>".$c_s5_2."</td>";
+							echo "<td>".$c_s5_3."</td>";
+							echo "<td>".$c_s5_4."</td>";
+                            echo "<td>".$c_s5_5."</td>";
+                            echo "<td>".$c_s5."</td>";
+
+                            echo "<td>".$c_s6_1."</td>";
+							echo "<td>".$c_s6_2."</td>";
+							echo "<td>".$c_s6_3."</td>";
+							echo "<td>".$c_s6_4."</td>";
+                            echo "<td>".$c_s6_5."</td>";
+                            echo "<td>".$c_s6."</td>";
+
+                            echo "<td>".$c_as."</td>";
+							echo "</tr>";
+							echo "</tbody>";
+							echo "</table>";
+
+						$conn->close();
 
 
-                        ?>
+					?>
     </div>
 
     <!-- Footer -->
@@ -658,7 +892,7 @@
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
     </script>
 
-<script>
+    <script>
     $(document).ready(function() {
         $('.se_time_g11').hide();
         $('.se_time_g2').hide();

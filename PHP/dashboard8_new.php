@@ -214,6 +214,10 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>แผนที่</span>
                 </a>
+                <a class="btn btn-white btn-rounded border  " href="report_c44.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>แยกกรณีละเมิดสิทธิ</span>
+                </a>
                 <a class="btn btn-white btn-rounded border" href="report_c2_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>รวมทุกกรณี</span>
@@ -241,6 +245,22 @@
                 <a class="btn btn-white btn-rounded border" href="dashboard9_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>สัดส่วนกลุ่มเปราะบางเทียบประชากรข้ามชาติ</span>
+                </a>
+                <a class="btn btn-white btn-rounded border" href="report_c41.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>สัดส่วนการละเมิดสิทธิ</span>
+                </a>
+                <a class="btn btn-white btn-rounded border" href="report_c4.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>สัดส่วนประเภทหน่วยงาน</span>
+                </a>
+                <a class="btn btn-white btn-rounded border" href="report_c43.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>สัดส่วนการดำเนินการ</span>
+                </a>
+                <a class="btn btn-white btn-rounded border" href="report_c42.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>สัดส่วนผลการดำเนินการ</span>
                 </a>
             </div>
 

@@ -18,16 +18,18 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
 
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.css" />
+
+
     <link media="all" type="text/css" rel="stylesheet"
         href="../public/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.css" />
-
     <link href="report.css" rel="stylesheet">
+
 
     <title> ปกป้อง (CRS) </title>
 
@@ -45,12 +47,22 @@
 	
 	$date_start = $_POST["date_start"];
 	$date_end = $_POST["date_end"];
+
+    $ck_group = $_POST["group"];
+
+    if ( $ck_group <> ''){
+        $query_group = "and o.group = '".$ck_group."' ";
+    }else{
+        $query_group = " or o.name = 'adminfar' or o.name = 'adminhatc' or o.name = 'hisoDev'";
+    }
+    
  
 	$se_time = $_POST["se_time"];
        $se_year = $_POST["se_year"];
        $se_quarter = $_POST["se_quarter"];
        $se_month = $_POST["se_month"];
 
+       
        $year_now =  date("Y");
 
         if(date("m")>9){
@@ -58,10 +70,11 @@
         }
 
         if($years == ''){$years = $year_now;}
-       
-       if($se_year == ''){
-           $se_year = $year_now;
-       }
+
+        
+        if($se_year == ''){
+            $se_year = $year_now;
+        }
 
        if($se_time == ''){
            $se_time = 1;
@@ -144,46 +157,18 @@
 
        }
 
-	$p_case = $_POST["pcase"];
-	   if($p_case > '0'){
-		$sub_q = ' sum(CASE WHEN problem_case = '.$p_case.' THEN 1 ELSE 0 END) as ccase ';
-	   }else{
-		$sub_q = ' count(problem_case) as ccase';
-	   }
+    $sql = "select * from officer_groups";
+    $result = mysqli_query($conn, $sql); 
+    $i = 0;
+    while($row1 = $result->fetch_assoc()) {
+        $i++;
+        $g_code[$i] = $row1[code];
+        $g_name[$i] = $row1[groupname];
+        $loop_group = $i;
 
-	$sql = "SELECT prov_id, prov_geo.prov_name_en, prov_geo.name,
-	$sub_q
-	FROM case_inputs, prov_geo
-	where prov_geo.code = case_inputs.prov_id
-	and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
-	group by prov_id order by ccase desc";
+    }
 
-	$result = mysqli_query($conn, $sql); 
-	$row = mysqli_num_rows($result); 
-	$i = '0';
-	$i++;
-	$i_loop = 0;
-	$v_max = 0;
-	while($row = $result->fetch_assoc()) {
-		
-		$prov_id[$i] = $row["prov_id"];
-		$prov_code[$i] = $row["prov_name_en"];
-
-        $prov_name[$i] = $row["name"];
-
-		$case[$i] = $row["ccase"];
-		
-		if($v_max < $case[$i]){
-			$v_max = $case[$i];
-		}
-
-		$i_loop++;
-		$i++;
-	}
-
-    $list = array("10","11","12","20","21","34","56","73","74","80");
-    ?>
-
+	?>
 </head>
 
 <body class="bg-light">
@@ -199,7 +184,7 @@
 
     <div class="container-fluid p-4">
 
-    <nav aria-label="breadcrumb ">
+        <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="../public/"><span class="icon is-small">
@@ -282,7 +267,7 @@
 
 
                 <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
-                    href="report_c2_new.php">
+                    href="report_c42.php">
                     <div class=" icon-left d-flex align-items-center justify-content-center h4">
                         <i class="far fa-file-alt" aria-hidden="true"></i>
                     </div>
@@ -314,7 +299,7 @@
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
-                <a class="btn btn-primary btn-rounded  "  href="mapreport1.php">
+            <a class="btn btn-white btn-rounded border " href="mapreport1.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>แผนที่</span>
                 </a>
@@ -322,6 +307,7 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>แยกกรณีละเมิดสิทธิ</span>
                 </a>
+                
                 <a class="btn btn-white btn-rounded border " href="report_c2_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>รวมทุกกรณี</span>
@@ -362,7 +348,7 @@
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>สัดส่วนการดำเนินการ</span>
                 </a>
-                <a class="btn btn-white btn-rounded border" href="report_c42.php">
+                <a class="btn btn-primary btn-rounded" href="report_c42.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>สัดส่วนผลการดำเนินการ</span>
                 </a>
@@ -371,30 +357,24 @@
         </div>
 
 
-        <div class=" p-3">
+        <div class=" p-4">
 
-            <form name="form_menu" method="post" action="mapreport1.php">
+            <form name="form_menu" method="post" action="report_c42.php">
 
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-auto">
-                        <label class="col-form-label"><strong> กรณีที่ถูกละเมิด </strong> </label>
+                        <label class="col-form-label"><strong> กลุ่ม </strong> </label>
                     </div>
                     <div class="col-auto">
-                        <select id="p_case" name="pcase" class="form-select">
-                            <option value="0" <?php if ($p_case == "0") { echo "selected";} ?>> ทุกกรณี
-                            </option>
-                            <option value="1" <?php if ($p_case == "1") { echo "selected";} ?>>
-                                บังคับตรวจเอชไอวี </option>
-                            <option value="2" <?php if ($p_case == "2") { echo "selected";} ?>>
-                                เปิดเผยสถานะ<br>การติดเชื้อเอชไอวี </option>
-                            <option value="3" <?php if ($p_case == "3") { echo "selected";} ?>>
-                                ถูกกีดกันหรือถูกเลือกปฏิบัติ<br>เนื่องมาจากกการติดเชื้อเอชไอวี </option>
-                            <option value="4" <?php if ($p_case == "4") { echo "selected";} ?>>
-                                ถูกกีดกันหรือถูกเลือกปฏิบัติ<br>เนื่องมาจากเป็นกลุ่มเปราะบาง </option>
-                            <option value="5" <?php if ($p_case == "5") { echo "selected";} ?>>
-                                กรณีอื่น ๆ ที่เกี่ยวข้องกับเอชไอวี </option>
-                            <option value="6" <?php if ($p_case == "6") { echo "selected";} ?>>
-                                กรณีอื่น ๆ </option>
+                        <select class="form-select form-control" id="group" name="group">
+                            <option value=''>ทั้งหมด</option>
+                            <?php
+                                    for($i = 1; $i <= $loop_group ; $i++){
+                                        if ($ck_group == $g_code[$i]) { $se_g = "selected";}
+                                        echo "<option value='$g_code[$i]' $se_g > $g_name[$i] </option>";
+                                        $se_g = "";
+                                    }
+                                ?>
                         </select>
                     </div>
                 </div>
@@ -416,7 +396,7 @@
                     </div>
                     <div class="col-auto se_time_g1">
                         <select class="form-select form-control" id="se_year" name="se_year">
-                        <?php
+                            <?php
                                 for($y = 2019; $y <= $year_now; $y++){
                                     if ($se_year == $y) { $se =  "selected";}
                                     echo "<option value='$y' $se> ".($y+543)." </option>";
@@ -427,13 +407,16 @@
                     </div>
                     <div class="col-auto se_time_g1">
                         <select class="form-select form-control" id="se_quarter" name="se_quarter">
-                            <option value='0'  <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ </option>
+                            <option value='0' <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ
+                            </option>
                             <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
                             <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
                             <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
                             <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
-                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2 </option>
-                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3 </option>
+                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2
+                            </option>
+                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3
+                            </option>
                             <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
                         </select>
                     </div>
@@ -492,61 +475,363 @@
 
         </div>
 
-        <div class="text-end p-2">
-            <label class="textcolor1">* พื้นที่ต้นแบบ 10 จังหวัด, พื้นที่อื่นๆ <?php echo $i_loop-10 ?> จังหวัด</label>
-        </div>
+        <table id='crisisc1' width="100%"
+            class=" dt-responsive nowrap table table-responsive table-bordered table-striped table-hover">
+            <thead class="bgcolor1">
+                <tr class="hideextra  ">
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ลำดับ</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ชื่อ</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">จังหวัด</th>
+                    <th class=" " style="vertical-align: middle; color: white;" rowspan="2">เขต</th>
 
-        <div class="row ">
-            <div class="col ">
-                <div class="bg-white chart-rounded p-3">
-                    <a id="chart-container" class="">FusionCharts will render here</a>
-                </div>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">1.
+                        บังคับตรวจเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">2.
+                        เปิดเผยสถานะการติดเชื้อเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">3.
+                        ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">4.
+                        ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">5.
+                        กรณีอื่นๆ ที่เกี่ยวข้องกับเอชไอวี
+                    </th>
+                    <th class=" text-center" style="vertical-align: middle; color: white;" colspan="5">6.
+                        กรณีอื่นๆ ที่ไม่เกี่ยวข้องกับเอชไอวี
+                    </th>
 
-            </div>
-            <div class="col ">
-                <div class="bg-white chart-rounded p-3">
+                    <th class="" style="vertical-align: middle; color: white;" rowspan="2">ทั้งหมด</th>
+                </tr>
+                <tr>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                    <table id="table1" width="100%"
-                        class=" dt-responsive nowrap table table-responsive table-bordered table-hover">
-                        <thead>
-                            <th class="bgcolor1"> ลำดับ </th>
-                            <th> จังหวัด </th>
-                            <th> จำนวนเรื่อง </th>
-                        </thead>
-                        <tbody>
-                            <?php
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                                for($j=1;$j<=$i_loop; $j++){
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                                    echo '<tr >';
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                                    $ck=0;
-                                    for($i = 0; $i <= 9; $i++){
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                                        if($prov_id[$j] == $list[$i]){
-                                            echo "<td style='background : #fba3e0;'>".$j."</td>";
-                                            echo "<td style='background : #fba3e0;'>".$prov_name[$j]."</td>";
-                                            echo "<td style='background : #fba3e0;'>".$case[$j]."</td>";
-                                            $ck=1;
-                                        }
-                                    }
-                                    if($ck==0){
-                                        echo "<td>".$j."</td>";
-                                        echo "<td>".$prov_name[$j]."</td>";
-                                        echo "<td>".$case[$j]."</td>";
-                                    }
-                                    echo "</tr>";
-                                }
-                            ?>
-                        </tbody>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        สำเร็จ</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ไม่สำเร็จ </th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ตาย</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        ย้ายที่อยู่</th>
+                    <th class="" style="vertical-align: middle; color: white;">
+                        รวม</th>
 
-                    </table>
+                </tr>
 
-                </div>
-            </div>
-        </div>
+            </thead>
+            <?php
+                    
+
+					$sql1 = "SELECT o.id, o.name, o.nameorg, o.prov_id, p.name as provname, nhso
+					FROM officers o left join prov_geo p
+					on p.code = o.prov_id 
+					where
+					position = 'officer' $query_group
+					order by prov_id";
+
+					$result1 = mysqli_query($conn, $sql1); 
+					$row1 = mysqli_num_rows($result1); 
+					$i = '0';
+                    
+					while($row1 = $result1->fetch_assoc()) {
 
 
+						$sql2 = "SELECT receiver,
+						sum( CASE WHEN problem_case = '1' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case1,
+                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case1_1,
+                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case1_2,
+                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case1_3,
+                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case1_4,
+                        sum( CASE WHEN problem_case = '2' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case2,
+                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case2_1,
+                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case2_2,
+                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case2_3,
+                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case2_4,
+                        sum( CASE WHEN problem_case = '3' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case3,
+                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case3_1,
+                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case3_2,
+                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case3_3,
+                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case3_4,
+                        sum( CASE WHEN problem_case = '4' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case4,
+                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case4_1,
+                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case4_2,
+                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case4_3,
+                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case4_4,
+                        sum( CASE WHEN problem_case = '5' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case5,
+                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case5_1,
+                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case5_2,
+                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case5_3,
+                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case5_4,
+                        sum( CASE WHEN problem_case = '6' AND operate_result_status != ''THEN 1 ELSE 0 END ) AS case6,
+                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case6_1,
+                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case6_2,
+                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case6_3,
+                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case6_4
+                        
+						FROM case_inputs c
+                        left join add_details a on c.case_id = a.case_id
+						where receiver='".$row1['name']."'
+						and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+						group by receiver";
+
+                        //echo $sql2."<br><BR><BR>";
+
+						$result2 = mysqli_query($conn, $sql2); 
+						$row2 = mysqli_num_rows($result2); 
+						$i++;
+						if ($result2->num_rows > 0) {
+							
+							// output data of each row
+							while($row2 = $result2->fetch_assoc()) {
+
+								$c_s1 = $c_s1 + $row2["case1"];
+                                $c_s1_1 = $c_s1_1 + $row2["case1_1"];
+                                $c_s1_2 = $c_s1_2 + $row2["case1_2"];
+                                $c_s1_3 = $c_s1_3 + $row2["case1_3"];
+                                $c_s1_4 = $c_s1_4 + $row2["case1_4"];
+
+                                $c_s2 = $c_s2 + $row2["case2"];
+                                $c_s2_1 = $c_s2_1 + $row2["case2_1"];
+                                $c_s2_2 = $c_s2_2 + $row2["case2_2"];
+                                $c_s2_3 = $c_s2_3 + $row2["case2_3"];
+                                $c_s2_4 = $c_s2_4 + $row2["case2_4"];
+
+                                $c_s3 = $c_s3 + $row2["case3"];
+                                $c_s3_1 = $c_s3_1 + $row2["case3_1"];
+                                $c_s3_2 = $c_s3_2 + $row2["case3_2"];
+                                $c_s3_3 = $c_s3_3 + $row2["case3_3"];
+                                $c_s3_4 = $c_s3_4 + $row2["case3_4"];
+
+                                $c_s4 = $c_s4 + $row2["case4"];
+                                $c_s4_1 = $c_s4_1 + $row2["case4_1"];
+                                $c_s4_2 = $c_s4_2 + $row2["case4_2"];
+                                $c_s4_3 = $c_s4_3 + $row2["case4_3"];
+                                $c_s4_4 = $c_s4_4 + $row2["case4_4"];
+
+                                $c_s5 = $c_s5 + $row2["case5"];
+                                $c_s5_1 = $c_s5_1 + $row2["case5_1"];
+                                $c_s5_2 = $c_s5_2 + $row2["case5_2"];
+                                $c_s5_3 = $c_s5_3 + $row2["case5_3"];
+                                $c_s5_4 = $c_s5_4 + $row2["case5_4"];
+
+                                $c_s6 = $c_s6 + $row2["case6"];
+                                $c_s6_1 = $c_s6_1 + $row2["case6_1"];
+                                $c_s6_2 = $c_s6_2 + $row2["case6_2"];
+                                $c_s6_3 = $c_s6_3 + $row2["case6_3"];
+                                $c_s6_4 = $c_s6_4 + $row2["case6_4"];
+                                $c_as = $c_as + $c_s1 + $c_s2 +$c_s3+ $c_s4+ $c_s5+$c_s6;
+								
+								//echo $row['receiver'];
+								$sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
+								FROM officers left join prov_geo 
+								on officers.prov_id = prov_geo.code
+								WHERE officers.name = '".$row2['receiver']."'";
+								//echo $sql2;
+								$result3 = mysqli_query($conn, $sql3); 
+
+								$row3 = mysqli_num_rows($result3);
+								$row3 = $result3->fetch_assoc();
+
+								//echo $row2["prov_id"];
+								
+								echo "<tr>";
+								echo "<th >".$i."</th>";
+                                echo "<td>".$row1["nameorg"]."</td>";
+                                echo "<td>".$row3["provname"]."</td>";
+                                echo "<td>".$row3["nhso"]."</td>";
+                                echo "<td>".$c_s1_1."</td>";
+                                echo "<td>".$c_s1_2."</td>";
+                                echo "<td>".$c_s1_3."</td>";
+                                echo "<td>".$c_s1_4."</td>";
+                                echo "<td>".$c_s1."</td>";
+
+                                echo "<td>".$c_s2_1."</td>";
+                                echo "<td>".$c_s2_2."</td>";
+                                echo "<td>".$c_s2_3."</td>";
+                                echo "<td>".$c_s2_4."</td>";
+                                echo "<td>".$c_s2."</td>";
+
+                                echo "<td>".$c_s3_1."</td>";
+                                echo "<td>".$c_s3_2."</td>";
+                                echo "<td>".$c_s3_3."</td>";
+                                echo "<td>".$c_s3_4."</td>";
+                                echo "<td>".$c_s3."</td>";
+
+                                echo "<td>".$c_s4_1."</td>";
+                                echo "<td>".$c_s4_2."</td>";
+                                echo "<td>".$c_s4_3."</td>";
+                                echo "<td>".$c_s4_4."</td>";
+                                echo "<td>".$c_s4."</td>";
+
+                                echo "<td>".$c_s5_1."</td>";
+                                echo "<td>".$c_s5_2."</td>";
+                                echo "<td>".$c_s5_3."</td>";
+                                echo "<td>".$c_s5_4."</td>";
+                                echo "<td>".$c_s5."</td>";
+
+                                echo "<td>".$c_s6_1."</td>";
+                                echo "<td>".$c_s6_2."</td>";
+                                echo "<td>".$c_s6_3."</td>";
+                                echo "<td>".$c_s6_4."</td>";
+                                echo "<td>".$c_s6."</td>";
+
+                                echo "<td>".$c_as."</td>";
+								echo "</tr>";
+														
+							}
+						} else {
+							echo "<tr>";
+								echo "<th >".$i."</th>";
+								echo "<td>".$row1["nameorg"]."</td>";
+								echo "<td>".$row1["provname"]."</td>";
+								echo "<td>".$row1["nhso"]."</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+								echo "<td>0</td>";
+                                echo "<td>0</td>";
+
+                                echo "<td>0</td>";
+								echo "</tr>";
+						}
+					}
+
+							echo "<tr>";
+							echo "<td colspan='4' style='vertical-align: center; color: white; background: #de0867' >รวม</td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td style='display: none;'></td>";
+							echo "<td>".$c_s1_1."</td>";
+							echo "<td>".$c_s1_2."</td>";
+							echo "<td>".$c_s1_3."</td>";
+							echo "<td>".$c_s1_4."</td>";
+                            echo "<td>".$c_s1."</td>";
+
+                            echo "<td>".$c_s2_1."</td>";
+							echo "<td>".$c_s2_2."</td>";
+							echo "<td>".$c_s2_3."</td>";
+							echo "<td>".$c_s2_4."</td>";
+                            echo "<td>".$c_s2."</td>";
+
+                            echo "<td>".$c_s3_1."</td>";
+							echo "<td>".$c_s3_2."</td>";
+							echo "<td>".$c_s3_3."</td>";
+							echo "<td>".$c_s3_4."</td>";
+                            echo "<td>".$c_s3."</td>";
+
+                            echo "<td>".$c_s4_1."</td>";
+							echo "<td>".$c_s4_2."</td>";
+							echo "<td>".$c_s4_3."</td>";
+							echo "<td>".$c_s4_4."</td>";
+                            echo "<td>".$c_s4."</td>";
+
+                            echo "<td>".$c_s5_1."</td>";
+							echo "<td>".$c_s5_2."</td>";
+							echo "<td>".$c_s5_3."</td>";
+							echo "<td>".$c_s5_4."</td>";
+                            echo "<td>".$c_s5."</td>";
+
+                            echo "<td>".$c_s6_1."</td>";
+							echo "<td>".$c_s6_2."</td>";
+							echo "<td>".$c_s6_3."</td>";
+							echo "<td>".$c_s6_4."</td>";
+                            echo "<td>".$c_s6."</td>";
+
+                            echo "<td>".$c_as."</td>";
+							echo "</tr>";
+							echo "</tbody>";
+							echo "</table>";
+
+						$conn->close();
+
+
+					?>
     </div>
 
     <!-- Footer -->
@@ -564,19 +849,13 @@
     <script src="../public/bootstrap/js/bootstrap.min.js"></script>
     <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
-    <SCRIPT LANGUAGE="Javascript" SRC="../public/NewFusionChart/Fusion/fusioncharts.js"></SCRIPT>
-    <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.charts.js"></script>
-    <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.maps.js"></script>
-    <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.thailand.js"></script>
-    <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.theme.fint.js"></script>
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
     </script>
 
-<script>
+    <script>
     $(document).ready(function() {
         $('.se_time_g11').hide();
         $('.se_time_g2').hide();
@@ -638,105 +917,18 @@
 
     <script>
     $(document).ready(function() {
-        $('#table1').DataTable({
+        $('#crisisc1').DataTable({
             "bFilter": true,
             "dom": 'Bfrtip',
+            "scrollX": true,
             "responsive": true,
             "buttons": [
                 'excel', 'copy', 'print'
             ],
-            "paging": true,
+            "paging": false,
             "ordering": true
         });
     });
-    </script>
-
-    <script type='text/javascript'>
-    //<![CDATA[ 
-    window.onload = function() {
-        FusionCharts.ready(function() {
-            var salesByState = new FusionCharts({
-                type: 'thailand',
-                renderAt: 'chart-container',
-                width: '100%',
-                height: '610',
-                dataFormat: 'json',
-                dataSource: {
-                    "map": {
-
-                        "nullEntityColor": "#cccccc",
-
-                        "animation": "1",
-                        "showbevel": "0",
-                        "showLabels": "0",
-                        "usehovercolor": "1",
-                        "borderColor": "#ffffff",
-                        "borderThickness": "1.2",
-                        //"bordercolor": "",
-                        "showlegend": "1",
-                        "showshadow": "0",
-                        "legendPosition": "bottom-right",
-                        "legendborderalpha": "1",
-                        "legendbordercolor": "#e5a3ad",
-                        "legendallowdrag": "0",
-                        "legendshadow": "0",
-                        "legendIconScale": "1",
-                        "legendItemFontSize": "16",
-                        "caption": "",
-                        "connectorcolor": "#e5a3ad",
-                        "fillalpha": "100",
-                        "hovercolor": "#e5a3ad",
-                        "showborder": '1',
-                        "forceDecimals": 2,
-                        "canvasBorderColor": '#ffffff',
-                        "exportenabled": "1"
-                    },
-                    "colorrange": {
-                        "minvalue": "0",
-                        "startlabel": "Low",
-                        "endlabel": "High",
-                        "code": "#ffffff",
-                        "gradient": "0",
-                        "color": [{
-                                "minvalue": "0",
-                                "maxvalue": "0.9",
-                                "code": "#cccccc",
-                                "label": "ไม่มีข้อมูล"
-                            },
-                            {
-                                "minvalue": "1",
-                                "maxvalue": "2",
-                                "code": "#e046a2",
-                                "label": "1-2 เรื่อง"
-                            },
-                            {
-                                "minvalue": "3",
-                                "maxvalue": "<?php echo $v_max; ?>",
-                                "code": "#de0867",
-                                "label": "3 เรื่องขึ้นไป"
-                            }
-                        ]
-
-                    },
-                    "data": [
-
-                        <?php
-                            for($j=1;$j<=$i_loop; $j++){
-                                echo '{';
-                                echo '"id": "'.$prov_code[$j].'",';
-                                echo '"value": "'.$case[$j].'",';
-                                echo '"showlabel": "1",';
-                                echo '"displayValue": "'.$prov_name[$j].'"';
-                                echo '},';
-                            }
-			            ?>
-
-                    ]
-                }
-            }).render();
-
-        });
-    } //]]>  
     </script>
 
 
