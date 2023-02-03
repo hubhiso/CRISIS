@@ -53,7 +53,7 @@
     if ( $ck_group <> ''){
         $query_group = "and o.group = '".$ck_group."' ";
     }else{
-        $query_group = " or o.name = 'adminfar' or o.name = 'adminhatc' or o.name = 'hisoDev'";
+        $query_group = " or o.name = 'adminfar' or o.name = 'adminhatc'";
     }
     
  
