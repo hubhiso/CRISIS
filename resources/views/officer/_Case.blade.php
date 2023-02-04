@@ -1,3 +1,4 @@
+<!--
 <table class="table is-fullwidth panel paginated hideextra " id="table_show">
     <thead style="text-align: center;">
         <tr>
@@ -206,7 +207,238 @@
         @endforeach
     </tbody>
 </table>
+-->
+
+<table class="table is-fullwidth  hideextra " id="table_show">
+    <thead style="text-align: center;">
+        <tr>
+            <th style=" white-space:nowrap;"> ลำดับ </abbr>
+            </th>
+            <th style=" white-space:nowrap;"> วันที่ </abbr>
+            </th >
+            <th style=" white-space:nowrap;"> รหัส </abbr>
+            </th>
+            <th style=" white-space:nowrap;"> วันที่เกิดเหตุ<br>(ตามแจ้ง) </abbr>
+            </th>
+            <th style=" white-space:nowrap;"> จังหวัด </abbr>
+            </th>
+            <th style=" white-space:nowrap;">ประเภท </abbr>
+            </th>
+            <th style=" white-space:nowrap;"> สถานะ </abbr>
+            </th>
+            <th style=" white-space:nowrap;"> ดำเนินการ </abbr>
+            </th>
+            <th> ประเภทของผู้แจ้ง </abbr>
+            </th>
+            <th> ผู้รับเรื่อง </abbr>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @php
+        $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+        @endphp
+
+        <?php $i =0; ?>
+
+        @foreach($cases as $case)
+
+
+        <?php
+            $i++;
+                $ck_prev_transfer = 0;
+
+                foreach ($join_transfers as $join_transfer) {
+
+                   if( $join_transfer->case_id == $case->case_id){
+                       $ck_prev_transfer = 1;
+                    }
+                }
+        ?>
+
+        <tr>
+            <td>{{$i}}</td>
+            <th style=" white-space:nowrap;">
+                {{date('d',strtotime(str_replace('-','/', $case->created_at)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $case->created_at)))]}}{{date("Y",strtotime(str_replace('-','/', $case->created_at)))+543}}
+            </th>
+            <th>
+                @if($case->emergency == "yes" )
+                <span class="has-text-danger">เร่งด่วน</span><br>
+                @endif
+                <a target="_blank" href="{{ route('officer.open_dt', $case->case_id) }}"
+                    title='ID'>{{ $case->case_id }}</a>
+            </th>
+
+            <td>
+                @if($case->accident_date != "")
+                {{date('d',strtotime(str_replace('-','/', $case->accident_date)))}}-{{$thaimonth[date('n',strtotime(str_replace('-','/', $case->accident_date)))]}}{{date("Y",strtotime(str_replace('-','/', $case->accident_date)))+543}}
+                @else
+                ไม่มีข้อมูล
+                @endif
+            </td>
+
+            <td>{{$case->Provinces->PROVINCE_NAME}}</td>
+
+            <td style=" white-space:nowrap;">
+                @if($case->problem_case == 1)
+                บังคับตรวจเอชไอวี <br>
+                @endif
+                
+                @if($case->problem_case == 2)
+                เปิดเผยสถานะการติดเชื้อเอชไอวี<br>
+                @endif
+
+                @if($case->problem_case == 3)
+                ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี<br>
+                @endif
+
+                @if($case->problem_case == 4)
+                ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง<br>
+                @endif
+
+                @if($case->problem_case == 5)
+                อื่นๆ ที่เกี่ยวข้องกับเอชไอวี<br>
+                @endif
+
+                @if($case->problem_case == 6)
+                อื่นๆ<br>
+                @endif
+            </td>
+
+            @if(($case->receiver == $username )||($case->status == 1)||($username == "Adminfar")||($username == 'adminhatc'))
+
+                @if($case->status == 99)
+                    <td style=" white-space:nowrap;">ปฏิเสธการรับเรื่อง</td>
+                    <td style=" white-space:nowrap;"><a class='tag is-medium is-primary is-rounded' href="{{ route('officer.open_dt', $case->case_id) }}">
+                        <span>ดูรายละเอียด </span> </a> </td>
+                @elseif( $case->status == 1)
+                    <td style=" white-space:nowrap;">ยังไม่ได้รับเรื่อง</td>
+                    <td style=" white-space:nowrap;"> <a class='tag is-medium is-primary is-rounded' href="{{ route('officer.open_cfm', $case->case_id) }}">
+                        <span>รับเรื่อง</span> </a> </td>
+                @elseif( $case->status == 2)
+                    <td style=" white-space:nowrap;"> รับเรื่องแล้ว </td>
+                    <td style=" white-space:nowrap;">
+                        <a class='tag is-medium is-primary is-rounded' href="{{ route('officer.add_detail' , $case->case_id) }}">บันทึกข้อมูล</a> 
+                    </td>
+                @elseif( $case->status >= 3)
+
+                    @if($case->status == 3)
+                    <td> บันทึกข้อมูลเพิ่มเติมแล้ว </td>
+                    @elseif($case->status == 4)
+                    <td> อยู่ระหว่างการดำเนินการ </td>
+                    @elseif($case->status == 5)
+                    <td> ดำเนินการเสร็จสิ้น </td>
+                    @elseif($case->status ==6)
+                    <td> ดำเนินการแล้วส่งต่อ </td>
+                    @endif
+
+                    <td><a class='tag is-medium is-primary is-rounded' href="{{ route('officer.add_activities' , $case->case_id) }}"> <span>
+                        ดำเนินการ </span> </a> </td>
+                @else
+
+                    <td> รับเรื่องแล้ว </td>
+                    <td><a class='tag is-medium is-primary is-rounded' href="{{ route('data.detail2') }}"> <span> บันทึกข้อมูล </span> </a>
+                    </td>
+                @endif
+
+                @else
+
+                @if($case->status == 99)
+                    <td>ปฏิเสธการรับเรื่อง</td>
+                    <td>
+                    <a class='tag is-medium is-primary is-rounded'
+                        href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                @elseif( $case->status == 2)
+                    <td> รับเรื่องแล้ว </td>
+                    <td>
+                    <a class='tag is-medium is-primary is-rounded'
+                        href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                @elseif($case->status == 3)
+
+                    <td> บันทึกข้อมูลเพิ่มเติมแล้ว </td>
+
+                    @if(Auth::user()->position == 'admin' || Auth::user()->g_view_all == 'yes' || $ck_prev_transfer == 1)
+                        <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.view_detail2', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                        </td>
+                    @else
+                        <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                        </td>
+                    @endif
+                @elseif($case->status == 4)
+
+                    <td> อยู่ระหว่างการดำเนินการ </td>
+                    @if(Auth::user()->position == 'admin' || Auth::user()->g_view_all == 'yes'  || $ck_prev_transfer == 1)
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @else
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @endif
+                @elseif($case->status == 5)
+
+                <td> ดำเนินการเสร็จสิ้น </td>
+                    @if(Auth::user()->position == 'admin' || Auth::user()->g_view_all == 'yes' || $ck_prev_transfer == 1 )
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @else
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @endif
+                @elseif($case->status == 6)
+                    <td> ดำเนินการแล้วส่งต่อ </td>
+                    @if(Auth::user()->position == 'admin' || Auth::user()->g_view_all == 'yes' || $ck_prev_transfer == 1 )
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @else
+                    <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                    </td>
+                    @endif
+                @endif
+            @endif
+
+            @if($case->sender_case == 1 )
+            <td style=" white-space:nowrap;">แจ้งด้วยตนเอง</td>
+            @elseif($case->sender_case == 2)
+            <td style=" white-space:nowrap;">มีผู้แจ้งแทน</td>
+            @elseif($case->sender_case == 3)
+            <td style=" white-space:nowrap;">เจ้าหน้าที่แจ้ง</td>
+            @else
+            <td style=" white-space:nowrap;">ไม่มีข้อมูล</td>
+            @endif
+
+            <td style=" white-space:nowrap;"><a href='#' title='Receiver'>{{ $case->receiver }}</a></td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
 <script>
+$(document).ready(function () {
+    $('#table_show').DataTable({
+        "bLengthChange": false,
+        "searching": false,
+        "pageLength": 30
+    });
+});
+
 $('table.paginated').each(function() {
     var currentPage = 0;
     var numPerPage = 30;

@@ -20,6 +20,8 @@
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bm/dt-1.13.1/datatables.min.css" />
+
     <title> ปกป้อง (CRS) </title>
 
     <style>
@@ -189,6 +191,9 @@
     </div>
 
     @extends('officer.footer_m')
+
+    <!-- datatable core JS-->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bm/dt-1.13.1/datatables.min.js"></script>
 
     <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
     <script src="{{ asset('bulma/main.js') }}"></script>
