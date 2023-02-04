@@ -151,11 +151,26 @@ class OfficerInputController extends Controller
            $request->file('file3')->move(public_path($pathfile), $file3);
         }
 
-        case_input::where('case_id','=',$case_id)->update([ 'status' => 1, 'file1' => $file1, 'file2' => $file2, 'file3' => $file3]);
-        timeline::create(['case_id'=>$case_id,
-            'operate_status'=>1,
-            'operate_time'=> date("Y-m-d")
-        ]);
+        if($request->input('sw_acceptorder') == '1'){
+            case_input::where('case_id','=',$case_id)->update([ 'status' => 2, 'receiver_id' => $request->input('id_sender'), 'receiver' => $request->input('sender'), 'file1' => $file1, 'file2' => $file2, 'file3' => $file3]);
+            timeline::create(['case_id'=>$case_id,
+                'operate_status'=>1,
+                'operate_time'=> date("Y-m-d")
+            ]);
+            timeline::create(['case_id'=>$case_id,
+                'operate_status'=>2,
+                'operate_time'=> date("Y-m-d")
+            ]);
+        }else{
+
+            case_input::where('case_id','=',$case_id)->update([ 'status' => 1, 'file1' => $file1, 'file2' => $file2, 'file3' => $file3]);
+        
+            timeline::create(['case_id'=>$case_id,
+                'operate_status'=>1,
+                'operate_time'=> date("Y-m-d")
+            ]);
+
+        }
 
         $accident_date = date('Y-m-d',strtotime(str_replace('-','/', $request->input('DateAct'))));
         if ($accident_date == "1970-01-01"){

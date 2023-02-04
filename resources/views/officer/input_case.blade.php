@@ -27,6 +27,9 @@
     {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
     {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
 
+    <link href="{{ asset('css/bulma-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bulma-checkradio.min.css') }}" rel="stylesheet">
+
     <title> ปกป้อง (CRS) </title>
 
 </head>
@@ -44,14 +47,31 @@
 
     <div class="container">
         <section class="section">
-            <nav class="breadcrumb">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
-                    <li><a href="{{ route('officer.main') }}"><span class="icon is-small"><i
-                                    class="fa fa-home"></i></span><span>
-                                หน้าหลัก </span></a>
+                    <li>
+                        <a href="{{ route('guest_home') }}">
+                            <span class="icon is-small">
+                                <i class="fas fa-home" aria-hidden="true"></i>
+                            </span>
+                            <span>หน้าแรก</span>
+                        </a>
                     </li>
-                    <li class="is-active"><a><span class="icon is-small"><i class="fa fa-bullhorn"></i></span><span>
-                                แจ้งเรื่อง </span></a>
+                    <li>
+                        <a href="{{ route('officer.main') }}">
+                            <span class="icon is-small">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                            </span>
+                            <span>ส่วนเจ้าหน้าที่</span>
+                        </a>
+                    </li>
+                    <li class="is-active">
+                        <a href="#">
+                            <span class="icon is-small">
+                            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                            </span>
+                            <span>แจ้งเหตุ</span>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -115,7 +135,16 @@
                         <!-- Left empty for spacing -->
                     </div>
                 </div>
-                <label>ข้อมูลผู้ถูกกระทำ</label>
+                <div class="field is-grouped">
+                    <div class="field-label control is-expanded ">
+                        <label class="label">ข้อมูลผู้ถูกกระทำ</label>
+                    </div>
+                    <div>
+                        <input id="sw_acceptorder" type="checkbox" name="sw_acceptorder" value="1"
+                            class="switch is-rounded is-danger">
+                        <label for="sw_acceptorder">ให้ระบบรับเรื่องทันทีเมื่อแจ้งเรื่อง</label>
+                    </div>
+                </div>
                 <hr>
                 @if($errors->any())
                 <ul class="notification is-warning">
@@ -147,61 +176,54 @@
                     </div>
                 </div>
 
+                <br>
 
                 <div class="field is-horizontal">
-                    <div class="field-label is-normal">
+                    <div class="field-label">
                         <label class="label">เพศ</label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <label class="radio">
-                                {{ Form::radio('biosex', '1' , true) }} ชาย
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('biosex', '2' , false) }} หญิง
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('biosex', '0' , false) }} ไม่ประสงค์ตอบ
-                            </label>
+                        <div class="field is-narrow">
+                            <div class="control">
+                                <input class="is-checkradio is-info" type="radio" id="biosex1" name="biosex" value="1"
+                                    checked="checked">
+                                <label for="biosex1">ชาย</label>
+                                <input class="is-checkradio is-info" type="radio" id="biosex2" name="biosex" value="2">
+                                <label for="biosex2">หญิง</label>
+                                <input class="is-checkradio is-info" type="radio" id="biosex0" name="biosex" value="0">
+                                <label for="biosex0">ไม่ประสงค์ตอบ</label>
+                            </div>
                         </div>
+
                     </div>
                 </div>
+
+                <br>
+
                 <div class="field is-horizontal">
-                    <div class="field-label is-normal">
+                    <div class="field-label ">
                         <label class="label">สัญชาติ</label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <label class="radio">
-                                {{ Form::radio('nation', '1' , true) }} ไทย
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '2' , false) }} ลาว
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '3' , false) }} เวียดนาม
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '4' , false) }} พม่า
-                            </label>
+                        <div class="field  ">
+                            <input class="is-checkradio is-info" type="radio" id="nation1" name="nation" value="1"
+                                checked="checked">
+                            <label for="nation1">ไทย</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation2" name="nation" value="2">
+                            <label for="nation2">ลาว</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation3" name="nation" value="3">
+                            <label for="nation3">เวียดนาม</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation4" name="nation" value="4">
+                            <label for="nation4">พม่า</label>
                             <br>
-                            <label class="radio">
-                                {{ Form::radio('nation', '5' , false) }} กัมพูชา
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '6' , false) }} อื่นๆ ระบุ
-                            </label>
-                            &nbsp;
-                            {!!
-                            Form::text('nation_etc',null,['class'=>'input','placeholder'=>
-                            'ระบุสัญชาติง', 'style'=>'display:
-                            none']) !!}
+                            <br>
+                            <input class="is-checkradio is-info" type="radio" id="nation5" name="nation" value="5">
+                            <label for="nation5">กัมพูชา</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation6" name="nation" value="6">
+                            <label for="nation6">อื่นๆ ระบุ</label>
+                            <input type="text" class="input" name="nation_etc" placeholder="ระบุสัญชาติ"
+                                style="display:none">
+                            
                         </div>
                     </div>
                 </div>
@@ -518,7 +540,7 @@
                 <p class="control">
                     @if (Auth::user()->p_receive == 'no')
                     @elseif (Auth::user()->p_receive == 'yes')
-                    <button type="submit" id="btn_submit" class="button is-primary">ส่งข้อมูล</button>
+                    {!! Form::submit('ส่งข้อมูล',['class'=>'button is-primary']) !!}
                     @endif
                 </p>
                 <p class="control">
