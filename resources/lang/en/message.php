@@ -3,12 +3,14 @@
 return [
 
     //Home Page
-    "bt_admin" => "Admin",
+    "bt_form" => "Account Request Form",
+    "bt_admin" => "Login",
     "txt_hello" => "Hello, POKPONG",
     "bt_inputcase" => "Report a complaint",
     "txt_intro" => "An online assistant system dealing with complaints and providing protection on human rights violations related to AIDS, gender, and being a member of a group that is vulnerable to discrimination.",
     "txt_status" => "Track your complaint status by clicking the button below",
     "bt_status" => "Check complaint status",
+    "bt_report_public" => "Report",
 
     "Link" => "https://www.youtube.com/embed/6pEIk5pN9mI",
     "bt_popup" => "Close",
@@ -19,6 +21,26 @@ return [
     "tx_sh_table" =>"You can Report a compliant by the information below.",
     "bt_map" =>"Map",
 
+    "ck_infection_status" =>"HIV Infection status",
+    "ck_infection_status0" =>"Please choose infection status",
+    "ck_infection_status1" =>"Infected",
+    "ck_infection_status2" =>"Not Infected",
+    "ck_infection_status3" =>"Don't know",
+    "ck_infection_status4" =>"Do not disclose information",
+
+    "ck_group1" =>"LGBTQ+",
+    "ck_group2" =>"Sex Worker",
+    "ck_group3" =>"Drug addict",
+    "ck_group4" =>"Migrant",
+    "ck_group5" =>"Prisoner",
+    "ck_group6" =>"Indigenous",
+    "ck_group7" =>"Disabled",
+    "ck_group8" =>"People living with hiv",
+    "ck_group9" =>"Woman",
+    "ck_group10" =>"Children",
+    "ck_group11" =>"Elderly",
+    "ck_group12" =>"Etc",
+
     //Compliant Page
 
     "txt_head_popup" => "Please review and accept to continue:",
@@ -27,7 +49,7 @@ return [
 
     "txt_new_explain_popup" => "All information collected will be kept strictly confidential. Please verify your phone number for our staffs to contact you soon.",
     "txt_accept" => "Accept",
-    
+
     "nav_home" => "Home",
     "nav_complaint" => "Report a Complaint",
 
