@@ -127,8 +127,8 @@
                                 <p> {{ trans('message.txt_status') }} </p><br>
                                 <a class="button is-danger  is-rounded" href="{{ 'status' }}"> <i class="fa fa-search"
                                         aria-hidden="true"></i>&nbsp;{{ trans('message.bt_status') }} </a>
-                                <a class="button is-danger  is-rounded" href="../php/dashboard_public.php" target="_blank"> <i class="fa fa-chart-bar"
-                                        aria-hidden="true"></i>&nbsp;{{ trans('message.bt_report_public') }} </a>
+                                <!--a class="button is-danger  is-rounded" href="../php/dashboard_public.php" target="_blank"> <i class="fa fa-chart-bar"
+                                        aria-hidden="true"></i>&nbsp;{{ trans('message.bt_report_public') }} </a-->
                             </div>
                         </div>
 
