@@ -38,6 +38,7 @@ class OfficerUpdateController extends Controller
                 'operate_status'=>2,
                 'operate_time'=> date("Y-m-d")
             ]);
+            return redirect('officer/add_detail/'.$case_id);
         }else if($ck_status1->operate_status == 2){
             case_input::where('case_id','=',$case_id)->update(['receiver' => $receiver_name ,'receiver_id' => $receiver_id, 'status' => 2]);
 
@@ -160,8 +161,11 @@ class OfficerUpdateController extends Controller
             'etc'=>$chk5,
             'etc_detail'=>$request->input('etc_detail')]
         );
-        return redirect('officer/show/0');
+        //return redirect('officer/show/0');
+
+        return redirect('officer/add_activities/'.$case_id);
     }
+
     public function update_detail(Request $request)
     {
         //var_dump($request->input('age'));
@@ -241,7 +245,8 @@ class OfficerUpdateController extends Controller
                 'etc'=>$chk5,
                 'etc_detail'=>$request->input('etc_detail')]
         );
-        return redirect('officer/show/0');
+        
+        return redirect('officer/add_activities/'.$case_id);
     }
 
     public function add_activities(Request $request){
