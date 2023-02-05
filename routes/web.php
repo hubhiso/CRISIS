@@ -88,6 +88,8 @@ Route::prefix('officer')->group(function () {
     Route::get('/email', 'EmailController@create');
     Route::post('/email', 'EmailController@sendEmail')->name('send.email');
 
+    Route::post('/exportexcel', 'OfficerUpdateController@exportexcel')->name('officer.Export_Excel');
+
 });
 
 Route::get('status', function () {
