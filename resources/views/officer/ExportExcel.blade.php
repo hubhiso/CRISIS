@@ -33,7 +33,51 @@
             @endcomponent
         </div>
     </div>
+    <div class="container is-fluid">
 
+        <div class=" section table-container">
+            <nav class="breadcrumb " aria-label="breadcrumbs">
+                <ul>
+                    <li>
+                        <a href="{{ route('guest_home') }}">
+                            <span class="icon is-small">
+                                <i class="fas fa-home" aria-hidden="true"></i>
+                            </span>
+                            <span>หน้าแรก</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('officer.main') }}">
+                            <span class="icon is-small">
+                                <i class="fas fa-lock" aria-hidden="true"></i>
+                            </span>
+                            <span>ส่วนเจ้าหน้าที่</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="{{ route('officer.show',['mode_id' => "0"]) }}">
+                            <span class="icon is-small">
+                                <i class="fas fa-list" aria-hidden="true"></i>
+                            </span>
+                            <span>จัดการเหตุ</span>
+                        </a>
+                    </li>
+                    <li class="is-active">
+                        <a href="#">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-excel" aria-hidden="true"></i>
+                            </span>
+                            <span>ส่งออกข้อมูล</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="button is-primary is-rounded exportToExcel">Export to XLS</button>
+            <br><br>
+
+            </div>
+    </div>
+    
     @extends('officer.footer_m')
     <script type="text/javascript" src="https://cdn.datatables.net/v/bm/dt-1.13.1/datatables.min.js"></script>
 
