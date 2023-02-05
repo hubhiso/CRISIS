@@ -75,6 +75,94 @@
             <button class="button is-primary is-rounded exportToExcel">Export to XLS</button>
             <br><br>
 
+            @if($type_export == "1" )
+            <table id="table_show" class="table is-fullwidth hideextra table2excel table2excel_with_colors">
+                <thead>
+                    <tr>
+                        <th style=" white-space:nowrap;">id</th>
+                        <th style=" white-space:nowrap;">เขต</th>
+                        <th style=" white-space:nowrap;">จังหวัด</th>
+                        <th style=" white-space:nowrap;">รหัส</th>
+                        <th style=" white-space:nowrap;">ประเภทผู้แจ้ง</th>
+                        <th style=" white-space:nowrap;">เพศ</th>
+                        <th style=" white-space:nowrap;">ผู้รับเรื่อง</th>
+                        <th style=" min-width: 200px;">วันที่แจ้งเหตุ</th>
+                        <th style=" white-space:nowrap;">วันที่เกิดเหตุ</th>
+                        <th style=" min-width: 200px;">ปัญหาที่พบ</th>
+                        <th style=" min-width: 200px;">ประเภทกลุ่ม</th>
+                        <th style=" min-width: 500px;">รายละเอียดของปัญหา</th>
+                        <th style=" white-space:nowrap;">ความต้องการความช่วยเหลือ</th>
+                        <th style=" white-space:nowrap; ">วันที่ดำเนินการ</th>
+                        <th style=" min-width: 500px; ">รายละเอียดดำเนินการ</th>
+                        <th style=" min-width: 200px;">ผลลัพธ์การดำเนินการ</th>
+                        <th style=" white-space:nowrap;">สถานะการดำเนินการ</th>
+                        <th style=" white-space:nowrap;">ผลสถานะการดำเนินการ</th>
+                        <th style=" white-space:nowrap;">ตรวจสอบสถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 0;
+                        foreach ($show_data as $show_data) {
+                            $i++;
+                    ?>
+                    <tr>
+                        <td>{{ $i }}</td>
+                        <td>{{ $show_data->nhso }}</td>
+                        <td>{{ $show_data->PROVINCE_NAME }}</td>
+                        <td>{{ $show_data->case_id }}</td>
+                        <td><?php if($show_data->sender_case == 1){ echo 'แจ้งด้วยตนเอง';}else if($show_data->sender_case == 2){ echo 'มีผู้แจ้งแทน';}else if($show_data->sender_case == 3){ echo 'เจ้าหน้าที่แจ้ง';} ?>
+                        </td>
+                        <td>{{ $show_data->dname }}</td>
+                        <td >{{ $show_data->receiver }}</td>
+                        <td >{{ $show_data->created_at }}</td>
+                        <td >{{ $show_data->accident_date }}</td>
+                        <td >
+                            <?php
+                            $comma_ck = 0;
+                            if($show_data->problem_case == 1){ if($comma_ck == 1){ echo ",<br>";} echo "บังคับตรวจเอชไอวี"; $comma_ck = 1;}
+                            if($show_data->problem_case == 2){ if($comma_ck == 1){ echo ",<br>";} echo "เปิดเผยสถานะการติดเชื้อเอชไอวี";}
+                            if($show_data->problem_case == 3){ if($comma_ck == 1){ echo ",<br>";} echo "ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี"; $comma_ck = 1;}
+                            if($show_data->problem_case == 4){ if($comma_ck == 1){ echo ",<br>";} echo "ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง"; $comma_ck = 1;}
+                            if($show_data->problem_case == 5){ if($comma_ck == 1){ echo ",<br>";} echo "อื่นๆ ที่เกี่ยวข้องกับ HIV"; $comma_ck = 1;}
+                            if($show_data->problem_case == 6){ if($comma_ck == 1){ echo ",<br>";} echo "อื่นๆ"; $comma_ck = 1;}
+                        ?>
+                        </td>
+                        <td >
+                            <?php
+                            $comma_ck = 0;
+                            if($show_data->group_code == 1){ if($comma_ck == 1){ echo ",<br>";} echo "กลุ่มหลากหลายทางเพศ"; $comma_ck = 1;}
+                            if($show_data->group_code == 2){ if($comma_ck == 1){ echo ",<br>";} echo "พนักงานบริการ"; $comma_ck = 1;}
+                            if($show_data->group_code == 3){ if($comma_ck == 1){ echo ",<br>";} echo "ผู้ใช้สารเสพติด"; $comma_ck = 1;}
+                            if($show_data->group_code == 4){ if($comma_ck == 1){ echo ",<br>";} echo "ประชากรข้ามชาติ"; $comma_ck = 1;}
+                            if($show_data->group_code == 5){ if($comma_ck == 1){ echo ",<br>";} echo "อผู้ถูกคุมขัง"; $comma_ck = 1;}
+                            if($show_data->group_code == 6){ if($comma_ck == 1){ echo ",<br>";} echo "กลุ่มชาติพันธุ์และชนเผ่า"; $comma_ck = 1;}
+                            if($show_data->group_code == 7){ if($comma_ck == 1){ echo ",<br>";} echo "คนพิการ"; $comma_ck = 1;}
+                            ?>
+                        </td>
+                        <td >{{ $show_data->detail }}</td>
+                        <td >{{ $show_data->need }}</td>
+                        <td >{{ $show_data->operate_date }}</td>
+                        <td >{{ $show_data->operate_detail }}</td>
+                        <td>{{ $show_data->operate_result }}</td>
+                        <td >{{ $show_data->gname }}</td>
+                        <td >
+                            <?php 
+                            if($show_data->operate_result_status == 1){ echo 'สำเร็จ';}
+                            else if($show_data->operate_result_status == 2){ echo 'ไม่สำเร็จ';}
+                            else if($show_data->operate_result_status == 3){ echo 'ตาย';} 
+                            else if($show_data->operate_result_status == 4){ echo 'ย้ายที่อยู่';} 
+                            ?>
+                        </td>
+                        <td>{{ $show_data->operate_status }}</td>
+                    </tr>
+                    <?php
+                        }
+                    ?>
+                </tbody>
+            </table>
+            @endif
+
             </div>
     </div>
     
