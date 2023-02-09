@@ -31,7 +31,7 @@ $('#problem_case').on('change',function (e) {
         $('#group_code').append('<option value="4" style="width:250px">Migrant Worker</option>');
         $('#group_code').append('<option value="5" style="width:250px">Detainee</option>');
         $('#group_code').append('<option value="6" style="width:250px">Members of an ethnic minority/tribal group</option>');
-        $('#group_code').append("<option value='7' style='width:250px'>Handicapped</option>");
+        //$('#group_code').append("<option value='7' style='width:250px'>Handicapped</option>");
 
     }else{
         $('#sub_problem').empty();
@@ -49,7 +49,7 @@ $('#sub_problem').on('change',function (e) {
         $('#group_code').append('<option value="4" style="width:250px">Migrant Worker</option>');
         $('#group_code').append('<option value="5" style="width:250px">Detainee</option>');
         $('#group_code').append('<option value="6" style="width:250px">Members of an ethnic minority/tribal group</option>');
-        $('#group_code').append("<option value='7' style='width:250px'>Handicapped</option>");
+        //$('#group_code').append("<option value='7' style='width:250px'>Handicapped</option>");
 
     }else{
         $('#group_code').empty();

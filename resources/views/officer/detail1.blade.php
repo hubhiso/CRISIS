@@ -297,8 +297,6 @@
                                         @elseif($show_data->group_code == 6)
                                         <input class="input" type="text" placeholder="ประเภท6"
                                             value="กลุ่มชาติพันธุ์และชนเผ่า" disabled>
-                                        @elseif($show_data->group_code == 7)
-                                        <input class="input" type="text" placeholder="ประเภท" value="คนพิการ" disabled>
                                         @else
                                         <input class="input" type="text" placeholder="ไม่ระบุ" value="" disabled>
                                         @endif
