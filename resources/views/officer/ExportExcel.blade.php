@@ -22,7 +22,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     {{ Html::script('js/jquery.table2excel.js') }}
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bm/dt-1.13.1/datatables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.2/b-2.3.4/b-html5-2.3.4/b-print-2.3.4/datatables.min.css" />
 
 </head>
 
@@ -72,8 +73,10 @@
                     </li>
                 </ul>
             </nav>
+            <!--
             <button class="button is-primary is-rounded exportToExcel">Export to XLS</button>
             <br><br>
+            -->
 
             @if($type_export == "1" )
             <table id="table_show" class="table is-fullwidth hideextra table2excel table2excel_with_colors">
@@ -265,17 +268,27 @@
     </div>
     
     @extends('officer.footer_m')
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bm/dt-1.13.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.13.2/b-2.3.4/b-html5-2.3.4/b-print-2.3.4/datatables.min.js">
+    </script>
 
     <script>
     $(document).ready(function() {
         $('#table_show').DataTable({
             "bLengthChange": true,
             "searching": true,
-            "pageLength": 10
+            "pageLength": 10,
+            "dom": 'Bfrtip',
+            "responsive": true,
+            "buttons": [
+                'excel', 'copy', 'print'
+            ]
         });
     });
 
+    /*
     $(function() {
         $(".exportToExcel").click(function(e) {
             var table = $('#table_show');
@@ -296,6 +309,7 @@
         });
 
     });
+    */
     </script>
 </body>
 
