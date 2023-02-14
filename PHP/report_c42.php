@@ -647,86 +647,36 @@
 
                         $c_as = 0;
 
-                        $sum_c_s1_1 = 0;
-                        $sum_c_s1_2 = 0;
-                        $sum_c_s1_3 = 0;
-                        $sum_c_s1_4 = 0;
-                        $sum_c_s1_5 = 0;
-                        $sum_c_s1 = 0;
-
-                        $sum_c_s2_1 = 0;
-                        $sum_c_s2_2 = 0;
-                        $sum_c_s2_3 = 0;
-                        $sum_c_s2_4 = 0;
-                        $sum_c_s2_5 = 0;
-                        $sum_c_s2 = 0;
-
-                        $sum_c_s3_1 = 0;
-                        $sum_c_s3_2 = 0;
-                        $sum_c_s3_3 = 0;
-                        $sum_c_s3_4 = 0;
-                        $sum_c_s3_5 = 0;
-                        $sum_c_s3 = 0;
-
-                        $sum_c_s4_1 = 0;
-                        $sum_c_s4_2 = 0;
-                        $sum_c_s4_3 = 0;
-                        $sum_c_s4_4 = 0;
-                        $sum_c_s4_5 = 0;
-                        $sum_c_s4 = 0;
-
-                        $sum_c_s5_1 = 0;
-                        $sum_c_s5_2 = 0;
-                        $sum_c_s5_3 = 0;
-                        $sum_c_s5_4 = 0;
-                        $sum_c_s5_5 = 0;
-                        $sum_c_s5 = 0;
-
-                        $sum_c_s6_1 = 0;
-                        $sum_c_s6_2 = 0;
-                        $sum_c_s6_3 = 0;
-                        $sum_c_s6_4 = 0;
-                        $sum_c_s6_5 = 0;
-                        $sum_c_s6 = 0;
-
-                        $sum_c_as = 0;
-
 						$sql2 = "SELECT receiver,
-						sum( CASE WHEN problem_case = '1' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case1,
-                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case1_1,
-                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case1_2,
-                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case1_3,
-                        sum( CASE WHEN problem_case = '1' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case1_4,
+                        sum( CASE WHEN problem_case = '1' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case1_1,
+                        sum( CASE WHEN problem_case = '1' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case1_2,
+                        sum( CASE WHEN problem_case = '1' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case1_3,
+                        sum( CASE WHEN problem_case = '1' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case1_4,
                         sum( CASE WHEN problem_case = '1' AND status = '6' THEN 1 ELSE 0 END ) AS case1_5,
-                        sum( CASE WHEN problem_case = '2' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case2,
-                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case2_1,
-                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case2_2,
-                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case2_3,
-                        sum( CASE WHEN problem_case = '2' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case2_4,
+                        sum( CASE WHEN problem_case = '2' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case2_1,
+                        sum( CASE WHEN problem_case = '2' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case2_2,
+                        sum( CASE WHEN problem_case = '2' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case2_3,
+                        sum( CASE WHEN problem_case = '2' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case2_4,
                         sum( CASE WHEN problem_case = '2' AND status = '6' THEN 1 ELSE 0 END ) AS case2_5,
-                        sum( CASE WHEN problem_case = '3' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case3,
-                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case3_1,
-                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case3_2,
-                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case3_3,
-                        sum( CASE WHEN problem_case = '3' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case3_4,
+                        sum( CASE WHEN problem_case = '3' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case3_1,
+                        sum( CASE WHEN problem_case = '3' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case3_2,
+                        sum( CASE WHEN problem_case = '3' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case3_3,
+                        sum( CASE WHEN problem_case = '3' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case3_4,
                         sum( CASE WHEN problem_case = '3' AND status = '6' THEN 1 ELSE 0 END ) AS case3_5,
-                        sum( CASE WHEN problem_case = '4' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case4,
-                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case4_1,
-                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case4_2,
-                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case4_3,
-                        sum( CASE WHEN problem_case = '4' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case4_4,
+                        sum( CASE WHEN problem_case = '4' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case4_1,
+                        sum( CASE WHEN problem_case = '4' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case4_2,
+                        sum( CASE WHEN problem_case = '4' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case4_3,
+                        sum( CASE WHEN problem_case = '4' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case4_4,
                         sum( CASE WHEN problem_case = '4' AND status = '6' THEN 1 ELSE 0 END ) AS case4_5,
-                        sum( CASE WHEN problem_case = '5' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case5,
-                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case5_1,
-                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case5_2,
-                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case5_3,
-                        sum( CASE WHEN problem_case = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case5_4,
+                        sum( CASE WHEN problem_case = '5' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case5_1,
+                        sum( CASE WHEN problem_case = '5' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case5_2,
+                        sum( CASE WHEN problem_case = '5' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case5_3,
+                        sum( CASE WHEN problem_case = '5' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case5_4,
                         sum( CASE WHEN problem_case = '5' AND status = '6' THEN 1 ELSE 0 END ) AS case5_5,
-                        sum( CASE WHEN problem_case = '6' AND operate_result_status != ''THEN 1 ELSE 0 END ) AS case6,
-                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case6_1,
-                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case6_2,
-                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case6_3,
-                        sum( CASE WHEN problem_case = '6' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case6_4,
+                        sum( CASE WHEN problem_case = '6' AND status = '5' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case6_1,
+                        sum( CASE WHEN problem_case = '6' AND status = '5' AND operate_result_status = '2' THEN 1 ELSE 0 END ) AS case6_2,
+                        sum( CASE WHEN problem_case = '6' AND status = '5' AND operate_result_status = '3' THEN 1 ELSE 0 END ) AS case6_3,
+                        sum( CASE WHEN problem_case = '6' AND status = '5' AND operate_result_status = '4' THEN 1 ELSE 0 END ) AS case6_4,
                         sum( CASE WHEN problem_case = '6' AND status = '6' THEN 1 ELSE 0 END ) AS case6_5
                         
 						FROM case_inputs c
@@ -746,51 +696,51 @@
 							while($row2 = $result2->fetch_assoc()) {
 
 								//$c_s1 = $c_s1 + $row2["case1"];
-                                $c_s1_1 = $c_s1_1 + $row2["case1_1"];
-                                $c_s1_2 = $c_s1_2 + $row2["case1_2"];
-                                $c_s1_3 = $c_s1_3 + $row2["case1_3"];
-                                $c_s1_4 = $c_s1_4 + $row2["case1_4"];
-                                $c_s1_5 = $c_s1_5 + $row2["case1_5"];
+                                $c_s1_1 = $row2["case1_1"];
+                                $c_s1_2 = $row2["case1_2"];
+                                $c_s1_3 = $row2["case1_3"];
+                                $c_s1_4 = $row2["case1_4"];
+                                $c_s1_5 = $row2["case1_5"];
                                 $c_s1 = $c_s1_1 + $c_s1_2 + $c_s1_3 + $c_s1_4 + $c_s1_5;
 
                                 //$c_s2 = $c_s2 + $row2["case2"];
-                                $c_s2_1 = $c_s2_1 + $row2["case2_1"];
-                                $c_s2_2 = $c_s2_2 + $row2["case2_2"];
-                                $c_s2_3 = $c_s2_3 + $row2["case2_3"];
-                                $c_s2_4 = $c_s2_4 + $row2["case2_4"];
-                                $c_s2_5 = $c_s2_5 + $row2["case2_5"];
+                                $c_s2_1 = $row2["case2_1"];
+                                $c_s2_2 = $row2["case2_2"];
+                                $c_s2_3 = $row2["case2_3"];
+                                $c_s2_4 = $row2["case2_4"];
+                                $c_s2_5 = $row2["case2_5"];
                                 $c_s2 = $c_s2_1 + $c_s2_2 + $c_s2_3 + $c_s2_4 + $c_s2_5;
 
                                 //$c_s3 = $c_s3 + $row2["case3"];
-                                $c_s3_1 = $c_s3_1 + $row2["case3_1"];
-                                $c_s3_2 = $c_s3_2 + $row2["case3_2"];
-                                $c_s3_3 = $c_s3_3 + $row2["case3_3"];
-                                $c_s3_4 = $c_s3_4 + $row2["case3_4"];
-                                $c_s3_5 = $c_s3_5 + $row2["case3_5"];
+                                $c_s3_1 = $row2["case3_1"];
+                                $c_s3_2 = $row2["case3_2"];
+                                $c_s3_3 = $row2["case3_3"];
+                                $c_s3_4 = $row2["case3_4"];
+                                $c_s3_5 = $row2["case3_5"];
                                 $c_s3 = $c_s3_1 + $c_s3_2 + $c_s3_3 + $c_s3_4 + $c_s3_5;
 
                                 //$c_s4 = $c_s4 + $row2["case4"];
-                                $c_s4_1 = $c_s4_1 + $row2["case4_1"];
-                                $c_s4_2 = $c_s4_2 + $row2["case4_2"];
-                                $c_s4_3 = $c_s4_3 + $row2["case4_3"];
-                                $c_s4_4 = $c_s4_4 + $row2["case4_4"];
-                                $c_s4_5 = $c_s4_5 + $row2["case4_5"];
+                                $c_s4_1 = $row2["case4_1"];
+                                $c_s4_2 = $row2["case4_2"];
+                                $c_s4_3 = $row2["case4_3"];
+                                $c_s4_4 = $row2["case4_4"];
+                                $c_s4_5 = $row2["case4_5"];
                                 $c_s4 = $c_s4_1 + $c_s4_2 + $c_s4_3 + $c_s4_4 + $c_s4_5;
 
                                 //$c_s5 = $c_s5 + $row2["case5"];
-                                $c_s5_1 = $c_s5_1 + $row2["case5_1"];
-                                $c_s5_2 = $c_s5_2 + $row2["case5_2"];
-                                $c_s5_3 = $c_s5_3 + $row2["case5_3"];
-                                $c_s5_4 = $c_s5_4 + $row2["case5_4"];
-                                $c_s5_5 = $c_s5_5 + $row2["case5_5"];
+                                $c_s5_1 = $row2["case5_1"];
+                                $c_s5_2 = $row2["case5_2"];
+                                $c_s5_3 = $row2["case5_3"];
+                                $c_s5_4 = $row2["case5_4"];
+                                $c_s5_5 = $row2["case5_5"];
                                 $c_s5 = $c_s5_1 + $c_s5_2 + $c_s5_3 + $c_s5_4 + $c_s5_5;
 
                                 //$c_s6 = $c_s6 + $row2["case6"];
-                                $c_s6_1 = $c_s6_1 + $row2["case6_1"];
-                                $c_s6_2 = $c_s6_2 + $row2["case6_2"];
-                                $c_s6_3 = $c_s6_3 + $row2["case6_3"];
-                                $c_s6_4 = $c_s6_4 + $row2["case6_4"];
-                                $c_s6_5 = $c_s6_5 + $row2["case6_5"];
+                                $c_s6_1 = $row2["case6_1"];
+                                $c_s6_2 = $row2["case6_2"];
+                                $c_s6_3 = $row2["case6_3"];
+                                $c_s6_4 = $row2["case6_4"];
+                                $c_s6_5 = $row2["case6_5"];
                                 $c_s6 = $c_s6_1 + $c_s6_2 + $c_s6_3 + $c_s6_4 + $c_s6_5;
                                 
                                 $c_as = $c_s1 + $c_s2 + $c_s3 + $c_s4 + $c_s5 + $c_s6 ;
@@ -837,7 +787,7 @@
                                 $sum_c_s6_5 = $sum_c_s6_5 + $c_s6_5;
                                 $sum_c_s6 = $sum_c_s6_1 + $sum_c_s6_2 + $sum_c_s6_3 + $sum_c_s6_4 + $sum_c_s6_5;
 
-                                $sum_c_as = $sum_c_as + $sum_c_s1 + $sum_c_s2 + $sum_c_s3 + $sum_c_s4 + $sum_c_s5 + $sum_c_s6;
+                                $sum_c_as = $sum_c_s1 + $sum_c_s2 + $sum_c_s3 + $sum_c_s4 + $sum_c_s5 + $sum_c_s6;
 								
 								//echo $row['receiver'];
 								$sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
