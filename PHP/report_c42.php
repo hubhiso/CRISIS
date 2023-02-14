@@ -752,6 +752,7 @@
                                 echo "<td>".$c_s5_2."</td>";
                                 echo "<td>".$c_s5_3."</td>";
                                 echo "<td>".$c_s5_4."</td>";
+                                echo "<td>".$c_s5_5."</td>";
                                 echo "<td>".$c_s5."</td>";
 
                                 echo "<td>".$c_s6_1."</td>";
