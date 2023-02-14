@@ -647,6 +647,50 @@
 
                         $c_as = 0;
 
+                        $sum_c_s1_1 = 0;
+                        $sum_c_s1_2 = 0;
+                        $sum_c_s1_3 = 0;
+                        $sum_c_s1_4 = 0;
+                        $sum_c_s1_5 = 0;
+                        $sum_c_s1 = 0;
+
+                        $sum_c_s2_1 = 0;
+                        $sum_c_s2_2 = 0;
+                        $sum_c_s2_3 = 0;
+                        $sum_c_s2_4 = 0;
+                        $sum_c_s2_5 = 0;
+                        $sum_c_s2 = 0;
+
+                        $sum_c_s3_1 = 0;
+                        $sum_c_s3_2 = 0;
+                        $sum_c_s3_3 = 0;
+                        $sum_c_s3_4 = 0;
+                        $sum_c_s3_5 = 0;
+                        $sum_c_s3 = 0;
+
+                        $sum_c_s4_1 = 0;
+                        $sum_c_s4_2 = 0;
+                        $sum_c_s4_3 = 0;
+                        $sum_c_s4_4 = 0;
+                        $sum_c_s4_5 = 0;
+                        $sum_c_s4 = 0;
+
+                        $sum_c_s5_1 = 0;
+                        $sum_c_s5_2 = 0;
+                        $sum_c_s5_3 = 0;
+                        $sum_c_s5_4 = 0;
+                        $sum_c_s5_5 = 0;
+                        $sum_c_s5 = 0;
+
+                        $sum_c_s6_1 = 0;
+                        $sum_c_s6_2 = 0;
+                        $sum_c_s6_3 = 0;
+                        $sum_c_s6_4 = 0;
+                        $sum_c_s6_5 = 0;
+                        $sum_c_s6 = 0;
+
+                        $sum_c_as = 0;
+
 						$sql2 = "SELECT receiver,
 						sum( CASE WHEN problem_case = '1' AND operate_result_status != '' THEN 1 ELSE 0 END ) AS case1,
                         sum( CASE WHEN problem_case = '1' AND operate_result_status = '1' THEN 1 ELSE 0 END ) AS case1_1,
