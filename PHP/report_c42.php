@@ -701,6 +701,50 @@
                                 $c_s6_5 = $c_s6_5 + $row2["case6_5"];
                                 
                                 $c_as = $c_as + $c_s1 + $c_s1_5 + $c_s2 + $c_s2_5 +$c_s3+ $c_s3_5+ $c_s4 + $c_s4_5+ $c_s5 + $c_s5_5 +$c_s6 + $c_s6_5;
+
+                                $sum_c_s1_1 = $sum_c_s1_1 + $c_s1_1;
+                                $sum_c_s1_2 = $sum_c_s1_2 + $c_s1_2;
+                                $sum_c_s1_3 = $sum_c_s1_3 + $c_s1_3;
+                                $sum_c_s1_4 = $sum_c_s1_4 + $c_s1_4;
+                                $sum_c_s1_5 = $sum_c_s1_5 + $c_s1_5;
+                                $sum_c_s1 = $sum_c_s1 + $c_s1;
+
+                                $sum_c_s2_1 = $sum_c_s2_1 + $c_s2_1;
+                                $sum_c_s2_2 = $sum_c_s2_2 + $c_s2_2;
+                                $sum_c_s2_3 = $sum_c_s2_3 + $c_s2_3;
+                                $sum_c_s2_4 = $sum_c_s2_4 + $c_s2_4;
+                                $sum_c_s2_5 = $sum_c_s2_5 + $c_s2_5;
+                                $sum_c_s2 = $sum_c_s2 + $c_s2;
+
+                                $sum_c_s3_1 = $sum_c_s3_1 + $c_s3_1;
+                                $sum_c_s3_2 = $sum_c_s3_2 + $c_s3_2;
+                                $sum_c_s3_3 = $sum_c_s3_3 + $c_s3_3;
+                                $sum_c_s3_4 = $sum_c_s3_4 + $c_s3_4;
+                                $sum_c_s3_5 = $sum_c_s3_5 + $c_s3_5;
+                                $sum_c_s3 = $sum_c_s3 + $c_s3;
+
+                                $sum_c_s4_1 = $sum_c_s4_1 + $c_s4_1;
+                                $sum_c_s4_2 = $sum_c_s4_2 + $c_s4_2;
+                                $sum_c_s4_3 = $sum_c_s4_3 + $c_s4_3;
+                                $sum_c_s4_4 = $sum_c_s4_4 + $c_s4_4;
+                                $sum_c_s4_5 = $sum_c_s4_5 + $c_s4_5;
+                                $sum_c_s4 = $sum_c_s4 + $c_s4;
+
+                                $sum_c_s5_1 = $sum_c_s5_1 + $c_s5_1;
+                                $sum_c_s5_2 = $sum_c_s5_2 + $c_s5_2;
+                                $sum_c_s5_3 = $sum_c_s5_3 + $c_s5_3;
+                                $sum_c_s5_4 = $sum_c_s5_4 + $c_s5_4;
+                                $sum_c_s5_5 = $sum_c_s5_5 + $c_s5_5;
+                                $sum_c_s5 = $sum_c_s5 + $c_s5;
+
+                                $sum_c_s6_1 = $sum_c_s6_1 + $c_s6_1;
+                                $sum_c_s6_2 = $sum_c_s6_2 + $c_s6_2;
+                                $sum_c_s6_3 = $sum_c_s6_3 + $c_s6_3;
+                                $sum_c_s6_4 = $sum_c_s6_4 + $c_s6_4;
+                                $sum_c_s6_5 = $sum_c_s6_5 + $c_s6_5;
+                                $sum_c_s6 = $sum_c_s6 + $c_s6;
+
+                                $sum_c_as = $sum_c_as + $sum_c_s1 + $sum_c_s1_5 + $sum_c_s2 + $sum_c_s2_5 +$sum_c_s3+ $sum_c_s3_5+ $sum_c_s4 + $sum_c_s4_5+ $sum_c_s5 + $sum_c_s5_5 +$sum_c_s6 + $sum_c_s6_5;
 								
 								//echo $row['receiver'];
 								$sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
@@ -824,49 +868,49 @@
 							echo "<td style='display: none;'></td>";
 							echo "<td style='display: none;'></td>";
 							echo "<td style='display: none;'></td>";
-							echo "<td>".$c_s1_1."</td>";
-							echo "<td>".$c_s1_2."</td>";
-							echo "<td>".$c_s1_3."</td>";
-							echo "<td>".$c_s1_4."</td>";
-                            echo "<td>".$c_s1_5."</td>";
-                            echo "<td>".$c_s1."</td>";
+							echo "<td>".$sum_c_s1_1."</td>";
+							echo "<td>".$sum_c_s1_2."</td>";
+							echo "<td>".$sum_c_s1_3."</td>";
+							echo "<td>".$sum_c_s1_4."</td>";
+                            echo "<td>".$sum_c_s1_5."</td>";
+                            echo "<td>".$sum_c_s1."</td>";
 
-                            echo "<td>".$c_s2_1."</td>";
-							echo "<td>".$c_s2_2."</td>";
-							echo "<td>".$c_s2_3."</td>";
-							echo "<td>".$c_s2_4."</td>";
-                            echo "<td>".$c_s2_5."</td>";
-                            echo "<td>".$c_s2."</td>";
+                            echo "<td>".$sum_c_s2_1."</td>";
+							echo "<td>".$sum_c_s2_2."</td>";
+							echo "<td>".$sum_c_s2_3."</td>";
+							echo "<td>".$sum_c_s2_4."</td>";
+                            echo "<td>".$sum_c_s2_5."</td>";
+                            echo "<td>".$sum_c_s2."</td>";
 
-                            echo "<td>".$c_s3_1."</td>";
-							echo "<td>".$c_s3_2."</td>";
-							echo "<td>".$c_s3_3."</td>";
-							echo "<td>".$c_s3_4."</td>";
-                            echo "<td>".$c_s3_5."</td>";
-                            echo "<td>".$c_s3."</td>";
+                            echo "<td>".$sum_c_s3_1."</td>";
+							echo "<td>".$sum_c_s3_2."</td>";
+							echo "<td>".$sum_c_s3_3."</td>";
+							echo "<td>".$sum_c_s3_4."</td>";
+                            echo "<td>".$sum_c_s3_5."</td>";
+                            echo "<td>".$sum_c_s3."</td>";
 
-                            echo "<td>".$c_s4_1."</td>";
-							echo "<td>".$c_s4_2."</td>";
-							echo "<td>".$c_s4_3."</td>";
-							echo "<td>".$c_s4_4."</td>";
-                            echo "<td>".$c_s4_5."</td>";
-                            echo "<td>".$c_s4."</td>";
+                            echo "<td>".$sum_c_s4_1."</td>";
+							echo "<td>".$sum_c_s4_2."</td>";
+							echo "<td>".$sum_c_s4_3."</td>";
+							echo "<td>".$sum_c_s4_4."</td>";
+                            echo "<td>".$sum_c_s4_5."</td>";
+                            echo "<td>".$sum_c_s4."</td>";
 
-                            echo "<td>".$c_s5_1."</td>";
-							echo "<td>".$c_s5_2."</td>";
-							echo "<td>".$c_s5_3."</td>";
-							echo "<td>".$c_s5_4."</td>";
-                            echo "<td>".$c_s5_5."</td>";
-                            echo "<td>".$c_s5."</td>";
+                            echo "<td>".$sum_c_s5_1."</td>";
+							echo "<td>".$sum_c_s5_2."</td>";
+							echo "<td>".$sum_c_s5_3."</td>";
+							echo "<td>".$sum_c_s5_4."</td>";
+                            echo "<td>".$sum_c_s5_5."</td>";
+                            echo "<td>".$sum_c_s5."</td>";
 
-                            echo "<td>".$c_s6_1."</td>";
-							echo "<td>".$c_s6_2."</td>";
-							echo "<td>".$c_s6_3."</td>";
-							echo "<td>".$c_s6_4."</td>";
-                            echo "<td>".$c_s6_5."</td>";
-                            echo "<td>".$c_s6."</td>";
+                            echo "<td>".$sum_c_s6_1."</td>";
+							echo "<td>".$sum_c_s6_2."</td>";
+							echo "<td>".$sum_c_s6_3."</td>";
+							echo "<td>".$sum_c_s6_4."</td>";
+                            echo "<td>".$sum_c_s6_5."</td>";
+                            echo "<td>".$sum_c_s6."</td>";
 
-                            echo "<td>".$c_as."</td>";
+                            echo "<td>".$sum_c_as."</td>";
 							echo "</tr>";
 							echo "</tbody>";
 							echo "</table>";
