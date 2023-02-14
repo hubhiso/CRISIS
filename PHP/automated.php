@@ -718,7 +718,7 @@
 
     <br>
     <div class="container p-3">
-        <form name="form_menu" method="post" action="automated_old_ori.php">
+        <form name="form_menu" method="post" action="automated.php">
             <div class="row">
                 <div class="col-auto">
                     <strong class="col-form-label">เลือกปี</strong>
