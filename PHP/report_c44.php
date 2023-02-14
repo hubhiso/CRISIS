@@ -524,6 +524,13 @@
                     
 					while($row1 = $result1->fetch_assoc()) {
 
+                        $c_s1_1 = 0;
+                        $c_s1_2 = 0;
+                        $c_s1_3 = 0;
+                        $c_s1_4 = 0;
+                        $c_s1_5 = 0;
+                        $c_s1_6 = 0;
+                        $c_s1 = 0;
 
 						$sql2 = "SELECT receiver,
                         sum( CASE WHEN  problem_case = '1' THEN 1 ELSE 0 END ) AS case1_1,
@@ -547,13 +554,21 @@
 							// output data of each row
 							while($row2 = $result2->fetch_assoc()) {
 
-                                $c_s1_1 = $c_s1_1 + $row2["case1_1"];
-                                $c_s1_2 = $c_s1_2 + $row2["case1_2"];
-                                $c_s1_3 = $c_s1_3 + $row2["case1_3"];
-                                $c_s1_4 = $c_s1_4 + $row2["case1_4"];
-                                $c_s1_5 = $c_s1_5 + $row2["case1_5"];
-                                $c_s1_6 = $c_s1_6 + $row2["case1_6"];
+                                $c_s1_1 = $row2["case1_1"];
+                                $c_s1_2 = $row2["case1_2"];
+                                $c_s1_3 = $row2["case1_3"];
+                                $c_s1_4 = $row2["case1_4"];
+                                $c_s1_5 = $row2["case1_5"];
+                                $c_s1_6 = $row2["case1_6"];
                                 $c_s1 = $c_s1 + $c_s1_1 + $c_s1_2 + $c_s1_3 + $c_s1_4 + $c_s1_5 + $c_s1_6;
+
+                                $sum_c_s1_1 = $sum_c_s1_1 + $c_s1_1;
+                                $sum_c_s1_2 = $sum_c_s1_2 + $c_s1_2;
+                                $sum_c_s1_3 = $sum_c_s1_3 + $c_s1_3;
+                                $sum_c_s1_4 = $sum_c_s1_4 + $c_s1_4;
+                                $sum_c_s1_5 = $sum_c_s1_5 + $c_s1_5;
+                                $sum_c_s1_6 = $sum_c_s1_6 + $c_s1_6;
+                                $sum_c_s1 = $sum_c_s1_1 + $sum_c_s1_2 + $sum_c_s1_3 + $sum_c_s1_4 + $sum_c_s1_5 + $sum_c_s1_6;
 								
 								//echo $row['receiver'];
 								$sql3 = "SELECT username,officers.nameorg, prov_geo.code, prov_geo.name as provname, prov_geo.nhso 
@@ -606,13 +621,13 @@
 							echo "<td style='display: none;'></td>";
 							echo "<td style='display: none;'></td>";
 							echo "<td style='display: none;'></td>";
-							echo "<td>".$c_s1_1."</td>";
-							echo "<td>".$c_s1_2."</td>";
-							echo "<td>".$c_s1_3."</td>";
-							echo "<td>".$c_s1_4."</td>";
-                            echo "<td>".$c_s1_5."</td>";
-                            echo "<td>".$c_s1_6."</td>";
-                            echo "<td>".$c_s1."</td>";
+							echo "<td>".$sum_c_s1_1."</td>";
+							echo "<td>".$sum_c_s1_2."</td>";
+							echo "<td>".$sum_c_s1_3."</td>";
+							echo "<td>".$sum_c_s1_4."</td>";
+                            echo "<td>".$sum_c_s1_5."</td>";
+                            echo "<td>".$sum_c_s1_6."</td>";
+                            echo "<td>".$sum_c_s1."</td>";
 
 							echo "</tr>";
 							echo "</tbody>";
