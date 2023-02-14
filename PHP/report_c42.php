@@ -35,7 +35,7 @@
 
     <?php
 		
-		require("phpsqli_dbinfo.php");
+		require("phpsql_dbinfo.php");
 
 		$conn = mysqli_connect($hostname, $username, $password, $database);
 		if (mysqli_connect_errno()) 
