@@ -169,6 +169,30 @@
 	$month = $_POST["month"];
 	$quarter = $_POST["quarter"];
 
+
+    $type_area = $_POST["type_area"];
+    //echo "type_area : ".$type_area;
+    $type_area_region = $_POST["type_area_region"];
+    $type_area_province = substr($_POST["type_area_province"],0,2);
+    $type_area_province_name = substr($_POST["type_area_province"],3,100);
+
+
+
+
+    
+
+    if ($type_area == "0"){
+         $query_region = " ";
+    }else if ($type_area == "1"){
+        $query_region = " and (p.nhso = '".$type_area_region."') ";
+        $area_detail = "เขตสุขภาพที่ ".$type_area_region;
+    }else if ($type_area == "2"){
+        $query_region = " and (p.code = '".$type_area_province."') ";
+        $area_detail = "จังหวัด".$type_area_province_name;
+    }
+
+
+
 	if ($type == "0"){
 		$quarter_get = "ปี ";	
 		$quarter_detail = ($years+543);
@@ -265,14 +289,30 @@
 	$offender_total = 0;
 
 								
-	$query = "select prov_id,p.name as provname,nhso,p.pilot_province,count(case_id) as total ";
-	$query .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code ";
-	$query .=  $query_date_range;
-	$query .= " group by c.prov_id ";
-	$query .= " order by cast(nhso as signed),prov_id asc;";
+
+    if ($type_area != "2"){		
+
+        $query = "select prov_id,p.name as provname,nhso,p.pilot_province,count(case_id) as total ";
+        $query .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code ";
+        $query .=  $query_region;
+        $query .=  $query_date_range;
+        $query .= " group by c.prov_id ";
+        $query .= " order by cast(nhso as signed),prov_id asc;";
+
+    }else{
+
+        $query = "select c.prov_id,o.nameorg as provname,c.receiver_id,nhso,p.pilot_province,count(case_id) as total,o.nameorg ";
+        $query .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code inner join officers o on c.receiver_id = o.id ";
+        $query .=  $query_date_range;
+        $query .=  $query_region;
+        $query .= " group by o.nameorg ";
+        $query .= " order by cast(nhso as signed),c.prov_id asc;";
 
 
-		//echo $query;
+    }
+
+
+    //echo $query;
 				
 			
 					$result = mysqli_query($conn,$query);
@@ -300,14 +340,27 @@
 								$provname_sort[] = $rows["provname"];
 									
 								
-								
-								$query_case = "select prov_id,count(c.problem_case) as count_case, c.problem_case ";
-								$query_case .= "from case_inputs c ";
-								$query_case .= "where (prov_id = '".$rows["prov_id"]."') and (sender_case is not null) ";
-								$query_case .=  $query_date_range;
-								$query_case .= "group by c.problem_case ";
-								$query_case .= "order by problem_case asc;";
-								//echo $query_case;
+								if ($type_area != "2"){
+                                    $query_case = "select prov_id,count(c.problem_case) as count_case, c.problem_case ";
+                                    $query_case .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code ";
+                                    $query_case .= "where (prov_id = '".$rows["prov_id"]."') and (sender_case is not null) ";
+                                    $query_case .=  $query_region;
+                                    $query_case .=  $query_date_range;
+                                    $query_case .= "group by c.problem_case ";
+                                    $query_case .= "order by problem_case asc;";
+                                }else{
+
+                                    $query_case = "select c.prov_id,count(c.problem_case) as count_case, c.problem_case ";
+                                    $query_case .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code inner join officers o on c.receiver_id = o.id ";
+                                    $query_case .= "where (c.prov_id = '".$rows["prov_id"]."') and (sender_case is not null) and (nameorg = '".$rows["nameorg"]."')  ";
+                                    $query_case .=  $query_region;
+                                    $query_case .=  $query_date_range;
+                                    $query_case .= "group by c.problem_case ";
+                                    $query_case .= "order by problem_case asc;";
+
+
+                                }
+							    //echo $query_case;
 								
 								//mysqli_query($query_case);
 								//$result_case = mysqli_query($query_case);
@@ -434,12 +487,14 @@
 						
 					// กลุ่มประชากร	
 					$query = "select group_code,r.name,count(case_id) as total ";
-					$query .= "from case_inputs c inner join r_group_code r on c.group_code = r.code ";
+					$query .= "from case_inputs c inner join r_group_code r on c.group_code = r.code  inner join prov_geo p on c.prov_id = p.code ";
 					$query .= "where problem_case = '4' ";
 					$query .=  $query_date_range;
+                    $query .=  $query_region;
 					$query .= "group by c.group_code;";
 
-				
+                    //echo $query;
+
 		     		//mysqli_query($query);
 					$result = mysqli_query($conn,$query) ;
 					
@@ -463,16 +518,39 @@
 					
 			    
 				//case status
-				$query = "select ";
-					$query .= "sum(CASE WHEN status > '0' THEN 1 ELSE 0 END) as casestep1,";
-					$query .= "sum(CASE WHEN status > '1' THEN 1 ELSE 0 END) as casestep2,";
-					$query .= "sum(CASE WHEN status > '2' THEN 1 ELSE 0 END) as casestep3,";
-					$query .= "sum(CASE WHEN status > '3' THEN 1 ELSE 0 END) as casestep4,";
-					$query .= "sum(CASE WHEN status > '4' THEN 1 ELSE 0 END) as casestep5,";
-					$query .= "sum(CASE WHEN status > '5' THEN 1 ELSE 0 END) as casestep6 ";
-					$query .= "FROM case_inputs c ";
-					$query .= "where (sender_case is not null) ";
-					$query .=  $query_date_range;
+
+                    //if ($type_area != "2"){
+                        $query = "select ";
+                        $query .= "sum(CASE WHEN status > '0' THEN 1 ELSE 0 END) as casestep1,";
+                        $query .= "sum(CASE WHEN status > '1' THEN 1 ELSE 0 END) as casestep2,";
+                        $query .= "sum(CASE WHEN status > '2' THEN 1 ELSE 0 END) as casestep3,";
+                        $query .= "sum(CASE WHEN status > '3' THEN 1 ELSE 0 END) as casestep4,";
+                        $query .= "sum(CASE WHEN status > '4' THEN 1 ELSE 0 END) as casestep5,";
+                        $query .= "sum(CASE WHEN status > '5' THEN 1 ELSE 0 END) as casestep6 ";
+                        $query .= "FROM case_inputs c inner join prov_geo p on c.prov_id = p.code ";
+                        $query .= "where (sender_case is not null) ";
+                        $query .=  $query_date_range;
+                        $query .=  $query_region;
+                    /*
+                    
+                    }else{
+                        $query = "select ";
+                        $query .= "sum(CASE WHEN status > '0' THEN 1 ELSE 0 END) as casestep1,";
+                        $query .= "sum(CASE WHEN status > '1' THEN 1 ELSE 0 END) as casestep2,";
+                        $query .= "sum(CASE WHEN status > '2' THEN 1 ELSE 0 END) as casestep3,";
+                        $query .= "sum(CASE WHEN status > '3' THEN 1 ELSE 0 END) as casestep4,";
+                        $query .= "sum(CASE WHEN status > '4' THEN 1 ELSE 0 END) as casestep5,";
+                        $query .= "sum(CASE WHEN status > '5' THEN 1 ELSE 0 END) as casestep6 ";
+                        $query .= "FROM case_inputs c inner join prov_geo p on c.prov_id = p.code ";
+                        $query .= "where (sender_case is not null)  ";
+                        $query .=  $query_date_range;
+                        $query .=  $query_region;
+
+                    }
+                    */
+
+                    //echo $query;
+                
 
 				
 		     		//mysqli_query($query);
@@ -500,9 +578,10 @@
 					$query .= "sum(CASE WHEN operate_result_status = '2' THEN 1 ELSE 0 END) as result2, ";
 					$query .= "sum(CASE WHEN operate_result_status = '3' THEN 1 ELSE 0 END) as result3, ";
 					$query .= "sum(CASE WHEN operate_result_status = '4' THEN 1 ELSE 0 END) as result4 ";
-					$query .= "FROM case_inputs c ";
+					$query .= "FROM case_inputs c inner join prov_geo p on c.prov_id = p.code ";
 					$query .= "where c.`status` = '5' and sender_case is not null ";
 					$query .=  $query_date_range;
+                    $query .=  $query_region;
 
 					//echo $query;
 		     		//mysqli_query($query);
@@ -554,8 +633,10 @@
                 $query .= "case_inputs c ";
                 $query .= "left join r_problem_case r ";
                 $query .= "on c.problem_case = r.code ";
+                $query .= "left join prov_geo p on c.prov_id = p.code ";
 				$query .=  " where 1 ";
 				$query .=  $query_date_range;
+                $query .=  $query_region;
                 $query .= "GROUP BY problem_case order by problem_case;";
 				
 				//echo $query;
@@ -637,7 +718,7 @@
 
     <br>
     <div class="container p-3">
-        <form name="form_menu" method="post" action="automated.php">
+        <form name="form_menu" method="post" action="automated_old_ori.php">
             <div class="row">
                 <div class="col-auto">
                     <strong class="col-form-label">เลือกปี</strong>
@@ -699,6 +780,132 @@
                 </div>
 
 
+                <div class="col-auto">
+                    <strong class="col-form-label">เลือกพื้นที่</strong>
+                </div>
+                <div class="col-auto">
+                    <div class="select">
+                        <select id="type_area" name="type_area" class="form-select">
+                            <option value="0" <?php if ($type_area == "0"){ echo "selected";} ?>>ประเทศ</option>
+                            <option value="1" <?php if ($type_area == "1"){ echo "selected";} ?>>เขต</option>
+                            <option value="2" <?php if ($type_area == "2"){ echo "selected";} ?>>จังหวัด</option>
+                           
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-auto" id="type_area_region_div">
+                    <div class="select">
+                        <select id="type_area_region" name="type_area_region" class="form-select">
+                        <option value="1" <?php if ($type_area_region == "1"){ echo "selected";} ?>>เขต 1</option>
+                        <option value="2" <?php if ($type_area_region == "2"){ echo "selected";} ?>>เขต 2</option>
+                        <option value="3" <?php if ($type_area_region == "3"){ echo "selected";} ?>>เขต 3</option>
+                        <option value="4" <?php if ($type_area_region == "4"){ echo "selected";} ?>>เขต 4</option>
+                        <option value="5" <?php if ($type_area_region == "5"){ echo "selected";} ?>>เขต 5</option>
+                        <option value="6" <?php if ($type_area_region == "6"){ echo "selected";} ?>>เขต 6</option>
+                        <option value="7" <?php if ($type_area_region == "7"){ echo "selected";} ?>>เขต 7</option>
+                        <option value="8" <?php if ($type_area_region == "8"){ echo "selected";} ?>>เขต 8</option>
+                        <option value="9" <?php if ($type_area_region == "9"){ echo "selected";} ?>>เขต 9</option>
+                        <option value="10" <?php if ($type_area_region == "10"){ echo "selected";} ?>>เขต 10</option>
+                        <option value="11" <?php if ($type_area_region == "11"){ echo "selected";} ?>>เขต 11</option>
+                        <option value="12" <?php if ($type_area_region == "12"){ echo "selected";} ?>>เขต 12</option>
+                        <option value="13" <?php if ($type_area_region == "13"){ echo "selected";} ?>>เขต 13</option>
+                            
+                           
+                        </select>
+                    </div>
+                </div>
+
+             
+                <div class="col-auto" id="type_area_province_div">
+                    <div class="select">
+                        <select id="type_area_province" name="type_area_province" class="form-select">
+                        
+
+<option value="10:กรุงเทพมหานคร" <?php if ($type_area_province == "10"){ echo "selected";} ?>>กรุงเทพมหานคร</option>
+<option value="81:กระบี่" <?php if ($type_area_province == "81"){ echo "selected";} ?>>กระบี่</option>
+<option value="71:กาญจนบุรี" <?php if ($type_area_province == "71"){ echo "selected";} ?>>กาญจนบุรี</option>
+<option value="46:กาฬสินธุ์" <?php if ($type_area_province == "46"){ echo "selected";} ?>>กาฬสินธุ์</option>
+<option value="62:กำแพงเพชร" <?php if ($type_area_province == "62"){ echo "selected";} ?>>กำแพงเพชร</option>
+<option value="40:ขอนแก่น" <?php if ($type_area_province == "40"){ echo "selected";} ?>>ขอนแก่น</option>
+<option value="22:จันทบุรี" <?php if ($type_area_province == "22"){ echo "selected";} ?>>จันทบุรี</option>
+<option value="24:ฉะเชิงเทรา" <?php if ($type_area_province == "24"){ echo "selected";} ?>>ฉะเชิงเทรา</option>
+<option value="20:ชลบุรี" <?php if ($type_area_province == "20"){ echo "selected";} ?>>ชลบุรี</option>
+<option value="18:ชัยนาท" <?php if ($type_area_province == "18"){ echo "selected";} ?>>ชัยนาท</option>
+<option value="36:ชัยภูมิ" <?php if ($type_area_province == "36"){ echo "selected";} ?>>ชัยภูมิ</option>
+<option value="86:ชุมพร" <?php if ($type_area_province == "86"){ echo "selected";} ?>>ชุมพร</option>
+<option value="57:เชียงราย" <?php if ($type_area_province == "57"){ echo "selected";} ?>>เชียงราย</option>
+<option value="50:เชียงใหม่" <?php if ($type_area_province == "50"){ echo "selected";} ?>>เชียงใหม่</option>
+<option value="92:ตรัง" <?php if ($type_area_province == "92"){ echo "selected";} ?>>ตรัง</option>
+<option value="23:ตราด" <?php if ($type_area_province == "23"){ echo "selected";} ?>>ตราด</option>
+<option value="63:ตาก" <?php if ($type_area_province == "63"){ echo "selected";} ?>>ตาก</option>
+<option value="26:นครนายก" <?php if ($type_area_province == "26"){ echo "selected";} ?>>นครนายก</option>
+<option value="73:นครปฐม" <?php if ($type_area_province == "73"){ echo "selected";} ?>>นครปฐม</option>
+<option value="48:นครพนม" <?php if ($type_area_province == "48"){ echo "selected";} ?>>นครพนม</option>
+<option value="30:นครราชสีมา" <?php if ($type_area_province == "30"){ echo "selected";} ?>>นครราชสีมา</option>
+<option value="80:นครศรีธรรมราช" <?php if ($type_area_province == "80"){ echo "selected";} ?>>นครศรีธรรมราช</option>
+<option value="60:นครสวรรค์" <?php if ($type_area_province == "60"){ echo "selected";} ?>>นครสวรรค์</option>
+<option value="12:นนทบุรี" <?php if ($type_area_province == "12"){ echo "selected";} ?>>นนทบุรี</option>
+<option value="96:นราธิวาส" <?php if ($type_area_province == "96"){ echo "selected";} ?>>นราธิวาส</option>
+<option value="55:น่าน" <?php if ($type_area_province == "55"){ echo "selected";} ?>>น่าน</option>
+<option value="38:บึงกาฬ" <?php if ($type_area_province == "38"){ echo "selected";} ?>>บึงกาฬ</option>
+<option value="31:บุรีรัมย์" <?php if ($type_area_province == "31"){ echo "selected";} ?>>บุรีรัมย์</option>
+<option value="13:ปทุมธานี" <?php if ($type_area_province == "13"){ echo "selected";} ?>>ปทุมธานี</option>
+<option value="77:ประจวบคีรีขันธ์" <?php if ($type_area_province == "77"){ echo "selected";} ?>>ประจวบคีรีขันธ์</option>
+<option value="25:ปราจีนบุรี" <?php if ($type_area_province == "25"){ echo "selected";} ?>>ปราจีนบุรี</option>
+<option value="94:ปัตตานี" <?php if ($type_area_province == "94"){ echo "selected";} ?>>ปัตตานี</option>
+<option value="14:พระนครศรีอยุธยา" <?php if ($type_area_province == "14"){ echo "selected";} ?>>พระนครศรีอยุธยา</option>
+<option value="56:พะเยา" <?php if ($type_area_province == "56"){ echo "selected";} ?>>พะเยา</option>
+<option value="82:พังงา" <?php if ($type_area_province == "82"){ echo "selected";} ?>>พังงา</option>
+<option value="93:พัทลุง" <?php if ($type_area_province == "93"){ echo "selected";} ?>>พัทลุง</option>
+<option value="66:พิจิตร" <?php if ($type_area_province == "66"){ echo "selected";} ?>>พิจิตร</option>
+<option value="65:พิษณุโลก" <?php if ($type_area_province == "65"){ echo "selected";} ?>>พิษณุโลก</option>
+<option value="76:เพชรบุรี" <?php if ($type_area_province == "76"){ echo "selected";} ?>>เพชรบุรี</option>
+<option value="67:เพชรบูรณ์" <?php if ($type_area_province == "67"){ echo "selected";} ?>>เพชรบูรณ์</option>
+<option value="54:แพร่" <?php if ($type_area_province == "54"){ echo "selected";} ?>>แพร่</option>
+<option value="83:ภูเก็ต" <?php if ($type_area_province == "83"){ echo "selected";} ?>>ภูเก็ต</option>
+<option value="44:มหาสารคาม" <?php if ($type_area_province == "44"){ echo "selected";} ?>>มหาสารคาม</option>
+<option value="49:มุกดาหาร" <?php if ($type_area_province == "49"){ echo "selected";} ?>>มุกดาหาร</option>
+<option value="58:แม่ฮ่องสอน" <?php if ($type_area_province == "58"){ echo "selected";} ?>>แม่ฮ่องสอน</option>
+<option value="35:ยโสธร" <?php if ($type_area_province == "35"){ echo "selected";} ?>>ยโสธร</option>
+<option value="95:ยะลา" <?php if ($type_area_province == "95"){ echo "selected";} ?>>ยะลา</option>
+<option value="45:ร้อยเอ็ด" <?php if ($type_area_province == "45"){ echo "selected";} ?>>ร้อยเอ็ด</option>
+<option value="85:ระนอง" <?php if ($type_area_province == "85"){ echo "selected";} ?>>ระนอง</option>
+<option value="21:ระยอง" <?php if ($type_area_province == "21"){ echo "selected";} ?>>ระยอง</option>
+<option value="70:ราชบุรี" <?php if ($type_area_province == "70"){ echo "selected";} ?>>ราชบุรี</option>
+<option value="16:ลพบุรี" <?php if ($type_area_province == "16"){ echo "selected";} ?>>ลพบุรี</option>
+<option value="52:ลำปาง" <?php if ($type_area_province == "52"){ echo "selected";} ?>>ลำปาง</option>
+<option value="51:ลำพูน" <?php if ($type_area_province == "51"){ echo "selected";} ?>>ลำพูน</option>
+<option value="42:เลย" <?php if ($type_area_province == "42"){ echo "selected";} ?>>เลย</option>
+<option value="33:ศรีสะเกษ" <?php if ($type_area_province == "33"){ echo "selected";} ?>>ศรีสะเกษ</option>
+<option value="47:สกลนคร" <?php if ($type_area_province == "47"){ echo "selected";} ?>>สกลนคร</option>
+<option value="90:สงขลา" <?php if ($type_area_province == "90"){ echo "selected";} ?>>สงขลา</option>
+<option value="91:สตูล" <?php if ($type_area_province == "91"){ echo "selected";} ?>>สตูล</option>
+<option value="11:สมุทรปราการ" <?php if ($type_area_province == "11"){ echo "selected";} ?>>สมุทรปราการ</option>
+<option value="75:สมุทรสงคราม" <?php if ($type_area_province == "75"){ echo "selected";} ?>>สมุทรสงคราม</option>
+<option value="74:สมุทรสาคร" <?php if ($type_area_province == "74"){ echo "selected";} ?>>สมุทรสาคร</option>
+<option value="27:สระแก้ว" <?php if ($type_area_province == "27"){ echo "selected";} ?>>สระแก้ว</option>
+<option value="19:สระบุรี" <?php if ($type_area_province == "19"){ echo "selected";} ?>>สระบุรี</option>
+<option value="17:สิงห์บุรี" <?php if ($type_area_province == "17"){ echo "selected";} ?>>สิงห์บุรี</option>
+<option value="64:สุโขทัย" <?php if ($type_area_province == "64"){ echo "selected";} ?>>สุโขทัย</option>
+<option value="72:สุพรรณบุรี" <?php if ($type_area_province == "72"){ echo "selected";} ?>>สุพรรณบุรี</option>
+<option value="84:สุราษฎร์ธานี" <?php if ($type_area_province == "84"){ echo "selected";} ?>>สุราษฎร์ธานี</option>
+<option value="32:สุรินทร์" <?php if ($type_area_province == "32"){ echo "selected";} ?>>สุรินทร์</option>
+<option value="43:หนองคาย" <?php if ($type_area_province == "43"){ echo "selected";} ?>>หนองคาย</option>
+<option value="39:หนองบัวลำภู" <?php if ($type_area_province == "39"){ echo "selected";} ?>>หนองบัวลำภู</option>
+<option value="15:อ่างทอง" <?php if ($type_area_province == "15"){ echo "selected";} ?>>อ่างทอง</option>
+<option value="37:อำนาจเจริญ" <?php if ($type_area_province == "37"){ echo "selected";} ?>>อำนาจเจริญ</option>
+<option value="41:อุดรธานี" <?php if ($type_area_province == "41"){ echo "selected";} ?>>อุดรธานี</option>
+<option value="53:อุตรดิตถ์" <?php if ($type_area_province == "53"){ echo "selected";} ?>>อุตรดิตถ์</option>
+<option value="61:อุทัยธานี" <?php if ($type_area_province == "61"){ echo "selected";} ?>>อุทัยธานี</option>
+<option value="34:อุบลราชธานี" <?php if ($type_area_province == "34"){ echo "selected";} ?>>อุบลราชธานี</option>
+                           
+                        </select>
+                    </div>
+                </div>
+
+
 
 
                 <div class="col-auto ">
@@ -719,7 +926,7 @@
     <div class="container border bg-white p-3">
         <div id="result_ac">
             <div id="head" align="center">
-                <h3>รายงานการละเมิดสิทธิฯ ผ่านระบบ CRS <?php echo $quarter_get; ?> <?php echo $quarter_detail; ?></h3>
+                <h3>รายงานการละเมิดสิทธิฯ ผ่านระบบ CRS <?php echo $quarter_get; ?> <?php echo $area_detail." ".$quarter_detail; ?></h3>
             </div>
 
             <div id="head" align="center">
@@ -750,7 +957,8 @@
                     <?php } ?>
                 </p>
             </div>
-            <div id="paragrahp2" class="indent1 container">
+            <?php if ($type_area != "2"){?>
+                <div id="paragrahp2" class="indent1 container">
                 <p style="text-align: justify;">
                     รายงานการละเมิดสิทธิเกิดขึ้นใน <?php echo $prov_total; ?> จังหวัด เป็นจังหวัดพื้นที่นำร่อง
                     <?php echo $pilot_province; ?> จังหวัด ได้แก่
@@ -761,6 +969,17 @@
                     <?php echo $case_sort[0]; ?> เรื่อง (ดังตารางที่ 1)
                 </p>
             </div>
+            <? }else{ ?>
+                <div id="paragrahp2" class="indent1 container">
+                <p style="text-align: justify;">
+                    มีหน่วยงานที่ช่วยจัดการการละเมิดสิทธิจำนวน <?php echo $prov_total; ?> หน่วยงาน โดย
+                    
+                    <?php $count = 1; foreach ($pilot_prov_name as $value) { if ($count != $count_office ) {echo $value." ".$case_sort[$count]." เรื่อง ";}else{ echo "และ".$value;} $count++;} ?>
+                   
+                    <?php echo $case_sort[0]; ?> เรื่อง (ดังตารางที่ 1)
+                </p>
+            </div>
+            <? } ?>
             <div class="indent2 container">
                 <p><b>ตารางที่ 1</b> สรุปข้อมูลการร้องเรียนในระบบ CRS ข้อมูลในระบบ<?php echo $quarter_title; ?>
                     <?php echo $quarter_detail; ?> จำแนกตามกรณีร้องเรียน </p>
@@ -877,7 +1096,7 @@
             </div>
 
             <div id="paragrahp6" class="indent2 container">
-                <p><b>ดังตารางที่ 2</b> การรายงานละเมิดสิทธิผ่านระบบ CRS <?php echo $quarter_title; ?>
+                <p><b>ดังตารางที่ 2</b> การรายงานละเมิดสิทธิผ่านระบบ CRS <?php echo $area_detail." ".$quarter_title; ?>
                     <?php echo $quarter_detail; ?></p>
                 <div align="center">
                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -1029,12 +1248,36 @@ function news_div() {
     }
 }
 
+
+function type_area_div() {
+
+if ($('#type_area').val() == '0') {
+    $("#type_area_province_div").hide();
+    $("#type_area_region_div").hide();
+
+} else if ($('#type_area').val() == '1') {
+    $("#type_area_province_div").hide();
+    $("#type_area_region_div").show();
+
+} else if ($('#type_area').val() == '2')  {
+    $("#type_area_province_div").show();
+    $("#type_area_region_div").hide();
+}
+}
+
+
 $(document).ready(function() {
 
     news_div();
+    type_area_div();
 
     $('#type').on('change', function() {
         news_div();
+        //console.log("1")
+    });
+
+    $('#type_area').on('change', function() {
+        type_area_div();
         //console.log("1")
     });
 });
