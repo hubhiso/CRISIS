@@ -724,24 +724,28 @@
                                 echo "<td>".$c_s1_2."</td>";
                                 echo "<td>".$c_s1_3."</td>";
                                 echo "<td>".$c_s1_4."</td>";
+                                echo "<td>".$c_s1_5."</td>";
                                 echo "<td>".$c_s1."</td>";
 
                                 echo "<td>".$c_s2_1."</td>";
                                 echo "<td>".$c_s2_2."</td>";
                                 echo "<td>".$c_s2_3."</td>";
                                 echo "<td>".$c_s2_4."</td>";
+                                echo "<td>".$c_s2_5."</td>";
                                 echo "<td>".$c_s2."</td>";
 
                                 echo "<td>".$c_s3_1."</td>";
                                 echo "<td>".$c_s3_2."</td>";
                                 echo "<td>".$c_s3_3."</td>";
                                 echo "<td>".$c_s3_4."</td>";
+                                echo "<td>".$c_s3_5."</td>";
                                 echo "<td>".$c_s3."</td>";
 
                                 echo "<td>".$c_s4_1."</td>";
                                 echo "<td>".$c_s4_2."</td>";
                                 echo "<td>".$c_s4_3."</td>";
                                 echo "<td>".$c_s4_4."</td>";
+                                echo "<td>".$c_s4_5."</td>";
                                 echo "<td>".$c_s4."</td>";
 
                                 echo "<td>".$c_s5_1."</td>";
@@ -754,6 +758,7 @@
                                 echo "<td>".$c_s6_2."</td>";
                                 echo "<td>".$c_s6_3."</td>";
                                 echo "<td>".$c_s6_4."</td>";
+                                echo "<td>".$c_s6_5."</td>";
                                 echo "<td>".$c_s6."</td>";
 
                                 echo "<td>".$c_as."</td>";
