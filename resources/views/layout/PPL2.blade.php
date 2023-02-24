@@ -5,7 +5,7 @@
             <div class="navbar-end has-text-right">
                 <div class="navbar-item">
 
-                    <a class=" button is-danger is-inverted is-rounded is-small  " href="contents/แบบฟอร์ม_ขอสถานะผู้ใช้งานโปรแกรมCRS.docx.pdf" target="_blank">
+                    <a class=" button is-danger is-inverted is-rounded is-small  " href="contents/แบบฟอร์ม_ขอสถานะผู้ใช้งานโปรแกรมCRS.pdf" target="_blank">
                         แบบฟอร์มขอรหัสผู้ใช้งาน&nbsp; <span class="fa-stack fa-1x">
                             <i class="fa fa-circle fa-stack-2x"></i>
                             <i class="fa fa-download fa-stack-1x fa-inverse"></i>
