@@ -82,7 +82,7 @@
         $sql_of = "SELECT a.subtype_offender, count(a.subtype_offender) as suboff 
         FROM add_details a , case_inputs c
         where c.case_id = a.case_id
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         $pr_q
         group by a.subtype_offender";
         
@@ -101,7 +101,7 @@
         FROM case_inputs c ,r_problem_case
         WHERE r_problem_case.code = c.problem_case
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by problem_case";
         
         $result_c1 = mysqli_query($conn, $sql_c1); 
@@ -123,7 +123,7 @@
         FROM add_details a , case_inputs c
         where c.case_id = a.case_id
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'";
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'";
         
         $result_c2 = mysqli_query($conn, $sql_c2); 
         $i = 0;
@@ -143,7 +143,7 @@
         FROM case_inputs c, r_group_code r
         WHERE  c.group_code = r.code
         $pr_q and c.problem_case = '4'
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by c.group_code ";
         //echo $sql_c3;
         $result_c3 = mysqli_query($conn, $sql_c3); 
@@ -169,7 +169,7 @@
         WHERE r.code = c.sub_problem
         and c.problem_case = '1'
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by c.sub_problem";
         
         $result_c4 = mysqli_query($conn, $sql_c4); 
@@ -395,7 +395,7 @@
     <?php
         $sql1 = "SELECT c.status,count(c.id) as n_status 
         FROM case_inputs c
-        WHERE  c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        WHERE  date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         $pr_q
         group by c.status";
         $result1 = mysqli_query($conn, $sql1); 

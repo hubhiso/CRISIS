@@ -121,7 +121,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
+                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -736,7 +736,7 @@
 						FROM case_inputs c
                         left join add_details a on c.case_id = a.case_id
 						where receiver='".$row1['name']."'
-						and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+						and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
 						group by receiver";
 
                         //echo $sql2."<br><BR><BR>";

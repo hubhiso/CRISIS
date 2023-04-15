@@ -111,7 +111,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
+                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -474,7 +474,7 @@
                     inner join officers f on c.ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
                     where f.name = '".$row1['name']."' 
-                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $ousername = 0;
                     
@@ -493,7 +493,7 @@
                     inner join officers f on c.prev_ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
                     where f.name = '".$row1['name']."' 
-                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $prev_ousername = 0;
                     
@@ -514,7 +514,7 @@
                     count(status) as sum
                     FROM case_inputs
                     where receiver='".$row1['name']."'
-                    and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+                    and date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
                     $sub_q
                     group by receiver";
 

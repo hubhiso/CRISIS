@@ -33,7 +33,7 @@
 
     <?php
         
-        require("phpsql_dbinfo.php");
+        require("phpsqli_dbinfo.php");
 
         $conn = mysqli_connect($hostname, $username, $password, $database);
         if (mysqli_connect_errno()) 
@@ -71,48 +71,48 @@
            $se_time = 1;
 
            $date_start = "10/1/".($se_year-1);
-           $date_end = "9/30/".$se_year;
+           $date_end = "10/1/".$se_year;
        }
 
        if($se_time== 1){
 
            if($se_quarter== 0){
                $date_start = "10/1/".($se_year-1);
-               $date_end = "9/30/".$se_year;
+               $date_end = "10/1/".$se_year;
            }else if($se_quarter== 1){
                $date_start = "10/1/".($se_year-1);
-               $date_end = "12/31/".($se_year-1);
+               $date_end = "1/1/".($se_year-1);
            }else if($se_quarter== 2){
                $date_start = "1/1/".$se_year;
-               $date_end = "3/31/".$se_year;
+               $date_end = "4/1/".$se_year;
            }else if($se_quarter== 3){
                $date_start = "4/1/".$se_year;
-               $date_end = "6/30/".$se_year;
+               $date_end = "7/1/".$se_year;
            }else if($se_quarter== 4){
                $date_start = "7/1/".$se_year;
-               $date_end = "9/30/".$se_year;
+               $date_end = "10/1/".$se_year;
            }else if($se_quarter== 12){
                $date_start = "10/1/".($se_year-1);
-               $date_end = "3/31/".$se_year;
+               $date_end = "4/1/".$se_year;
            }else if($se_quarter== 13){
                $date_start = "10/1/".($se_year-1);
-               $date_end = "6/30/".$se_year;
+               $date_end = "7/1/".$se_year;
            }else if($se_quarter== 99){
                if($se_month== 10){
                    $date_start = "10/1/".($se_year-1);
-                   $date_end = "10/31/".($se_year-1);
+                   $date_end = "11/1/".($se_year-1);
                }else if($se_month== 11){
                    $date_start = "11/1/".($se_year-1);
-                   $date_end = "11/30/".($se_year-1);
+                   $date_end = "12/1/".($se_year-1);
                }else if($se_month== 12){
                    $date_start = "12/1/".($se_year-1);
-                   $date_end = "12/31/".($se_year-1);
+                   $date_end = "1/1/".$se_year;
                }else if($se_month== 1){
                    $date_start = "1/1/".$se_year;
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
+                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -148,7 +148,6 @@
 
        }
 
-       //echo $date_start." ".$date_end;
 
        $p_case = $_POST["pcase"];
        if($p_case > '0'){
@@ -158,7 +157,7 @@
         $sql_of = "SELECT a.subtype_offender, count(a.subtype_offender) as suboff 
         FROM add_details a , case_inputs c
         where c.case_id = a.case_id
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         $pr_q
         group by a.subtype_offender";
         
@@ -177,7 +176,7 @@
         FROM case_inputs c ,r_problem_case
         WHERE r_problem_case.code = c.problem_case
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by problem_case order by case1 desc";
         
         $result_c1 = mysqli_query($conn, $sql_c1); 
@@ -200,7 +199,7 @@
         FROM add_details a , case_inputs c
         where c.case_id = a.case_id
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'";
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'";
         
         $result_c2 = mysqli_query($conn, $sql_c2); 
         $i = 0;
@@ -220,7 +219,7 @@
         FROM case_inputs c, r_group_code r
         WHERE  c.group_code = r.code
         $pr_q and c.problem_case = '4'
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by c.group_code ";
         //echo $sql_c3;
         $result_c3 = mysqli_query($conn, $sql_c3); 
@@ -246,7 +245,7 @@
         WHERE r.code = c.sub_problem
         and c.problem_case = '1'
         $pr_q
-        and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        and date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         group by c.sub_problem";
         
         $result_c4 = mysqli_query($conn, $sql_c4); 
@@ -274,7 +273,7 @@
         sum(CASE WHEN status > '4' THEN 1 ELSE 0 END) as casestep5,
         sum(CASE WHEN status > '5' THEN 1 ELSE 0 END) as casestep6
         FROM case_inputs c
-        where  created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        where  date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
 		$pr_q ";
 
 
@@ -296,9 +295,10 @@
     <?php
         $sql1 = "SELECT c.status,count(c.id) as n_status 
         FROM case_inputs c
-        WHERE  c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+        WHERE  date(c.created_at) BETWEEN '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
         $pr_q
         group by c.status";
+    
         $result1 = mysqli_query($conn, $sql1); 
         $i = 0;
         $sumall = 0;

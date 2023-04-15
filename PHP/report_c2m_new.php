@@ -61,7 +61,7 @@
 	$sub_q
 	FROM case_inputs, prov_geo
 	where prov_geo.code = case_inputs.prov_id
-	and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+	and date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
 	group by prov_id";
 
 	$result = mysqli_query($conn, $sql); 

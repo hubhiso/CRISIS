@@ -273,7 +273,7 @@
                                 sum(CASE WHEN status = '6' THEN 1 ELSE 0 END) as case6,
                                 count(status) as sum
                                 FROM case_inputs LEFT JOIN prov_geo ON case_inputs.prov_id = prov_geo.CODE
-                                where  created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+                                where  date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
                                 $sub_q
                                 group by prov_id";
 

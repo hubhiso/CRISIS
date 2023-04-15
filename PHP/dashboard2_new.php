@@ -109,7 +109,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
+                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -160,8 +160,7 @@
 		sum(CASE WHEN problem_case = '4' THEN 1 ELSE 0 END) as case4,
 		sum(CASE WHEN problem_case = '5' THEN 1 ELSE 0 END) as case5,
 		count(problem_case) as sum
-		FROM case_inputs where 
-		created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+		FROM case_inputs where date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
 		$sub_q $pr_q
 		";
 		echo $sql2;
