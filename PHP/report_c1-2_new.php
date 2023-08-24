@@ -35,15 +35,7 @@
 
     <?php
 		
-		require("phpsql_dbinfo.php");
-
-		$conn = mysqli_connect($hostname, $username, $password, $database);
-		if (mysqli_connect_errno()) 
-    { 
-        echo "Database connection failed."; 
-    }
-		// Change character set to utf8
-		mysqli_set_charset($conn,"utf8");
+		require("phpsqli_dbinfo.php");
 
 
 	   $date_start = $_POST["date_start"];
@@ -113,7 +105,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
+                   $date_end = strtotime("3/31/".$se_year)-1;
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -463,7 +455,7 @@
                 sum(CASE WHEN status = '6' THEN 1 ELSE 0 END) as case6,
                 count(status) as sum
                 FROM case_inputs LEFT JOIN prov_geo ON case_inputs.prov_id = prov_geo.CODE
-                where  date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
+                where  created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
                 $sub_q
                 group by prov_id";
 
@@ -490,7 +482,7 @@
                         ON last_update.id = c.id
                         inner join case_inputs ca on c.case_id = ca.case_id
                         where  prov_id = '".$row2[prov_id]."'
-                        and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."';
+                        and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
 
                         $ousername = 0;
 
@@ -509,7 +501,7 @@
                         ON last_update.id = c.id
                         inner join case_inputs ca on c.case_id = ca.case_id
                         where  prov_id = '".$row2[prov_id]."'
-                        and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."';
+                        and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
                         
                         $prev_ousername = 0;
 
