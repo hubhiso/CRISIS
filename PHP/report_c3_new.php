@@ -420,7 +420,7 @@
                 on case_inputs.problem_case = r_problem_case.code
                 where
                 and date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
-                GROUP BY problem_case order by problem_case";
+                GROUP BY problem_case order by problem_case'";
 
                 $result1 = mysqli_query($conn, $sql1); 
                 $row1 = mysqli_num_rows($result1); 
