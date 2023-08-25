@@ -409,7 +409,7 @@
             </thead>
             <tbody>
                 <?php
-                $sql1 = "select problem_case, r_problem_case.name,
+                $sql1 = "SELECT problem_case, r_problem_case.name,
                 sum(CASE WHEN  sender_case = '3'  THEN 1 ELSE 0 END) as sendercase3,
                 sum(CASE WHEN  sender_case = '1'  THEN 1 ELSE 0 END) as sendercase1,
                 sum(CASE WHEN  sender_case = '2'  THEN 1 ELSE 0 END) as sendercase2,
@@ -418,9 +418,7 @@
                 case_inputs
                 left join r_problem_case 
                 on case_inputs.problem_case = r_problem_case.code
-                where
-                and date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
-                GROUP BY problem_case order by problem_case'";
+                where date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."' GROUP BY problem_case order by problem_case'";
 
                 $result1 = mysqli_query($conn, $sql1); 
                 $row1 = mysqli_num_rows($result1); 
