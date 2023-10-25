@@ -14,7 +14,7 @@
     <meta name="theme-color" content="#ab3c3c" />
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
+    <link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
     <script src="js/jquery.min.js"></script>

@@ -143,6 +143,10 @@ Route::get('change/{locale}', function ($locale) {
 
 Route::get('check-model','ContactController@getIndex');
 
+Route::get('/resource', function () {
+    return view('resource');
+});
+
 
 
 

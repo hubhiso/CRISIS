@@ -2,6 +2,18 @@ body {
     font-family: 'Mitr', sans-serif;
 }
 
+.color1{
+    background-color: #f14668 !important; 
+    color: #FFFFFF !important; 
+}
+.button_addshadow{
+    box-shadow: 2px 3px 3px 1px #ccc !important; 
+
+}
+.btn_colorred{
+    background-color: #C70039 !important; 
+}
+
 #btn_new1 {
     font-size: 30px;
     background-color: #CC3366;
@@ -57,6 +69,16 @@ body {
 
 #ft2 {
     color: #FFFFFF;
+}
+
+.btn_facebook{
+    background: #1877F2 !important;
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.tag{
+    text-decoration: none !important;
 }
 
 .btn_sub {
@@ -277,4 +299,21 @@ body {
   
   .box_text:hover .overlay_cover {
     opacity: 1;
+  }
+
+  .wall1 {
+    background-image: url("../images/wall-n1.jpg");
+    background-size: cover;
+  
+  }
+  
+  .wall2 {
+    background-image: url("../images/wall-n2.jpg");
+    background-size: cover;
+  
+  }
+  
+  .wall3 {
+    background-image: url("../images/wall-n3.jpg");
+    background-size: cover;
   }

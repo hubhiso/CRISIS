@@ -12,13 +12,17 @@ return [
     "bt_status" => "Check complaint status",
     "bt_report_public" => "Report",
 
+    "txt_head_typecheck" => "What kind of help do you need?",
+    "bt_report_complaint" => "Click to report a complaint on human rights.",
+    "bt_link_far" => "Click to inquire/ask for advice about HIV.",
+
     "Link" => "https://www.youtube.com/embed/6pEIk5pN9mI",
     "bt_popup" => "Close",
 
     "tx_h_knowledge" =>"Resources for Knowledge of Human Rights",
-    "tx_sh_knowledge" =>"You can search by the information below.",
-    "tx_h_table" =>"Report a compliant agency directly",
-    "tx_sh_table" =>"You can Report a compliant by the information below.",
+    "tx_sh_knowledge" =>"You can search by the information here.",
+    "tx_h_table" =>"Report a complaint agency directly",
+    "tx_sh_table" =>"You can Report a complaint by the information below.",
     "bt_map" =>"Map",
 
     "ck_infection_status" =>"HIV Infection status",
@@ -41,7 +45,20 @@ return [
     "ck_group11" =>"Elderly",
     "ck_group12" =>"Etc",
 
-    //Compliant Page
+    //complaint Page
+
+    "txt_ask_urgenthelp" => "Do you want to request urgent help through Pokpong?",
+    "txt_tell_urgenthelp" => "* Urgent help through Pokpong, officials will contact you within 24 hours.",
+
+    "btn_need" => "Need help",
+    "btn_noneed" => "Do not need",
+
+    "txt_short_urgenthelp" => "officials will contact you within 24 hours.",
+    "txt_short_urgenthelp_7day" => "officials will contact you within 1-7 days.",
+
+    "tag_help_status" => "Help request status.",
+    "btn_urgent" => "Urgent",
+    "btn_nourgent" => "Not Urgent",
 
     "txt_head_popup" => "Please review and accept to continue:",
     "bt_agree_popup" => "I agree to the terms and conditions for the disclosure of personal information.",
@@ -49,7 +66,7 @@ return [
 
     "txt_new_explain_popup" => "All information collected will be kept strictly confidential. Please verify your phone number for our staffs to contact you soon.",
     "txt_accept" => "Accept",
-
+    
     "nav_home" => "Home",
     "nav_complaint" => "Report a Complaint",
 
@@ -62,7 +79,8 @@ return [
     "txt_inf_tel" => "Tel",
     "bt_inf_tel" => "Number 9 - 10 Digits",
 
-    "txt_head2_rc" => "Victim information (Please fill all the blank with * )",
+    "txt_head2_rc" => "Victim information",
+    "txt_head2_rc_2" => "(Please fill all the blank with * )",
     "txt_name" => "Name",
     "bt_name" => "Name or pseudonym",
     "txt_tel" => "Phone number",
@@ -81,6 +99,7 @@ return [
     "txt_nat5" => "Cambodian",
     "txt_nat6" => "Others, specify",
     "txt_nat6_sp" => "Specify nationality",
+    "txt_nat7" => "Stateless",
 
     "txt_DateofIncident" => "Date of Incident",
     "txt_year" => "Year (A.D.)",
@@ -168,7 +187,75 @@ return [
     "tx_status5_1" => "Process completed",
 
     "tx_statuserror1" => "Your tracking code not found.",
-    "tx_statuserror2" => "Please contact to officer."
+    "tx_statuserror2" => "Please contact to officer.",
+
+    "tx_agency_name" => "Agency Name",
+    "tx_province" => "Province",
+    "tx_address" => "Address",
+    "tx_location" => "Location",
+    "tx_contact" => "Contact",
+    "tx_website" => "Website",
+
+    "tx_rsat" => "Rainbow Sky Association Of Thailand (RSAT)",
+    "tx_tnp_plus" => "Thai Plus Network (TNP+)",
+    "tx_far" => "Foundation for AIDS Rights THAILAND (FAR)",
+    "tx_swing_silom" => "Service Workers in Group Foundation (SWING)",
+    "tx_swing_saphankhwa" => "Service Workers in Group Foundation (SWING)",
+    "tx_swing_pattaya" => "Service Workers in Group Foundation (SWING)",
+    "tx_rtf" => "Raks Thai Foundation (RTF)",
+    "tx_hon" => "Health and Opportunity Network (HON)",
+    "tx_nam_kwan_sirung" => "Nam Kwan Sirung",
+    "tx_stm" => "Stella Maris Songkla",
+
+    "tx_swing" => "Service Workers in Group Foundation (SWING)",
+
+    "tx_rsat_add_bkk" => "1 And 3 Ram Kam Heng 97/2 Alley, Hua Mak, Bangkrabi District, Bangkok Province  10240",
+    "tx_tnp_add_bkk" => "494 Ladpao101 Aelly, Klong-Jan, Bangkrabi District, Bangkok Province 10240",
+    "tx_far_add_bkk" => "133/235 Ruenruedee 3 Village, Hathairach Road, Minburi District, Bangkok Province 10510",
+    "tx_swing_silom_add" => "Buliding 3, 5'th Floor Pathpong1 Alley, Surawong Road, Suriyawong, Bangrak District, Bangkok 10500",
+    "tx_swing_saphankhwa_add" => "1417/31 Padhipat Road, Samsen-nai,  Phayathai District, Bangkok Province 10400",
+    "tx_swing_pattaya_add" => "45/54 Number Village 10, Nongpue,  Bangla-Mung District,  Chon Buri",
+    "tx_rsat_add_chon" => "94/6 Number Village 4, BanSuan, Maung District,  Chon Buri",
+    "tx_rtf_add_chon" => "79/16 Number Village 3, Surasak, Sriracha District, Chon Buri 20110",
+    "tx_hon_add_chon" => "75 Sukhumvit Road, Muang Pattaya, Bang Lamung District, Chon Buri 20150",
+    "tx_nam_kwan_sirung_add_phayao" => "414/12 Number Village 11, Tom, Muang District, Phayao",
+    "tx_rtf_add_cgm" => "113/9  ChiangMai-Lumpang Road, Thasala, Muang District, ChiangMai 50000",
+    "tx_rtf_add_trat" => "1140/35 Number Village 12, Wang Ka Jae, Muang District, Trad 23000",
+    "tx_rtf_add_nakornpathom" => "9,71  Monthathip Road,Tha Tamnak, Nakhon Chai Si District, Nakhon Pathom 73120",
+    "tx_rtf_add_nakornsri" => "11 Chonlaprathan Road 4 Right 2 Nakein, Muang District, Nakorn Si Thammarat",
+    "tx_rtf_add_rayong" => "25/65 Wutthisan Road, Cheng-nern, Muang, Rayong",
+    "tx_far_add_rayong" => "5/79 Termsub Private Home Village, Nern-Phra, Muang Rayong 21000",
+    "tx_rsat_add_songkra" => "79 Nipat-Songkorh 2 Hatyai, Hatyai District Songkla 90110",
+    "tx_stm_add_songkra" => "33 Rach Udhis 2, 1 Alley Boyang, Muang, Songkla 90000",
+    "tx_rtf_add_samut_sakhon" => "25/21 Mahachai-Muang Thong 1, Number Village 3, Sahakorn Road, Bangya Preak, Muang, Sumut Sakorn 74000",
+    "tx_rtf_add_surat" => "200/3-4 Aek Thani Number Village 5, Leang Muang Road, Makham Tae, Muang, Surat Thani",
+    "tx_rsat_add_ubon" => "542 Pichit Rangsan, Nai Muang, Muang, Ubonratthani",
+    "tx_rtf_add_udon" => "273 Makkang, Muang, Udonthani 41000",
+
+    "tx_bkk" => "Bangkok", 
+    "tx_chonburi" => "Chonburi",
+    "tx_cnx" => "Chiang Mai",
+    "tx_phayao" => "Phayao",
+    "tx_trat" => "Trat",
+    "tx_nakhonpathom" => "Nakhon Pathom",
+    "tx_nakhon_si" => "Nakhon Si Thammarat",
+    "tx_rayong" => "Rayong",
+    "tx_songkhla" => "Songkhla",
+    "tx_samut_sakhon" => "Samut Sakhon",
+    "tx_surat_thani" => "Surat Thani",
+    "tx_ubon" => "Ubon Ratchathani",
+    "tx_udon" => "Udon Thani",
+
+    "link_loadjson" => "loadjson_en.php",
+
+    "tx_user_regis" => "User registration",
+
+    "tx_thankyou" => "Thank you for reporting a complaint.",
+    "tx_thankyou2" => "The staff team will proceed to the next step.",
+    "tx_keep_id" => "Please keep your ID to track the status of your complaint.",
+    "tx_id" => "ID to be used to track your status is",
+
+    "tx_des1" => "Please explain easily what happens."
 
 ];
 
