@@ -9,14 +9,17 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
 
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
+    <link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet">
+    <link href="{{ asset('bulma-tooltip/bulma-tooltip.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modal/modal.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
-
+    <link href="{{ asset('css/font-awesome5.0.6/css/fontawesome-all.css') }}" rel="stylesheet">
     {{ Html::script('js/jquery.min.js') }}
     <link href="{{ asset('/css/uploadicon/new3.css') }}" rel="stylesheet">
+
     <link href="{{ asset('/css/nicelabel/css/jquery-nicelabel.css') }}" rel="stylesheet">
+
 
     {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
     {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
@@ -68,7 +71,7 @@
                     <li class="is-active">
                         <a href="#">
                             <span class="icon is-small">
-                            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                                <i class="fa fa-bullhorn" aria-hidden="true"></i>
                             </span>
                             <span>แจ้งเหตุ</span>
                         </a>
@@ -78,12 +81,44 @@
 
             <h2 id="modern-framework" class="subtitle"> กรุณาบันทึกข้อมูลเบื้องต้น
                 เพื่อให้เจ้าหน้าที่รับเรื่องสามารถติดต่อไปภายหลัง </h2>
-            <div id="text-checkbox" class="columns is-multiline is-mobile">
-                &nbsp &nbsp
-                <input class="text-nicelabel" id="emergency" name="emergency" value="1"
-                    data-nicelabel='{"position_class": "text_checkbox", "checked_text": "ขอความช่วยเหลือเร่งด่วน", "unchecked_text": "ขอความช่วยเหลือเร่งด่วน"}'
-                    type="checkbox" />
+
+            <div class="level">
+                <!-- Left side -->
+                <div class="level-left">
+
+                </div>
+
+                <!-- Right side -->
+                <div class="level-right">
+                    <div class="level-item">
+                        <a class="button is-danger" id="showModal"><i
+                                class="fas fa-exclamation-triangle">&nbsp;</i>ขอความช่วยเหลือเร่งด่วน</a>
+                    </div>
+                </div>
             </div>
+
+            <div class="level">
+                    <!-- Left side -->
+                    <div class="level-left">
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="level-right">
+                        <div class="level-item">
+                            <p>สถานะการขอความช่วยเหลือ <span id="tag_alert"
+                                    class="tag is-medium is-rounded is-success is-light has-tooltip-multiline"
+                                    data-tooltip="เจ้าหน้าที่จะติดต่อกลับภายใน 1 - 7 วัน"><b>ไม่เร่งด่วน</b></span>
+                                <span id="tag_notalert"
+                                    class="tag is-medium is-rounded is-danger is-light has-tooltip-multiline"
+                                    data-tooltip="เจ้าหน้าที่จะติดต่อกลับภายใน 24 ชั่วโมง"><i
+                                        class="fas fa-exclamation-triangle">&nbsp;</i><b>เร่งด่วน</b></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            <input type="hidden" id="emergency" name="emergency" value="0">
+
             <div class="box" id="data-agent">
                 <div class="field is-horizontal">
                     <div class="field-label ">
@@ -95,7 +130,10 @@
                 <div class="field is-grouped">
                     <p class="control is-expanded has-icons-left ">
                         <label class="radio">
-                            {{ Form::radio('sender_case', '3' , true) }} <a>เจ้าหน้าที่แจ้ง</a>
+
+                            <input class="is-checkradio is-info" type="radio" id="sender_case" name="sender_case" value="_"
+                                    checked="checked">
+                            <label for="sender_case">เจ้าหน้าที่แจ้ง</label>
                         </label>
                     </p>
                 </div>
@@ -109,7 +147,8 @@
                         <div class="field is-grouped">
                             <p class="control is-expanded has-icons-left ">
                                 {!! Form::text('sender',Auth::user()->name,['class'=>'input','readonly']) !!}
-                                <span class="icon is-small is-left"> <i class="fa fa-user"></i> </span> </p>
+                                <span class="icon is-small is-left"> <i class="fa fa-user"></i> </span>
+                            </p>
                         </div>
                         <div class="field-label is-normal">
                             <label class="label">หมายเลขโทรศัพท์ผู้แจ้ง </label>
@@ -161,7 +200,8 @@
                         <div class="field is-grouped">
                             <p class="control is-expanded has-icons-left ">
                                 {!! Form::text('name',null,['class'=>'input','placeholder'=>'ชื่อเรียก']) !!}
-                                <span class="icon is-small is-left"> <i class="fa fa-user"></i> </span> </p>
+                                <span class="icon is-small is-left"> <i class="fa fa-user"></i> </span>
+                            </p>
                         </div>
                         <div class="field-label is-normal">
                             <label class="label">หมายเลขโทรศัพท์ </label>
@@ -219,11 +259,13 @@
                             <br>
                             <input class="is-checkradio is-info" type="radio" id="nation5" name="nation" value="5">
                             <label for="nation5">กัมพูชา</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation7" name="nation" value="7">
+                            <label for="nation7">ไร้สัญชาติ/ไม่มีสถานะบุคคล</label>
                             <input class="is-checkradio is-info" type="radio" id="nation6" name="nation" value="6">
                             <label for="nation6">อื่นๆ ระบุ</label>
                             <input type="text" class="input" name="nation_etc" placeholder="ระบุสัญชาติ"
                                 style="display:none">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -253,7 +295,7 @@
                                     <select id="MonthAct" name="MonthAct" onchange="date_acc();">
                                         <option value="1" @if(date('m')==1){ selected } @endif>
                                             มกราคม </option>
-                                        <option value="2" @if(date('m')==2){ selected } @endif> 
+                                        <option value="2" @if(date('m')==2){ selected } @endif>
                                             กุมภาพันธ์ </option>
                                         <option value="3" @if(date('m')==3){ selected } @endif>
                                             มีนาคม </option>
@@ -281,7 +323,7 @@
                             </div>
 
                             <div class="column  ">
-                                วันที่ 
+                                วันที่
                                 <div class="select">
                                     <select class="input" id="DayAct" name="DayAct" onchange="">
                                         @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}" @if(date('d')==$i){
@@ -353,7 +395,7 @@
                         <div class="field  is-grouped">
                             <div class="control  ">
                                 <!--p>คลิกเพื่อระบุตำแหน่งในปัจจุบัน </p-->
-                                <a class="button is-primary" onclick="getLocation()">
+                                <a class="button is-danger" onclick="getLocation()">
                                     <span class="icon is-left">
                                         <i class="fas fa-location-arrow"></i>
                                     </span>
@@ -363,7 +405,7 @@
                                 {{ Form::hidden('geolon', null, array('id' => 'glon')) }}
                             </div>
                             <div class="control">
-                                <p class=" is-primary is-medium has-text-info" id="getsuccess"></p>
+                                <p class=" is-danger is-medium has-text-info" id="getsuccess"></p>
                             </div>
                         </div>
                     </div>
@@ -469,7 +511,7 @@
                         <label class="label"> อัพโหลดข้อมูลเพิ่มเติม </label>
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
                                 <input class="input-file" id="file1" name="file1" type="file" name="resume">
                                 <span class="file-cta">
@@ -492,7 +534,7 @@
                     <div class="field-label is-normal">
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
                                 <input class="input-file" id="file2" name="file2" type="file" name="resume">
                                 <span class="file-cta">
@@ -515,7 +557,7 @@
                     <div class="field-label is-normal">
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
                                 <input class="input-file" id="file3" name="file3" type="file" name="resume">
                                 <span class="file-cta">
@@ -540,150 +582,20 @@
                 <p class="control">
                     @if (Auth::user()->p_receive == 'no')
                     @elseif (Auth::user()->p_receive == 'yes')
-                    {!! Form::submit('ส่งข้อมูล',['class'=>'button is-primary']) !!}
+                    {!! Form::submit('ส่งข้อมูล',['class'=>'button is-danger']) !!}
                     @endif
                 </p>
                 <p class="control">
                     <a><a class="button is-outlined" href="{{ route('officer.main') }}">ยกเลิก</a></a>
                 </p>
             </div>
-    </div>
-    </section>
+
+        </section>
     </div>
 
 
     {!! Form::close() !!}
 
-    {{ Html::script('js/select_list.js') }}
-
-    <script>
-        $(document).ready(function() {
-            $('#btn_submit').on('click', function(){
-                $(this).addClass('is-loading');
-            });
-        });
-    </script>
-
-    <script>
-    $('#prov_id').on('change', function(e) {
-        // console.log(e);
-        var prov_id = e.target.value;
-
-        $.get('ajax-amphur/' + prov_id, function(data) {
-            //success data
-            $('#amphur_id').empty();
-
-            $.each(data, function($index, subcatObj) {
-                $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
-                    '"style="width:250px">' + subcatObj.AMPHUR_NAME + '</option>');
-
-            });
-            // console.log(data);
-        });
-    });
-
-    $("input[name='sex']").on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 4) {
-            $("input[name='sex_etc']").show();
-        } else {
-            $("input[name='sex_etc']").hide();
-        }
-    });
-    $("input[name='nation']").on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 6) {
-            $("input[name='nation_etc']").show();
-        } else {
-            $("input[name='nation_etc']").hide();
-        }
-    });
-
-
-    //<!-- upload -->
-
-    document.querySelector("html").classList.add('js');
-
-    var fileInput1 = document.getElementById("file1"),
-        fileInput2 = document.getElementById("file2"),
-        fileInput3 = document.getElementById("file3"),
-        button1 = document.querySelector(".input-file-trigger1"),
-        button2 = document.querySelector(".input-file-trigger2"),
-        button3 = document.querySelector(".input-file-trigger3"),
-        the_return1 = document.querySelector(".file-return1");
-    the_return2 = document.querySelector(".file-return2");
-    the_return3 = document.querySelector(".file-return3");
-
-    button1.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput1.focus();
-        }
-    });
-    button2.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput2.focus();
-        }
-    });
-    button3.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput3.focus();
-        }
-    });
-    button1.addEventListener("click", function(event) {
-        fileInput1.focus();
-        return false;
-    });
-    button2.addEventListener("click", function(event) {
-        fileInput2.focus();
-        return false;
-    });
-    button3.addEventListener("click", function(event) {
-        fileInput3.focus();
-        return false;
-    });
-    fileInput1.addEventListener("change", function(event) {
-        the_return1.innerHTML = this.files[0].name;
-    });
-    fileInput2.addEventListener("change", function(event) {
-        the_return2.innerHTML = this.files[0].name;
-    });
-    fileInput3.addEventListener("change", function(event) {
-        the_return3.innerHTML = this.files[0].name;
-    });
-
-    // Lcation Lat Long //
-    var getsuccess = document.getElementById("getsuccess");
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-            getsuccess.innerHTML = "กรุณารอสักครู่...";
-        } else {
-            latlon.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-
-    function showPosition(position) {
-
-        getsuccess.innerHTML = "บันทึกตำแหน่งในปัจจุบันสำเร็จ";
-
-        document.getElementById('glat').value = position.coords.latitude;
-        document.getElementById('glon').value = position.coords.longitude;
-    }
-
-
-    function createaccidentdate() {
-
-        $('#DateAct').val($('#MonthAct').val() + "/" + $('#DayAct').val() + "/" + ($('#YearAct').val() - 543));
-
-    }
-    </script>
 
     <footer class="footer " style="background-color: #EEE;">
         <div class="container  ">
@@ -697,7 +609,254 @@
 
 
 </body>
+
+<div id="modal_alert" class="modal ">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title has-text-danger"><i
+                            class="fas fa-exclamation-triangle">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</p>
+                </header>
+                <section class="modal-card-body">
+
+                    <p class="is-size-4">
+                        {{ trans('message.tx_h_table') }}
+                    </p>
+                    <p class="is-size-5 mb-3">
+                        {{ trans('message.tx_sh_table') }}
+                    </p>
+                    <div class="panel table-container">
+
+                        <table class="table is-fullwidth is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th class="has-text-danger">{{ trans('message.tx_agency_name') }}</th>
+                                    <th class="has-text-danger">{{ trans('message.txt_tel') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>RSAT(สมาคมฟ้าสีรุ้ง)</th>
+                                    <td class="has-text-left">02-7316533</td>
+                                </tr>
+                                <tr>
+                                    <th>TNP+ (เครือข่ายผู้ติดเชื้อ)</th>
+                                    <td class="has-text-left">02-3775065</td>
+                                </tr>
+                                <tr>
+                                    <th>FAR มูลนิธิศูนย์คุ้มครองสิทธิด้านเอดส์</th>
+                                    <td class="has-text-left">097-2194393</td>
+                                </tr>
+                                <tr>
+                                    <th>SWING (มูลนิธิเพื่อนพนักงานบริการ)</th>
+                                    <td class="has-text-left">02-6329502 </td>
+                                </tr>
+                                <tr>
+                                    <th>RTF (มูลนิธิรักษ์ไทย)</th>
+                                    <td class="has-text-left">063-2057188</td>
+                                </tr>
+                                <tr>
+                                    <th>Health and Opportunity Network (HON)</th>
+                                    <td class="has-text-left">038-425808</td>
+                                </tr>
+                                <tr>
+                                    <th>กลุ่มน้ำกว๊านสีรุ้ง</th>
+                                    <td class="has-text-left">054-070599</td>
+                                </tr>
+                                <tr>
+                                    <th>STM(บ้านสุขสันต์)</th>
+                                    <td class="has-text-left">074-313409</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <p class="is-size-5">ท่านต้องการขอความช่วยเหลือเร่งด่วนผ่านปกป้องหรือไม่</p>
+                    <p class="is-size-6 has-text-danger">* การช่วยเหลือเร่งด่วนผ่านปกป้องเจ้าหน้าที่จะติดต่อกลับภายใน 24
+                        ชม.</p>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-danger modalclose_alert" onclick="sitwch_alert('on')">ต้องการ</button>
+                    <button class="button is-info modalclose_notalert" onclick="sitwch_alert('off')">ไม่ต้องการ</button>
+                </footer>
+            </div>
+        </div>
+        <button class="modal-close modalclose"></button>
+    </div>
+
+{{ Html::script('js/select_list.js') }}
+
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+<script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
+<script src="{{ asset('bulma/main.js') }}"></script>
+
+<script src="{{ asset('/css/modal/modal.js') }}"></script>
+
+<script>
+$(document).ready(function() {
+
+    document.getElementById("tag_notalert").style.display = 'none';
+    
+    $('#btn_submit').on('click', function() {
+        $(this).addClass('is-loading');
+    });
+
+    var btn = document.querySelector('#showModal');
+    var modalDlg = document.querySelector('#modal_alert');
+    var imageModalCloseBtn = document.querySelector('.modalclose');
+    var imageModalCloseBtn_alert = document.querySelector('.modalclose_alert');
+    var imageModalCloseBtn_notalert = document.querySelector('.modalclose_notalert');
+
+    btn.addEventListener('click', function() {
+        modalDlg.classList.add('is-active');
+    });
+
+    imageModalCloseBtn.addEventListener('click', function() {
+        modalDlg.classList.remove('is-active');
+    });
+
+    imageModalCloseBtn_alert.addEventListener('click', function() {
+        //$('#emergency2').val(0);
+        modalDlg.classList.remove('is-active');
+    });
+
+    imageModalCloseBtn_notalert.addEventListener('click', function() {
+        //$('#emergency2').val(1);
+        modalDlg.classList.remove('is-active');
+    });
+});
+</script>
+
+<script>
+$('#prov_id').on('change', function(e) {
+    // console.log(e);
+    var prov_id = e.target.value;
+
+    $.get('ajax-amphur/' + prov_id, function(data) {
+        //success data
+        $('#amphur_id').empty();
+
+        $.each(data, function($index, subcatObj) {
+            $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
+                '"style="width:250px">' + subcatObj.AMPHUR_NAME + '</option>');
+
+        });
+        // console.log(data);
+    });
+});
+
+$("input[name='sex']").on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if (sel_value == 4) {
+        $("input[name='sex_etc']").show();
+    } else {
+        $("input[name='sex_etc']").hide();
+    }
+});
+$("input[name='nation']").on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if (sel_value == 6) {
+        $("input[name='nation_etc']").show();
+    } else {
+        $("input[name='nation_etc']").hide();
+    }
+});
+
+
+//<!-- upload -->
+
+document.querySelector("html").classList.add('js');
+
+var fileInput1 = document.getElementById("file1"),
+    fileInput2 = document.getElementById("file2"),
+    fileInput3 = document.getElementById("file3"),
+    button1 = document.querySelector(".input-file-trigger1"),
+    button2 = document.querySelector(".input-file-trigger2"),
+    button3 = document.querySelector(".input-file-trigger3"),
+    the_return1 = document.querySelector(".file-return1");
+the_return2 = document.querySelector(".file-return2");
+the_return3 = document.querySelector(".file-return3");
+
+button1.addEventListener("keydown", function(event) {
+    if (event.keyCode == 13 || event.keyCode == 32) {
+        fileInput1.focus();
+    }
+});
+button2.addEventListener("keydown", function(event) {
+    if (event.keyCode == 13 || event.keyCode == 32) {
+        fileInput2.focus();
+    }
+});
+button3.addEventListener("keydown", function(event) {
+    if (event.keyCode == 13 || event.keyCode == 32) {
+        fileInput3.focus();
+    }
+});
+button1.addEventListener("click", function(event) {
+    fileInput1.focus();
+    return false;
+});
+button2.addEventListener("click", function(event) {
+    fileInput2.focus();
+    return false;
+});
+button3.addEventListener("click", function(event) {
+    fileInput3.focus();
+    return false;
+});
+fileInput1.addEventListener("change", function(event) {
+    the_return1.innerHTML = this.files[0].name;
+});
+fileInput2.addEventListener("change", function(event) {
+    the_return2.innerHTML = this.files[0].name;
+});
+fileInput3.addEventListener("change", function(event) {
+    the_return3.innerHTML = this.files[0].name;
+});
+
+// Lcation Lat Long //
+var getsuccess = document.getElementById("getsuccess");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+        getsuccess.innerHTML = "กรุณารอสักครู่...";
+    } else {
+        latlon.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+
+    getsuccess.innerHTML = "บันทึกตำแหน่งในปัจจุบันสำเร็จ";
+
+    document.getElementById('glat').value = position.coords.latitude;
+    document.getElementById('glon').value = position.coords.longitude;
+}
+
+
+function createaccidentdate() {
+
+    $('#DateAct').val($('#MonthAct').val() + "/" + $('#DayAct').val() + "/" + ($('#YearAct').val() - 543));
+
+}
+</script>
+
 {{ Html::script('css/nicelabel/js/jquery.nicelabel-o.js') }}
+
+
+
 <script>
 $(function() {
     $('#text-checkbox  > input').nicelabel();
@@ -726,6 +885,30 @@ $.ajax({
         $('#i-process').text(data.NotOp);
     }
 });
+</script>
+
+<script>
+function sitwch_alert(data) {
+
+    if (data == 'on') {
+        document.getElementById("emergency").value = "1";
+        document.getElementById("tag_alert").style.display = 'none';
+        document.getElementById("tag_notalert").style.display = '';
+
+        document.getElementById("data-agent").classList.add("has-background-danger-light");
+        document.getElementById("data-person").classList.add("has-background-danger-light");
+
+    } else if (data == 'off') {
+        document.getElementById("emergency").value = "0";
+        document.getElementById("tag_alert").style.display = '';
+        document.getElementById("tag_notalert").style.display = 'none';
+
+        document.getElementById("data-agent").classList.remove("has-background-danger-light");
+        document.getElementById("data-person").classList.remove("has-background-danger-light");
+
+    }
+
+}
 </script>
 
 </html>
