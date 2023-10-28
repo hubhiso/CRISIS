@@ -33,17 +33,24 @@
 
     <?php
 		
-		require("phpsql_dbinfo.php");
-
-		$conn = mysqli_connect($hostname, $username, $password, $database);
-		if (mysqli_connect_errno()) 
-		{ 
-			echo "Database connection failed."; 
-		}
-		// Change character set to utf8
-		mysqli_set_charset($conn,"utf8");
+		require("phpsqli_dbinfo.php");
 
 		$pr = $_POST["pr"];
+        $nhso = $_POST["nhso"];
+
+        if($nhso != 0){
+
+            if($pr != 0){
+                $pr_q = " and nhso = $nhso and c.prov_id= '".$pr."' ";
+            }else{
+                $pr_q = " and nhso = $nhso ";
+            }
+        }else{
+            if($pr != 0){
+                $pr_q = " and c.prov_id= '".$pr."' ";
+            }
+        }
+
 	    $date_start = $_POST["date_start"];
 	    $date_end = $_POST["date_end"];
 
@@ -115,7 +122,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
+                   $date_end = strtotime("3/31/".$se_year)-1;
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -151,14 +158,10 @@
 
        }
 	
-	   if($pr != 0){
-			$pr_q = " and c.prov_id= '".$pr."' ";
-		}
 
 		$sql1 = "SELECT r.code,r.name,c.status,count(c.id) as n_status 
-		FROM r_status r left join case_inputs  c 
-		on r.code = c.status
-		where date(c.created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
+		FROM r_status r left join case_inputs c on r.code = c.status  left join prov_geo on prov_geo.code = c.prov_id
+		where created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
 		$pr_q
 		group by r.code";
 		
@@ -171,6 +174,21 @@
 				$n_status[$i] = $row1["n_status"];
 				$sum =  $sum+$n_status[$i];
 		}
+
+        $sql = "SELECT * from prov_geo order by name";
+        $result1 = mysqli_query($conn, $sql); 
+        
+        $i = 0;
+
+        while($row = $result1->fetch_assoc()) {
+            $i++;
+
+            $pr_name[$i] = $row["name"];
+            $pr_code[$i] = $row["code"];
+            $nhso_code[$i] = $row["nhso"];
+            
+            $prloop = $i;
+        }
 	?>
 
 </head>
@@ -208,88 +226,32 @@
 
         <div class="text-center ">
 
-        <div class="btn-group flex-wrap">
+            <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
-                
+
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border" href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
                     </div>
                 </a>
 
@@ -302,30 +264,27 @@
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
-                <a class="btn btn-white  btn-rounded border" href="dashboard3_new.php">
+                <a class="btn btn-white btn-rounded border" href="dashboard3_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์การละเมิดสิทธิ</span>
+                    <span>ภาพรวม</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="dashboard5_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายปี</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard6_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายเดือน</span>
+                    <span>ช่วงเวลา (รายปี/รายเดือน)</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="dashboard7_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายจังหวัด</span>
+                    <span>รายพื้นที่ (เขต/จังหวัด)</span>
                 </a>
                 <a class="btn btn-primary btn-white btn-rounded border" href="dashboard1_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ข้อมูลแยกตามขั้นตอน</span>
+                    <span>จำแนกสถานะการดำเนินงาน</span>
                 </a>
-                <a class="btn btn-white  btn-rounded border" href="dashboard2_new.php">
+                <a class="btn btn-white btn-rounded border" href="dashboard2_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ข้อมูลแยกตามปัญหา</span>
+                    <span>จำแนกปัญหา</span>
                 </a>
+
             </div>
 
         </div>
@@ -376,34 +335,90 @@
                     </div>
                 </div>
 
-                <div class="row g-3 align-items-center mb-3">
+                <div class="row mb-3">
+
                     <div class="col-auto">
-                        <strong class="col-form-label">จังหวัด</strong>
+                        <label class="col-form-label tx1">เลือกเขต</label>
                     </div>
-                    <div class="col-auto">
-                        <div class="select">
-                            <select class="form-select" id="pr" name="pr">
-                                <?php
-                                if ($pr == '0') { $pr_v = "selected";}
-                                echo "<option value='0' $pr_v> ทุกจังหวัด </option>";
-                                $pr_v = '';
-                                $sql_p = "SELECT *
-                                FROM prov_geo";
-                                $result_p = mysqli_query($conn, $sql_p); 
-                                $i = 0;
-                                while($rowp = $result_p->fetch_assoc()) {
-                                    $i++;
-                                    $pcode[$i] = $rowp["code"];
-                                    $pname[$i] = $rowp["name"];
-                                    $loop_p = $i;
-                                    if ($pr == $pcode[$i]) { $pr_v = "selected";} 
-                                    echo "<option value='$pcode[$i]' $pr_v> $pname[$i] </option>";
-                                    $pr_v = '';
-                                }
-                            ?>
-                            </select>
+
+                    <div class="col-auto ">
+                        <div class="">
+                            <div class="input-group">
+                                <select name="nhso" id="nhso" class="form-select rounded"
+                                    onchange="setprov(nhso.value,1);">
+                                    <option value="0" <?php if ($nhso == "0"){ echo "selected";} ?>> ทุกเขต </option>
+                                    <option value="1" <?php if ($nhso == "1"){ echo "selected";} ?>>
+                                        เขต 1
+                                    </option>
+                                    <option value="2" <?php if ($nhso == "2"){ echo "selected";} ?>>
+                                        เขต 2
+                                    </option>
+                                    <option value="3" <?php if ($nhso == "3"){ echo "selected";} ?>>
+                                        เขต 3
+                                    </option>
+                                    <option value="4" <?php if ($nhso == "4"){ echo "selected";} ?>>
+                                        เขต 4
+                                    </option>
+                                    <option value="5" <?php if ($nhso == "5"){ echo "selected";} ?>>
+                                        เขต 5
+                                    </option>
+                                    <option value="6" <?php if ($nhso == "6"){ echo "selected";} ?>>
+                                        เขต 6
+                                    </option>
+                                    <option value="7" <?php if ($nhso == "7"){ echo "selected";} ?>>
+                                        เขต 7
+                                    </option>
+                                    <option value="8" <?php if ($nhso == "8"){ echo "selected";} ?>>
+                                        เขต 8
+                                    </option>
+                                    <option value="9" <?php if ($nhso == "9"){ echo "selected";} ?>>
+                                        เขต 9
+                                    </option>
+                                    <option value="10" <?php if ($nhso == "10"){ echo "selected";} ?>>
+                                        เขต 10
+                                    </option>
+                                    <option value="11" <?php if ($nhso == "11"){ echo "selected";} ?>>
+                                        เขต 11
+                                    </option>
+                                    <option value="12" <?php if ($nhso == "12"){ echo "selected";} ?>>
+                                        เขต 12
+                                    </option>
+                                    <option value="13" <?php if ($nhso == "13"){ echo "selected";} ?>>
+                                        เขต 13
+                                    </option>
+
+                                </select>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-auto">
+                        <label class="col-form-label tx1">จังหวัด</label>
+                    </div>
+
+
+                    <div class="col-auto">
+                        <div class="">
+                            <div class="input-group">
+                                <select name="pr" id="pr" class="form-select rounded">
+
+                                    <option value='0' <?php if ($pr == '0') { echo "selected";} ?>> ทุกจังหวัด </option>
+
+                                    <?php
+                                        for($i = 1; $i <= $prloop; $i++){
+                                    ?>
+                                    <option value='<?php echo $pr_code[$i]; ?>'
+                                        <?php if ($pr == $pr_code[$i]) { echo "selected";} ?>>
+                                        <?php echo $pr_name[$i]; ?> </option>
+
+                                    <?php
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row g-3 align-items-center">
@@ -546,6 +561,11 @@
 
     <script>
     $(document).ready(function() {
+
+        var set_nhso = $('#nhso').val();
+
+        setprov(set_nhso,0);  
+
         $('.se_time_g11').hide();
         $('.se_time_g2').hide();
 
@@ -827,6 +847,57 @@
             })
             .render();
     });
+    </script>
+
+    <script>
+    function setprov(se,ck1) {
+
+        var pr_code = <?php echo json_encode($pr_code); ?>;
+        var pr_name = <?php echo json_encode($pr_name); ?>;
+        var nhso_code = <?php echo json_encode($nhso_code); ?>;
+
+        if (se == 0) {
+            //alert("test"); 
+
+            //$('#prov11').prop('disabled', 'disabled');
+            //$('#prov11').val(0);
+
+            $("#pr").empty();
+            $("#pr").append($("<option></option>").attr("value", '0').text('ทุกจังหวัด'));
+
+            for (let i = 1; i <= <?php echo $prloop; ?>; i++) {
+
+                $("#pr").append($("<option></option>").attr("value", pr_code[i]).text(pr_name[i]));
+
+                if(ck1 == 0){
+                    if ('<?php echo $pr; ?>' == pr_code[i]) {
+                    $("#pr option[value='" + pr_code[i] + "']").attr("selected", "selected");
+                    }
+                }
+
+            }
+
+        } else {
+
+
+            $("#pr").empty();
+            $("#pr").append($("<option></option>").attr("value", '0').text("ทุกจังหวัด"));
+
+            for (let i = 1; i <= <?php echo $prloop; ?>; i++) {
+
+                if (nhso_code[i] == se) {
+                    $("#pr").append($("<option></option>")
+                        .attr("value", pr_code[i]).text(pr_name[i]));
+                }
+
+                if ('<?php echo $pr; ?>' == pr_code[i]) {
+
+                    $("#pr option[value='" + pr_code[i] + "']").attr("selected", "selected");
+                }
+            }
+
+        }
+    }
     </script>
 
 </body>
