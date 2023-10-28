@@ -35,13 +35,9 @@
 
     <?php
 		
-		require("phpsql_dbinfo.php");
+		require("phpsqli_dbinfo.php");
 
-		$conn = mysqli_connect($hostname, $username, $password, $database);
-		if (mysqli_connect_errno()) 
-        { 
-            echo "Database connection failed."; 
-        }
+		
         // Change character set to utf8
 		mysqli_set_charset($conn,"utf8");
         $date_start = $_POST["date_start"];
@@ -111,7 +107,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
+                   $date_end = strtotime("3/31/".$se_year)-1;
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -166,7 +162,7 @@
 
     <div class="container p-4">
 
-    <nav aria-label="breadcrumb ">
+        <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="../public/"><span class="icon is-small">
@@ -184,212 +180,191 @@
             </ol>
         </nav>
 
-        <div class="text-center ">
+        <div class="text-center mb-3">
 
             <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex" href="table.blade.php">
+                    <div class="text text-right">
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+
+            <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
                     href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
                     </div>
                 </a>
-
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
                     </div>
                 </a>
 
             </div>
-
         </div>
-
-        <br>
 
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
                 <a class="btn btn-primary btn-rounded" href="report_c3_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
                     <span>แยกตามกรณี</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="report_c1_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
                     <span>รายหน่วยบริการ</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="report_c1-2_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
                     <span>รายจังหวัด</span>
                 </a>
             </div>
 
         </div>
 
+
+
         <div class=" p-4">
+
+        <div class="text-center p-3">
+                <p class="h5">การรายงานการละเมิดสิทธิผ่านระบบ CRS แยกตามกรณี</p>
+            </div>
 
             <form name="form_menu" method="post" action="report_c3_new.php">
 
-            <div class="row g-3 align-items-center">
+                <div class="row g-3 align-items-center">
 
-                <div class="col-auto">
-                    <label class="col-form-label">ช่วงเวลา</label>
-                </div>
-                <div class="col-auto">
-                    <select class="form-select form-control" id="se_time" name="se_time">
-                        <option value='1' <?php if($se_time == 1){ echo "selected"; } ?>> ตามตัวเลือก </option>
-                        <option value='2' <?php if($se_time == 2){ echo "selected"; } ?>> ระบุวันที่ </option>
-                    </select>
-                </div>
+                    <div class="col-auto">
+                        <label class="col-form-label">ช่วงเวลา</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select form-control" id="se_time" name="se_time">
+                            <option value='1' <?php if($se_time == 1){ echo "selected"; } ?>> ตามตัวเลือก </option>
+                            <option value='2' <?php if($se_time == 2){ echo "selected"; } ?>> ระบุวันที่ </option>
+                        </select>
+                    </div>
 
-                <div class="col-auto se_time_g1">
-                    <label class="col-form-label">ปีงบประมาณ</label>
-                </div>
-                <div class="col-auto se_time_g1">
-                    <select class="form-select form-control" id="se_year" name="se_year">
-                    <?php
+                    <div class="col-auto se_time_g1">
+                        <label class="col-form-label">ปีงบประมาณ</label>
+                    </div>
+                    <div class="col-auto se_time_g1">
+                        <select class="form-select form-control" id="se_year" name="se_year">
+                            <?php
                             for($y = 2019; $y <= $year_now; $y++){
                                 if ($se_year == $y) { $se =  "selected";}
                                 echo "<option value='$y' $se> ".($y+543)." </option>";
                                 $se = '';
                             }
                         ?>
-                    </select>
-                </div>
-                <div class="col-auto se_time_g1">
-                    <select class="form-select form-control" id="se_quarter" name="se_quarter">
-                        <option value='0' <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ
-                        </option>
-                        <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
-                        <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
-                        <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
-                        <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
-                        <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2
-                        </option>
-                        <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3
-                        </option>
-                        <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
-                    </select>
-                </div>
-                <div class="col-auto se_time_g11">
-                    <select class="form-select form-control" id="se_month" name="se_month">
-                        <option value='1' <?php if($se_month == 1){ echo "selected"; } ?>> มกราคม </option>
-                        <option value='2' <?php if($se_month == 2){ echo "selected"; } ?>> กุมภาพันธ์ </option>
-                        <option value='3' <?php if($se_month == 3){ echo "selected"; } ?>> มีนาคม </option>
-                        <option value='4' <?php if($se_month == 4){ echo "selected"; } ?>> เมษายน </option>
-                        <option value='5' <?php if($se_month == 5){ echo "selected"; } ?>> พฤษภาคม </option>
-                        <option value='6' <?php if($se_month == 6){ echo "selected"; } ?>> มิถุนายน </option>
-                        <option value='7' <?php if($se_month == 7){ echo "selected"; } ?>> กรกฎาคม </option>
-                        <option value='8' <?php if($se_month == 8){ echo "selected"; } ?>> สิงหาคม </option>
-                        <option value='9' <?php if($se_month == 9){ echo "selected"; } ?>> กันยายน </option>
-                        <option value='10' <?php if($se_month == 10){ echo "selected"; } ?>> ตุลาคม </option>
-                        <option value='11' <?php if($se_month == 11){ echo "selected"; } ?>> พฤศจิกายน </option>
-                        <option value='12' <?php if($se_month == 12){ echo "selected"; } ?>> ธันวาคม </option>
-                    </select>
-                </div>
+                        </select>
+                    </div>
+                    <div class="col-auto se_time_g1">
+                        <select class="form-select form-control" id="se_quarter" name="se_quarter">
+                            <option value='0' <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ
+                            </option>
+                            <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
+                            <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
+                            <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
+                            <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
+                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2
+                            </option>
+                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3
+                            </option>
+                            <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
+                        </select>
+                    </div>
+                    <div class="col-auto se_time_g11">
+                        <select class="form-select form-control" id="se_month" name="se_month">
+                            <option value='1' <?php if($se_month == 1){ echo "selected"; } ?>> มกราคม </option>
+                            <option value='2' <?php if($se_month == 2){ echo "selected"; } ?>> กุมภาพันธ์ </option>
+                            <option value='3' <?php if($se_month == 3){ echo "selected"; } ?>> มีนาคม </option>
+                            <option value='4' <?php if($se_month == 4){ echo "selected"; } ?>> เมษายน </option>
+                            <option value='5' <?php if($se_month == 5){ echo "selected"; } ?>> พฤษภาคม </option>
+                            <option value='6' <?php if($se_month == 6){ echo "selected"; } ?>> มิถุนายน </option>
+                            <option value='7' <?php if($se_month == 7){ echo "selected"; } ?>> กรกฎาคม </option>
+                            <option value='8' <?php if($se_month == 8){ echo "selected"; } ?>> สิงหาคม </option>
+                            <option value='9' <?php if($se_month == 9){ echo "selected"; } ?>> กันยายน </option>
+                            <option value='10' <?php if($se_month == 10){ echo "selected"; } ?>> ตุลาคม </option>
+                            <option value='11' <?php if($se_month == 11){ echo "selected"; } ?>> พฤศจิกายน </option>
+                            <option value='12' <?php if($se_month == 12){ echo "selected"; } ?>> ธันวาคม </option>
+                        </select>
+                    </div>
 
-                <div class="col-auto se_time_g2">
-                    <strong> วันที่ </strong>
+                    <div class="col-auto se_time_g2">
+                        <strong> วันที่ </strong>
 
-                </div>
+                    </div>
 
-                <div class="col-auto se_time_g2 input-daterange">
-                    <input type="text" class="form-control" id="date_start" name="date_start"
-                        value='<?php echo $date_start; ?>'>
-                </div>
+                    <div class="col-auto se_time_g2 input-daterange">
+                        <input type="text" class="form-control" id="date_start" name="date_start"
+                            value='<?php echo $date_start; ?>'>
+                    </div>
 
-                <div class="col-auto se_time_g2">
-                    ถึง
-                </div>
+                    <div class="col-auto se_time_g2">
+                        ถึง
+                    </div>
 
-                <div class="col-auto se_time_g2 input-daterange">
-                    <input type="text" class="form-control" id="date_end" name="date_end"
-                        value='<?php echo $date_end; ?>'>
-                </div>
+                    <div class="col-auto se_time_g2 input-daterange">
+                        <input type="text" class="form-control" id="date_end" name="date_end"
+                            value='<?php echo $date_end; ?>'>
+                    </div>
 
-                <div class="col-auto ">
-                    <input type="submit" class="btn bgcolor1" id="submit" name="submit" value="ตกลง">
+                    <div class="col-auto ">
+                        <input type="submit" class="btn bgcolor1" id="submit" name="submit" value="ตกลง">
 
-                </div>
+                    </div>
 
-                <br>
+                    <br>
 
-                <p class="subtitle ">
-                    <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
+                    <p class="subtitle ">
+                        <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
 
-                    <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
-                </p>
+                        <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                    </p>
 
                 </div>
 
@@ -409,7 +384,7 @@
             </thead>
             <tbody>
                 <?php
-                $sql1 = "SELECT problem_case, r_problem_case.name,
+                $sql1 = "select problem_case, r_problem_case.name,
                 sum(CASE WHEN  sender_case = '3'  THEN 1 ELSE 0 END) as sendercase3,
                 sum(CASE WHEN  sender_case = '1'  THEN 1 ELSE 0 END) as sendercase1,
                 sum(CASE WHEN  sender_case = '2'  THEN 1 ELSE 0 END) as sendercase2,
@@ -418,8 +393,9 @@
                 case_inputs
                 left join r_problem_case 
                 on case_inputs.problem_case = r_problem_case.code
-                where date(created_at) between '".date("Y/m/d", strtotime($date_start))."' AND '".date("Y/m/d", strtotime($date_end))."' 
-                GROUP BY problem_case ORDER BY problem_case";
+                where
+                created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+                GROUP BY problem_case order by problem_case";
 
                 $result1 = mysqli_query($conn, $sql1); 
                 $row1 = mysqli_num_rows($result1); 

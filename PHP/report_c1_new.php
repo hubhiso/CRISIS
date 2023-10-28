@@ -35,14 +35,7 @@
 
     <?php
 		
-		require("phpsql_dbinfo.php");
-
-		$conn = mysqli_connect($hostname, $username, $password, $database);
-		if (mysqli_connect_errno()) 
-    { 
-        echo "Database connection failed."; 
-    }
-		mysqli_set_charset($conn,"utf8");
+		require("phpsqli_dbinfo.php");
 
 
 	   $date_start = $_POST["date_start"];
@@ -111,7 +104,7 @@
                    $date_end = "1/31/".$se_year;
                }else if($se_month== 2){
                    $date_start = "2/1/".$se_year;
-                   $date_end = date('m/d/Y', strtotime("-1 days", strtotime("3/1/".$se_year)));
+                   $date_end = strtotime("3/31/".$se_year)-1;
                }else if($se_month== 3){
                    $date_start = "3/1/".$se_year;
                    $date_end = "3/31/".$se_year;
@@ -187,113 +180,89 @@
             </ol>
         </nav>
 
-        <div class="text-center ">
+
+        <div class="text-center mb-3">
 
             <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
+                    href="table.blade.php">
+                    <div class="text text-right">
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+
+            <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
                     href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
                     </div>
                 </a>
-
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
                     </div>
                 </a>
 
             </div>
-
         </div>
 
-        <br>
 
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
                 <a class="btn btn-white btn-rounded border" href="report_c3_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>แยกตามกรณี</span>
                 </a>
                 <a class="btn btn-primary btn-rounded" href="report_c1_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>รายหน่วยบริการ</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="report_c1-2_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>รายจังหวัด</span>
                 </a>
             </div>
@@ -302,7 +271,7 @@
 
         <div class=" p-4">
 
-        <div class="text-center p-3">
+            <div class="text-center p-3">
                 <p class="h5">การรายงานการละเมิดสิทธิผ่านระบบ CRS รายหน่วยบริการ</p>
             </div>
 
@@ -359,13 +328,16 @@
                     </div>
                     <div class="col-auto se_time_g1">
                         <select class="form-select form-control" id="se_quarter" name="se_quarter">
-                            <option value='0'  <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ </option>
+                            <option value='0' <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ
+                            </option>
                             <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
                             <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
                             <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
                             <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
-                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2 </option>
-                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3 </option>
+                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2
+                            </option>
+                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3
+                            </option>
                             <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
                         </select>
                     </div>
@@ -432,14 +404,16 @@
                     <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">ชื่อ</th>
                     <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">จังหวัด</th>
                     <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">เขต</th>
-                    <th class="red3 text-center" style="vertical-align: middle; color: white;" colspan="8">สถานะการดำเนินงาน</th>
+                    <th class="red3 text-center" style="vertical-align: middle; color: white;" colspan="8">
+                        สถานะการดำเนินงาน</th>
                     <th class="red3 " style="vertical-align: middle; color: white;" rowspan="2">รวม</th>
 
                 </tr>
                 <tr>
                     <th class="red3" style="vertical-align: middle; color: white;">1. ส่งเรื่องสำเร็จ</th>
                     <th class="red3" style="vertical-align: middle; color: white;">2. เจ้าหน้าที่รับเรื่องแล้ว</th>
-                    <th class="red3" style="vertical-align: middle; color: white;">3. เจ้าหน้าที่สอบถามข้อมูลเพิ่มเติมแล้ว
+                    <th class="red3" style="vertical-align: middle; color: white;">3.
+                        เจ้าหน้าที่สอบถามข้อมูลเพิ่มเติมแล้ว
                     </th>
                     <th class="red3" style="vertical-align: middle; color: white;">4. อยู่ระหว่างดำเนินการช่วยเหลือ</th>
                     <th class="red3" style="vertical-align: middle; color: white;">5. ดำเนินการเสร็จสิ้น</th>
@@ -474,7 +448,7 @@
                     inner join officers f on c.ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
                     where f.name = '".$row1['name']."' 
-                    and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."' ";
+                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $ousername = 0;
                     
@@ -493,7 +467,7 @@
                     inner join officers f on c.prev_ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
                     where f.name = '".$row1['name']."' 
-                    and ca.created_at between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."' ";
+                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $prev_ousername = 0;
                     
@@ -514,7 +488,7 @@
                     count(status) as sum
                     FROM case_inputs
                     where receiver='".$row1['name']."'
-                    and date(created_at) between '".date("Y/m/d", strtotime($date_start))."' and '".date("Y/m/d", strtotime($date_end))."'
+                    and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
                     $sub_q
                     group by receiver";
 
@@ -634,7 +608,7 @@
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
     </script>
 
-<script>
+    <script>
     $(document).ready(function() {
         $('.se_time_g11').hide();
         $('.se_time_g2').hide();
@@ -697,7 +671,6 @@
     <script>
     $(document).ready(function() {
         $('#crisisc1').DataTable({
-            "bFilter": true,
             "dom": 'Bfrtip',
             "scrollX": true,
             "responsive": true,

@@ -35,15 +35,7 @@
 
     <?php
 		
-		require("phpsql_dbinfo.php");
-
-		$conn = mysqli_connect($hostname, $username, $password, $database);
-		if (mysqli_connect_errno()) 
-    { 
-        echo "Database connection failed."; 
-    }
-		// Change character set to utf8
-		mysqli_set_charset($conn,"utf8");
+		require("phpsqli_dbinfo.php");
 
 
 	   $date_start = $_POST["date_start"];
@@ -189,113 +181,86 @@
             </ol>
         </nav>
 
-        <div class="text-center ">
+        <div class="text-center mb-3">
 
-        <div class="btn-group flex-wrap">
+            <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex" href="table.blade.php">
+                    <div class="text text-right">
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="text-center mb-3">
+
+            <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
                     href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
                     </div>
                 </a>
-
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
+                    <div class="text text-right ">
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
+                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
                     </div>
                 </a>
 
             </div>
-
         </div>
-
-        <br>
 
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
                 <a class="btn btn-white btn-rounded border" href="report_c3_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>แยกตามกรณี</span>
                 </a>
                 <a class="btn btn-white btn-rounded border " href="report_c1_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>รายหน่วยบริการ</span>
                 </a>
                 <a class="btn btn-primary btn-rounded" href="report_c1-2_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
                     <span>รายจังหวัด</span>
                 </a>
             </div>
