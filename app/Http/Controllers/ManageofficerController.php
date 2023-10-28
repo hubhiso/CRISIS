@@ -188,6 +188,7 @@ class ManageofficerController extends Controller
             $ck_mailwarning_at = $o_mailwarning_at;
 
             $ck_lastlogin = $o_last_login_at;
+            $ck_approv = "";
         }
 
         officer::where('username','=',$id)->update([
