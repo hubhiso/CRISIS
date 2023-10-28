@@ -133,6 +133,14 @@ class case_controller extends Controller
         $emergency = Request::input('emergency');
         $prov_id = Request::input('prov_id');
         $provname = province::where('PROVINCE_CODE', $prov_id)->first();
+        $problem_case = Request::input('problem_case');
+        $problem_case_names = case_input::leftJoin('r_problem_case AS f', 'case_inputs.problem_case', '=', 'f.code')->where('f.code','=', $problem_case )->select('f.name as fname')->first();
+
+        foreach ($problem_case_names as $problem_case_name) {
+
+            $problem_case_names_ss =  $problem_case_names->fname;
+
+        }
 
         $pathfile = "uploads/".$case_id;
         $file1 = "";
@@ -163,7 +171,7 @@ class case_controller extends Controller
             'operate_time'=> date("Y-m-d")
         ]);
 
-        return view('layout.gen_caseid',compact('case_id','emergency','prov_id','provname'));
+        return view('layout.gen_caseid',compact('case_id','emergency','prov_id','provname','problem_case_names_ss'));
 
     //return redirect('/');
     }
@@ -240,5 +248,6 @@ class case_controller extends Controller
     {
         //
     }
+
 
 }
