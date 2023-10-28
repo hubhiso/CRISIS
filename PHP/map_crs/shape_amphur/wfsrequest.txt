@@ -1,0 +1,1 @@
+http://ows.gistda.or.th:80/geoserver/fgds54_beta/ows?service=WFS&version=1.0.0&request=GetFeature&format_options=CHARSET:UTF-8&typeName=fgds54_beta:L05_AdminBoundary_Amphoe_2011_50k_FGDS_beta&outputFormat=SHAPE-ZIP
