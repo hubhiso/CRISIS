@@ -84,15 +84,13 @@
                         </a>
 
                     </li>
-                    @if($show_data->status > 3)
+                    
                     <li>
                         <a href="{{ route('officer.view_activities' , $show_data->case_id) }}">
                         <span class="icon is-small"><i class="fa fa-cog"></i></span>
                         <span> การดำเนินการ </span>
                     </a>
                     </li>
-
-                    @endif
 
                 </ul>
             </div>
@@ -323,6 +321,18 @@
                                         <i class="far fa-circle  "></i>
                                         @endif
                                         กัมพูชา &nbsp;
+                                    </span>
+                                </label>
+                                &nbsp;
+
+                                <label >
+                                    <span>
+                                        @if($show_data->nation == 7 )
+                                        <i class="far fa-check-circle  has-text-info"></i>
+                                        @else
+                                        <i class="far fa-circle  "></i>
+                                        @endif
+                                        ไร้สัญชาติ/ไม่มีสถานะบุคคล &nbsp;
                                     </span>
                                 </label>
                                 &nbsp;
@@ -579,41 +589,29 @@
                                     <div class="select">
                                         <select id="monthInput" name="monthdate"
                                             onchange="date_birth();createbirthdate();" disabled>
-                                            <option value="1" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 1){ selected } @endif> มกราคม
+                                            <option value="1" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 1){ selected } @endif> มกราคม
                                             </option>
-                                            <option value="2" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 2){ selected } @endif> กุมภาพันธ์
+                                            <option value="2" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 2){ selected } @endif> กุมภาพันธ์
                                             </option>
-                                            <option value="3" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 3){ selected } @endif> มีนาคม
+                                            <option value="3" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 3){ selected } @endif> มีนาคม
                                             </option>
-                                            <option value="4" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 4){ selected } @endif> เมษายน
+                                            <option value="4" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 4){ selected } @endif> เมษายน
                                             </option>
-                                            <option value="5" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 5){ selected } @endif> พฤษภาคม
+                                            <option value="5" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 5){ selected } @endif> พฤษภาคม
                                             </option>
-                                            <option value="6" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 6){ selected } @endif> มิถุนายน
+                                            <option value="6" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 6){ selected } @endif> มิถุนายน
                                             </option>
-                                            <option value="7" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 7){ selected } @endif> กรกฎาคม
+                                            <option value="7" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 7){ selected } @endif> กรกฎาคม
                                             </option>
-                                            <option value="8" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 8){ selected } @endif> สิงหาคม
+                                            <option value="8" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 8){ selected } @endif> สิงหาคม
                                             </option>
-                                            <option value="9" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == 9){ selected } @endif> กันยายน
+                                            <option value="9" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 9){ selected } @endif> กันยายน
                                             </option>
-                                            <option value="10" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->birth_date))) == 10){ selected } @endif> ตุลาคม
+                                            <option value="10" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 10){ selected } @endif> ตุลาคม
                                             </option>
-                                            <option value="11" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->birth_date))) == 11){ selected } @endif> พฤศจิกายน
+                                            <option value="11" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 11){ selected } @endif> พฤศจิกายน
                                             </option>
-                                            <option value="12" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->birth_date))) == 12){ selected } @endif> ธันวาคม
+                                            <option value="12" @if(date('m',strtotime(str_replace('-','/', $show_detail->birth_date))) == 12){ selected } @endif> ธันวาคม
                                             </option>
                                         </select>
                                     </div>
@@ -625,8 +623,7 @@
                                     <div class="select">
                                         <select id="dayInput" name="birthdate" onchange="createbirthdate();" disabled>
                                             @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}"
-                                                @if(date('d',strtotime(str_replace('-','/', $show_detail->
-                                                birth_date))) == $i){ selected } @endif>{{$i}}</option>
+                                                @if(date('d',strtotime(str_replace('-','/', $show_detail->birth_date))) == $i){ selected } @endif>{{$i}}</option>
                                                 @endfor
                                         </select>
                                     </div>
@@ -845,15 +842,9 @@
                             <div class="field is-narrow is-grouped">
                                 <div class="control"> <span class="select">
                                         <select id="offender_subtype" name="offender_subtype" disabled
-                                            @if($show_detail->type_offender == 4||$show_detail->type_offender ==
-                                            5)
-                                            disabled @endif>
-                                            <option value="1" @if($show_detail->subtype_offender == 1){ selected
-                                                }
-                                                @endif> ของรัฐบาล </option>
-                                            <option value="2" @if($show_detail->subtype_offender == 2){ selected
-                                                }
-                                                @endif> ของเอกชน </option>
+                                            @if($show_detail->type_offender == 4||$show_detail->type_offender == 5) disabled @endif>
+                                            <option value="1" @if($show_detail->subtype_offender == 1){ selected } @endif> ของรัฐบาล </option>
+                                            <option value="2" @if($show_detail->subtype_offender == 2){ selected } @endif> ของเอกชน </option>
 
                                         </select>
                                     </span>
@@ -981,41 +972,29 @@
                                     <div class="select">
                                         <select id="MonthAct" name="MonthAct"
                                             onchange="date_acc();createaccidentdate();" disabled>
-                                            <option value="1" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 1){ selected } @endif> มกราคม
+                                            <option value="1" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 1){ selected } @endif> มกราคม
                                             </option>
-                                            <option value="2" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 2){ selected } @endif> กุมภาพันธ์
+                                            <option value="2" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 2){ selected } @endif> กุมภาพันธ์
                                             </option>
-                                            <option value="3" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 3){ selected } @endif> มีนาคม
+                                            <option value="3" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 3){ selected } @endif> มีนาคม
                                             </option>
-                                            <option value="4" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 4){ selected } @endif> เมษายน
+                                            <option value="4" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 4){ selected } @endif> เมษายน
                                             </option>
-                                            <option value="5" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 5){ selected } @endif> พฤษภาคม
+                                            <option value="5" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 5){ selected } @endif> พฤษภาคม
                                             </option>
-                                            <option value="6" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 6){ selected } @endif> มิถุนายน
+                                            <option value="6" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 6){ selected } @endif> มิถุนายน
                                             </option>
-                                            <option value="7" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 7){ selected } @endif> กรกฎาคม
+                                            <option value="7" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 7){ selected } @endif> กรกฎาคม
                                             </option>
-                                            <option value="8" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 8){ selected } @endif> สิงหาคม
+                                            <option value="8" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 8){ selected } @endif> สิงหาคม
                                             </option>
-                                            <option value="9" @if(date('m',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == 9){ selected } @endif> กันยายน
+                                            <option value="9" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 9){ selected } @endif> กันยายน
                                             </option>
-                                            <option value="10" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->accident_date))) == 10){ selected } @endif> ตุลาคม
+                                            <option value="10" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 10){ selected } @endif> ตุลาคม
                                             </option>
-                                            <option value="11" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->accident_date))) == 11){ selected } @endif> พฤศจิกายน
+                                            <option value="11" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 11){ selected } @endif> พฤศจิกายน
                                             </option>
-                                            <option value="12" @if(date('m',strtotime(str_replace('-','/',
-                                                $show_detail->accident_date))) == 12){ selected } @endif> ธันวาคม
+                                            <option value="12" @if(date('m',strtotime(str_replace('-','/', $show_detail->accident_date))) == 12){ selected } @endif> ธันวาคม
                                             </option>
                                         </select>
                                     </div>
@@ -1026,8 +1005,7 @@
                                     <div class="select">
                                         <select id="DayAct" name="DayAct" onchange="createaccidentdate();" disabled>
                                             @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}"
-                                                @if(date('d',strtotime(str_replace('-','/', $show_detail->
-                                                accident_date))) == $i){ selected } @endif>{{$i}}</option>
+                                                @if(date('d',strtotime(str_replace('-','/', $show_detail->accident_date))) == $i){ selected } @endif>{{$i}}</option>
                                                 @endfor
                                         </select>
                                     </div>
@@ -1094,30 +1072,17 @@
                                         <select id="sub_problem" name="sub_problem" disabled @if($show_data->sub_problem
                                             ==
                                             null){ disabled } @endif>
-                                            @if(($show_data->problem_case == 1)||($show_data->problem_case ==
-                                            5)||($show_data->problem_case == 6))
-                                            <option value="1" style="width:250px" @if($show_data->sub_problem ==
-                                                1){
-                                                selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
-                                            <option value="2" style="width:250px" @if($show_data->sub_problem ==
-                                                2){
-                                                selected } @endif>กลุ่มเปราะบาง</option>
-                                            <option value="4" style="width:250px" @if($show_data->sub_problem ==
-                                                4){
-                                                selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
+                                            @if(($show_data->problem_case == 1)||($show_data->problem_case == 5)||($show_data->problem_case == 6))
+                                            <option value="1" style="width:250px" @if($show_data->sub_problem == 1){ selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
+                                            <option value="2" style="width:250px" @if($show_data->sub_problem == 2){ selected } @endif>กลุ่มเปราะบาง</option>
+                                            <option value="4" style="width:250px" @if($show_data->sub_problem == 4){ selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
                                             </option>
-                                            <option value="3" style="width:250px" @if($show_data->sub_problem ==
-                                                3){
-                                                selected } @endif>ประชาชนทั่วไป</option>
+                                            <option value="3" style="width:250px" @if($show_data->sub_problem == 3){ selected } @endif>ประชาชนทั่วไป</option>
                                             @elseif($show_data->problem_case == 2 )
                                             <option value="1" style="width:250px">ผู้ติดเชื้อเอชไอวี</option>
                                             @elseif($show_data->problem_case == 3)
-                                            <option value="1" style="width:250px" @if($show_data->sub_problem ==
-                                                1){
-                                                selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
-                                            <option value="4" style="width:250px" @if($show_data->sub_problem ==
-                                                4){
-                                                selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
+                                            <option value="1" style="width:250px" @if($show_data->sub_problem == 1){ selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
+                                            <option value="4" style="width:250px" @if($show_data->sub_problem == 4){ selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
                                             </option>
 
                                             @elseif($show_data->problem_case == 4)
@@ -1130,30 +1095,15 @@
                             </div>
                             <div class="field is-narrow is-grouped">
                                 <div class="control"> <span class="select" >
-                                        <select id="group_code" name="group_code" disabled @if($show_data->group_code ==
-                                            null){ disabled } @endif>
+                                        <select id="group_code" name="group_code" disabled @if($show_data->group_code == null){ disabled } @endif>
                                             @if($show_data->sub_problem == 2)
-                                            <option value="1" style="width:250px" @if($show_data->group_code ==
-                                                1){
-                                                selected } @endif>กลุ่มหลากหลายทางเพศ</option>
-                                            <option value="2" style="width:250px" @if($show_data->group_code ==
-                                                2){
-                                                selected } @endif>พนักงานบริการ</option>
-                                            <option value="3" style="width:250px" @if($show_data->group_code ==
-                                                3){
-                                                selected } @endif>ผู้ใช้สารเสพติด</option>
-                                            <option value="4" style="width:250px" @if($show_data->group_code ==
-                                                4){
-                                                selected } @endif>ประชากรข้ามชาติ</option>
-                                            <option value="5" style="width:250px" @if($show_data->group_code ==
-                                                5){
-                                                selected } @endif>ผู้ต้องขัง</option>
-                                            <option value="6" style="width:250px" @if($show_data->group_code ==
-                                                6){
-                                                selected } @endif>กลุ่มชนเผ่า</option>
-                                            <option value="7" style="width:250px" @if($show_data->group_code ==
-                                                    7){
-                                                    selected } @endif> คนพิการ</option>
+                                            <option value="1" style="width:250px" @if($show_data->group_code == 1){ selected } @endif>กลุ่มหลากหลายทางเพศ</option>
+                                            <option value="2" style="width:250px" @if($show_data->group_code == 2){ selected } @endif>พนักงานบริการ</option>
+                                            <option value="3" style="width:250px" @if($show_data->group_code == 3){ selected } @endif>ผู้ใช้สารเสพติด</option>
+                                            <option value="4" style="width:250px" @if($show_data->group_code == 4){ selected } @endif>ประชากรข้ามชาติ</option>
+                                            <option value="5" style="width:250px" @if($show_data->group_code == 5){ selected } @endif>ผู้ต้องขัง</option>
+                                            <option value="6" style="width:250px" @if($show_data->group_code == 6){ selected } @endif>กลุ่มชนเผ่า</option>
+                                            <option value="7" style="width:250px" @if($show_data->group_code == 7){ selected } @endif> คนพิการ</option>
                                             @endif
                                         </select>
                                     </span>

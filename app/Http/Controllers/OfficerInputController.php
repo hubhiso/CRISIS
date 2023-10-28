@@ -198,7 +198,9 @@ class OfficerInputController extends Controller
         //  return view('officer.OfficerManageCase',compact('cases'));
         //  return View::make('officer.OfficerManageCase', $mode_id);
         //  return view('officer.OfficerManageCase')->withMode($mode_id);
-        return view('officer.OfficerManageCase',compact('mode_id'));
+        $provinces = province::orderBy('PROVINCE_NAME', 'asc')->get();
+
+        return view('officer.OfficerManageCase',compact('mode_id', 'provinces'));
     }
 
     public function open_confirm($case_id)

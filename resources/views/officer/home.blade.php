@@ -2,18 +2,17 @@
 <html lang="{{ config('app.locale') }}">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title> ปกป้อง (CRS) </title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
 
     <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     {{ Html::script('js/jquery.min.js') }}
-
 
     <meta name="theme-color" content="#ab3c3c" />
 
@@ -27,13 +26,12 @@
 
 <body class="layout-default">
 
-    <div class="hero-head">
+    <div class="hero-head ">
         <div class=" has-background-light">
             @component('component.login_bar2')
             @endcomponent
         </div>
     </div>
-
     <br>
 
     <div class="container is-fluid">
@@ -81,18 +79,20 @@
                         aria-hidden="true"></i>&nbsp;เครื่องมือ</a>
                 <a class="button btn_sub i-margin" href="{{ 'officer/contact' }}"><i class="fa fa-share-alt"
                         aria-hidden="true"></i>&nbsp;ทำเนียบเครือข่าย</a>
+
+                @if( Auth::user()->position == "admin" )
+                <br>
+                <br>
+                <a class="button btn_sub i-margin" href="{{ route('officer.verifydata') }}">
+                <i class="fas fa-database"></i></i>&nbsp;จัดการข้อมูลรายเคส</a>
+                @endif
             </div>
         </div>
     </section>
+
     <br><br><br><br>
 
-    <footer class="footer " style="background-color: #EEE;">
-        <div class="content has-text-centered  ">
-            <p>Crisis Response System (CRS)
-            </p>
-            <p id="tsp"> <small> Source code licensed <a href="http://www.hiso.or.th">HISO</a>. </small> </p>
-        </div>
-    </footer>
+    @extends('officer.footer_m')
 
 
     <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>

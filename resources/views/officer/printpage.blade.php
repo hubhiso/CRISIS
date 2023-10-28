@@ -261,6 +261,8 @@
                                         พม่า
                                         @elseif( $show_data->nation == 5 )
                                         กัมพูชา
+                                        @elseif( $show_data->nation == 7 )
+                                        ไร้สัญชาติ/ไม่มีสถานะบุคคล
                                         @elseif( $show_data->nation == 6 )
                                         อื่นๆ
                                         @endif

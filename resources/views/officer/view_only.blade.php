@@ -507,6 +507,14 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                 ปฎิเสธการรับเคส</a>
                             <!-- @endif -->
                         </div>
+
+                        <div class="control">
+                            <a class="button is-primary "
+                                href="{{ route('manager.share_case',['case_id' => $show_data->case_id]) }}">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;เชิญทีมร่วมจัดการเคส
+                            </a>
+                        </div>
+
                         <p class="control">
                             <a class="button " href="{{ route('officer.show',['mode_id' => "0"]) }}"> กลับหน้าจัดการเหตุ </a>
                         </p>

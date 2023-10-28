@@ -10,6 +10,7 @@ use App\timeline;
 use App\officer;
 use Auth;
 use App\casetransfer;
+use App\sharecase;
 
 
 class OfficerUpdateController extends Controller
@@ -372,7 +373,11 @@ class OfficerUpdateController extends Controller
         $pposition = $request->input('pposition');
         $parea = $request->input('parea');
 
+        
+
         $joinofficer = officer::where('name', $username)->first();
+
+        $sharecases = sharecase::where('user_share','=', $joinofficer->username)->get();
 
         $join_transfers = casetransfer::where('prev_ousername' ,'=', $joinofficer->username)->distinct()->get();
 
@@ -407,6 +412,14 @@ class OfficerUpdateController extends Controller
                 }
 
                 $filter ++;
+            }else if($request->input('Filter')==6){
+
+                //$cases = case_input::where('prov_id', '=', $request->input('Sub_Filter'));
+
+                $matchThese = ['prov_id' => $value_sub];
+                $cases = case_input::where($matchThese);
+
+                $filter ++;
             }
 
         }else if($pposition  == "manager_area" && $pid == 0){
@@ -435,6 +448,14 @@ class OfficerUpdateController extends Controller
                     }
                     $loop_case++;
                 }
+
+                $filter ++;
+            }else if($request->input('Filter')==6){
+
+                //$cases = case_input::where('prov_id', '=', $request->input('Sub_Filter'));
+
+                $matchThese = ['prov_id' => $value_sub];
+                $cases = case_input::where($matchThese);
 
                 $filter ++;
             }
@@ -478,7 +499,29 @@ class OfficerUpdateController extends Controller
                 }
 
                 $filter ++;
+            }else if($request->input('Filter')==6){
+
+                //$cases = case_input::where('prov_id', '=', $request->input('Sub_Filter'));
+
+                $matchThese = ['prov_id' => $value_sub];
+                $cases = case_input::where($matchThese);
+
+                $filter ++;
             }
+
+            /*
+            $sharecases = sharecase::where('user_share','=', $username)->get();
+            if( $sharecases != null ){
+                foreach ($sharecases as $sharecase) {
+
+                    $matchThese = ['case_id' => $sharecase->case_id];
+                    $cases = case_input::where($matchThese);
+
+                    $filter ++;
+
+                }
+            }
+            */
         }
         
 
@@ -533,16 +576,17 @@ class OfficerUpdateController extends Controller
             }
         }
 
-        if($joinofficer->group != null && $joinofficer->g_view_all == 'yes'){
-            $groups = officer::where('group','=', $joinofficer->group)->get();
-
-            foreach ($groups as $group) {
-                //$cases =  $cases->orWhere('prov_id', '=', $group->prov_id );
-                $cases =  $cases->orWhere('receiver', '=', $group->name );
-                $filter++;
+        if($request->input('Filter')<>6){
+            if($joinofficer->group != null && $joinofficer->g_view_all == 'yes'){
+                $groups = officer::where('group','=', $joinofficer->group)->get();
+    
+                foreach ($groups as $group) {
+                    //$cases =  $cases->orWhere('prov_id', '=', $group->prov_id );
+                    $cases =  $cases->orWhere('receiver', '=', $group->name );
+                    $filter++;
+                }
             }
         }
-
         
         if($filter > 0){
             $cases = $cases->get();
@@ -551,7 +595,9 @@ class OfficerUpdateController extends Controller
             $cases = case_input::Where('prov_id','=',$pid);
         }
 
-        $html = view('officer._Case',compact('cases','username','join_transfers'))->render();
+        
+
+        $html = view('officer._Case',compact('cases','username','join_transfers','sharecases'))->render();
         return response()->json(compact('html','text_search'));
 
     }
@@ -613,6 +659,75 @@ class OfficerUpdateController extends Controller
         //->groupBy('b.PROVINCE_NAME')
 
         return view('officer.ExportExcel',compact('show_data','date_start','date_end','type_export'));
+    }
+
+    public function showverifydata(){
+
+
+        /*
+        $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
+        ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
+        ->where('operate_details.id', \DB::raw("(select max(operate_details.id) from operate_details)"))
+        ->get();
+*/
+/*
+        $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
+        ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
+        ->select('case_inputs.id','case_inputs.receiver','case_inputs.case_id','operate_details.id', \DB::raw("(select max(operate_details.id) from operate_details)"))
+        ->groupBy('case_inputs.id') 
+        ->groupBy('case_inputs.receiver') 
+        ->groupBy('case_inputs.case_id') 
+        ->groupBy('operate_details.id')
+        ->orderBy('case_inputs.id')
+        ->get();*/
+/*
+        $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
+        ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
+        ->orderBy('case_inputs.id')
+        ->get();*/
+
+        $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
+        ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
+        ->leftjoin('prov_geo', 'prov_id', '=', 'prov_geo.code')
+        ->leftjoin('r_problem_case', 'problem_case', '=', 'r_problem_case.code')
+        ->leftjoin('r_sub_problem', 'sub_problem', '=', 'r_sub_problem.code')
+        ->leftjoin('r_group_code', 'group_code', '=', 'r_group_code.code')
+        ->select('case_inputs.id',
+        'prov_geo.nhso',
+        'prov_geo.name as provname',
+        'case_inputs.prov_id',
+        'case_inputs.case_id',
+        'case_inputs.sex',
+        'case_inputs.nation',
+        'case_inputs.problem_case as id_problem_case',
+        'r_problem_case.name as problem_case',
+        'case_inputs.sub_problem as id_sub_problem',
+        'r_sub_problem.name as sub_problem',
+        'case_inputs.group_code as id_group_code',
+        'r_group_code.name as group_code',
+        'add_details.violation_characteristics',
+        'add_details.effect',
+        'case_inputs.detail',
+        'case_inputs.need',
+        'case_inputs.created_at as datecreate',
+        'case_inputs.receiver',
+        'operate_details.operate_date as operatedate',
+        'add_details.type_offender',
+        'add_details.subtype_offender',
+        'add_details.violator_name',
+        'add_details.offender_organization',
+        'operate_details.operate_detail',
+        'operate_details.operate_result',
+        'case_inputs.status',
+        'case_inputs.operate_result_status',
+        'case_inputs.reject_reason',
+        'case_inputs.accident_date')
+        ->orderBy('case_inputs.id')
+        ->get();
+        
+        
+        return view('officer.verifydata',compact('show_data'));
+
     }
 
     

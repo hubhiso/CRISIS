@@ -365,10 +365,36 @@
                             href="{{ route('officer.view_detail2', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
                         </td>
                     @else
+
+                        <?php $ck_share = 0; ?>
+                        @foreach($sharecases as $sharecase)
+
+                            @if($case->case_id == $sharecase->case_id)
+                            <?php $ck_share++; ?>
+                            @endif
+
+                           
+
+                            <?php  ?>
+
+                        @endforeach
+
+                        @if($ck_share >0)
+
                         <td>
                         <a class='tag is-medium is-primary is-rounded'
-                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                            href="{{ route('officer.view_detail2', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
                         </td>
+
+                        @else
+
+                        <td>
+                        <a class='tag is-medium is-primary is-rounded'
+                            href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด </span> </a>
+                        </td>
+
+                        @endif
+                        
                     @endif
                 @elseif($case->status == 4)
 
@@ -379,10 +405,33 @@
                             href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
                     </td>
                     @else
-                    <td>
-                        <a class='tag is-medium is-primary is-rounded'
+
+                        <?php $ck_share = 0; ?>
+                        @foreach($sharecases as $sharecase)
+
+                            @if($case->case_id == $sharecase->case_id)
+                            <?php $ck_share++; ?>
+                            @endif
+
+                        @endforeach
+
+                        @if($ck_share > 0)
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
+                                href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                        </td>
+
+                        @else
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
                             href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
-                    </td>
+                        </td>
+
+                        @endif
+
+                    
                     @endif
                 @elseif($case->status == 5)
 
@@ -393,10 +442,30 @@
                             href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
                     </td>
                     @else
-                    <td>
-                        <a class='tag is-medium is-primary is-rounded'
+                    <?php $ck_share = 0; ?>
+                        @foreach($sharecases as $sharecase)
+
+                            @if($case->case_id == $sharecase->case_id)
+                            <?php $ck_share++; ?>
+                            @endif
+
+                        @endforeach
+
+                        @if($ck_share > 0)
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
+                                href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                        </td>
+
+                        @else
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
                             href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
-                    </td>
+                        </td>
+
+                        @endif
                     @endif
                 @elseif($case->status == 6)
                     <td> ดำเนินการแล้วส่งต่อ </td>
@@ -406,10 +475,30 @@
                             href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
                     </td>
                     @else
-                    <td>
-                        <a class='tag is-medium is-primary is-rounded'
+                    <?php $ck_share = 0; ?>
+                        @foreach($sharecases as $sharecase)
+
+                            @if($case->case_id == $sharecase->case_id)
+                            <?php $ck_share++; ?>
+                            @endif
+
+                        @endforeach
+
+                        @if($ck_share > 0)
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
+                                href="{{ route('officer.view_activities', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
+                        </td>
+
+                        @else
+
+                        <td>
+                            <a class='tag is-medium is-primary is-rounded'
                             href="{{ route('officer.open_dt', $case->case_id) }}"><span>ดูรายละเอียด</span> </a>
-                    </td>
+                        </td>
+
+                        @endif
                     @endif
                 @endif
             @endif

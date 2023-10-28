@@ -304,6 +304,16 @@
                                     </label>
                                     &nbsp;
 
+                                    <label class="radio">
+                                        @if( $show_data->nation == 7 )
+                                        {{ Form::radio('nation', '7' , true) }}
+                                        @else
+                                        {{ Form::radio('nation', '7' , false) }}
+                                        @endif
+                                        ไร้สัญชาติ/ไม่มีสถานะบุคคล
+                                    </label>
+                                    &nbsp;
+
 
                                     <label class="radio">
                                         @if( $show_data->nation == 6 )
@@ -927,14 +937,9 @@
                                             <select id="sub_problem" name="sub_problem" @if($show_data->sub_problem
                                                 ==
                                                 null){ disabled } @endif>
-                                                @if(($show_data->problem_case == 1)||($show_data->problem_case ==
-                                                5)||($show_data->problem_case == 6))
-                                                <option value="1" style="width:250px" @if($show_data->sub_problem ==
-                                                    1){
-                                                    selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
-                                                <option value="2" style="width:250px" @if($show_data->sub_problem ==
-                                                    2){
-                                                    selected } @endif>กลุ่มเปราะบาง</option>
+                                                @if(($show_data->problem_case == 1)||($show_data->problem_case == 5)||($show_data->problem_case == 6))
+                                                <option value="1" style="width:250px" @if($show_data->sub_problem == 1){ selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
+                                                <option value="2" style="width:250px" @if($show_data->sub_problem == 2){ selected } @endif>กลุ่มเปราะบาง</option>
                                                 <option value="4" style="width:250px" @if($show_data->sub_problem ==
                                                     4){
                                                     selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
@@ -985,7 +990,9 @@
                                                 <option value="6" style="width:250px" @if($show_data->group_code ==
                                                     6){
                                                     selected } @endif>กลุ่มชนเผ่า</option>
-                                                
+                                                <option value="7" style="width:250px" @if($show_data->group_code ==
+                                                    7){
+                                                    selected } @endif> คนพิการ</option>
                                                 @endif
 
                                             </select>
