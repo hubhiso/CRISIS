@@ -24,13 +24,19 @@
 </head>
 
 <body class="layout-default">
+    <nav class="navbar navbar-light bg-white has-text-left">
+        <div class="container">
+            <a class="navbar-brand" href="../public/">
+                <img src="../public/images/favicon.ico" alt="" height="30">
+                <span class="text-secondary">ปกป้อง (CRS)</span>
+            </a>
+        </div>
+    </nav>
 
     <section class="hero is-medium has-text-centered">
         <div class="hero-head">
 
-
             <div class="container">
-                <br>
 
                 <nav class="breadcrumb" aria-label="breadcrumbs">
                     <ul>
@@ -46,57 +52,64 @@
                 </nav>
 
 
-
                 <div class="tabs is-centered  is-toggle is-toggle-rounded">
                     <ul>
                         <li>
                             <a href="dashboard3_new.php">
-                                <span class="icon is-small"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>
-                                <span> Dashboard<br>สรุปสถานการณ์ </span>
+                                <h6><i class="fas fa-chart-bar is-size-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                             </a>
                         </li>
 
                         <li>
                             <a href="automated.php">
-                                <span class="icon is-small"><i class="far fa-map" aria-hidden="true"></i></span>
-                                <span>รายงาน<br>การละเมิดสิทธิ</span>
+                                <h6><i class="far fa-file-alt is-size-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                             </a>
 
                         </li>
                         <li>
                             <a href="mapcrisis_new.php">
-                                <span class="icon is-small"><i class="far fa-map" aria-hidden="true"></i></span>
-                                <span>พิกัด<br>การละเมิดสิทธิ</span>
+                                <h6><i class="far fa-map is-size-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                             </a>
 
                         </li>
                         <li class="is-active">
                             <a href="table.blade.php">
-                                <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>สรุปข้อมูล<br>ในภาพรวม</span>
+                            <h6><i class="fa fa-table  is-size-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                            </a>
+
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tabs is-centered  is-toggle is-toggle-rounded">
+                    <ul>
+                        <li class="is-active">
+                            <a href="dashboard3_new.php">
+                                <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม </h6>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="report_c1_new.php">
+                                <h6><i class="fa fa-table  " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
                             </a>
 
                         </li>
                         <li>
-                            <a href="report_c1_new.php">
-                                <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>สรุปกรณี<br>ละเมิดสิทธิ</span>
-                            </a>
-                        </li>
-                        <li>
                             <a href="report_c2_new.php">
-                                <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ตารางสรุป<br>การละเมิดสิทธิ</span>
+                                <h6><i class="fa fa-table   " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
                             </a>
+
                         </li>
-                        <li>
+                        <li >
                             <a href="report_performance_new.php">
-                                <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
-                                <span>ระยะเวลา<br>ดำเนินการ</span>
+                            <h6><i class="fa fa-table   " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
                             </a>
+
                         </li>
                     </ul>
                 </div>
+
 
                 <div class="field is-horizontal">
                     <?php
