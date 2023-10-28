@@ -43,26 +43,34 @@
                         &nbsp{{ Auth::user()->name }}
                     </a>
 
-                    @if( Auth::user()->position == "manager" or Auth::user()->position == "admin" )
+                   
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
                             <i class="fa fa-th"></i>
                         </a>
 
                         <div class="navbar-dropdown is-right is-boxed ">
-                            <a class="navbar-item has-text-primary" href="{{ route('manager.register') }}">
+                            <a class="navbar-item has-text-primary" href="{{ route('register') }}">
                                 <i class="fas fa-user-plus"></i>&nbsp;
                                 ลงทะเบียนเจ้าหน้าที่เพิ่มเติม
                             </a>
                             <hr class="navbar-divider">
-                            
+                            @if( Auth::user()->position == "admin" )
                             <a class="navbar-item  has-text-info" href="{{ route('officer.m_officer') }}">
                                 <i class="fa fa-users"></i>&nbsp;
                                 จัดการรายชื่อเจ้าหน้าที่ </a>
+
+                            @else
+                            
+                            <a class="navbar-item  has-text-info" href="{{ route('officer.view_officer') }}">
+                                <i class="fa fa-users"></i>&nbsp;
+                                รายชื่อเจ้าหน้าที่ </a>
+
+                            @endif
                         </div>
                     </div>
 
-                    @endif
+                   
 
 
                     <div class="navbar-item">

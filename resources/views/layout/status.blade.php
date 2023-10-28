@@ -24,6 +24,7 @@
 
 <body>
 	<input type="hidden" id="token" value="{{ csrf_token() }}">
+	
 	<section class="hero is-primary wall3">
 		<div class="hero-body">
 			<div class="container">

@@ -61,7 +61,7 @@
                             <span class="icon is-small">
                                 <i class="fa fa-address-card" aria-hidden="true"></i>
                             </span>
-                            <span>ข้อมูลเบื้องต้น</span>
+                            <span>เปลี่ยนผู้รับผิดชอบ</span>
                         </a>
                     </li>
                 </ul>
