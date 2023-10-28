@@ -58,91 +58,33 @@
         <div class="text-center ">
 
             <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded  align-items-stretch d-flex border "
+                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
 
-				<a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
+                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
                     </div>
                 </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
-                    </div>
-                </a>
-
 
             </div>
 
@@ -262,6 +204,8 @@
 
     }
 
+    
+
 	if ($years == ""){
 		$years = date("Y");	
 	}
@@ -289,6 +233,7 @@
 	$offender_total = 0;
 
 								
+   
 
     if ($type_area != "2"){		
 
@@ -301,7 +246,7 @@
 
     }else{
 
-        $query = "select c.prov_id,o.nameorg as provname,c.receiver_id,nhso,p.pilot_province,count(case_id) as total,o.nameorg ";
+        $query = "select c.prov_id,o.nameorg as provname,nhso,p.pilot_province,count(case_id) as total,o.nameorg ";
         $query .= "from case_inputs c inner join prov_geo p on c.prov_id = p.code inner join officers o on c.receiver_id = o.id ";
         $query .=  $query_date_range;
         $query .=  $query_region;
@@ -311,17 +256,15 @@
 
     }
 
-
     //echo $query;
-				
 			
 					$result = mysqli_query($conn,$query);
 
 					$prov_total =  mysqli_num_rows($result);
 				
+                    
 					while($rows = $result->fetch_assoc()) 
 					{		
-						//echo "hello";
 					
 								// for pilot province
 								if ($rows["pilot_province"] == "1"){
@@ -435,6 +378,7 @@
 						$count_no++;		
 						
 					}
+
 					
 						//footer
 						//$case5_total = ($case5_sum+$case6_sum);
@@ -823,83 +767,83 @@
                         <select id="type_area_province" name="type_area_province" class="form-select">
                         
 
-<option value="10:กรุงเทพมหานคร" <?php if ($type_area_province == "10"){ echo "selected";} ?>>กรุงเทพมหานคร</option>
-<option value="81:กระบี่" <?php if ($type_area_province == "81"){ echo "selected";} ?>>กระบี่</option>
-<option value="71:กาญจนบุรี" <?php if ($type_area_province == "71"){ echo "selected";} ?>>กาญจนบุรี</option>
-<option value="46:กาฬสินธุ์" <?php if ($type_area_province == "46"){ echo "selected";} ?>>กาฬสินธุ์</option>
-<option value="62:กำแพงเพชร" <?php if ($type_area_province == "62"){ echo "selected";} ?>>กำแพงเพชร</option>
-<option value="40:ขอนแก่น" <?php if ($type_area_province == "40"){ echo "selected";} ?>>ขอนแก่น</option>
-<option value="22:จันทบุรี" <?php if ($type_area_province == "22"){ echo "selected";} ?>>จันทบุรี</option>
-<option value="24:ฉะเชิงเทรา" <?php if ($type_area_province == "24"){ echo "selected";} ?>>ฉะเชิงเทรา</option>
-<option value="20:ชลบุรี" <?php if ($type_area_province == "20"){ echo "selected";} ?>>ชลบุรี</option>
-<option value="18:ชัยนาท" <?php if ($type_area_province == "18"){ echo "selected";} ?>>ชัยนาท</option>
-<option value="36:ชัยภูมิ" <?php if ($type_area_province == "36"){ echo "selected";} ?>>ชัยภูมิ</option>
-<option value="86:ชุมพร" <?php if ($type_area_province == "86"){ echo "selected";} ?>>ชุมพร</option>
-<option value="57:เชียงราย" <?php if ($type_area_province == "57"){ echo "selected";} ?>>เชียงราย</option>
-<option value="50:เชียงใหม่" <?php if ($type_area_province == "50"){ echo "selected";} ?>>เชียงใหม่</option>
-<option value="92:ตรัง" <?php if ($type_area_province == "92"){ echo "selected";} ?>>ตรัง</option>
-<option value="23:ตราด" <?php if ($type_area_province == "23"){ echo "selected";} ?>>ตราด</option>
-<option value="63:ตาก" <?php if ($type_area_province == "63"){ echo "selected";} ?>>ตาก</option>
-<option value="26:นครนายก" <?php if ($type_area_province == "26"){ echo "selected";} ?>>นครนายก</option>
-<option value="73:นครปฐม" <?php if ($type_area_province == "73"){ echo "selected";} ?>>นครปฐม</option>
-<option value="48:นครพนม" <?php if ($type_area_province == "48"){ echo "selected";} ?>>นครพนม</option>
-<option value="30:นครราชสีมา" <?php if ($type_area_province == "30"){ echo "selected";} ?>>นครราชสีมา</option>
-<option value="80:นครศรีธรรมราช" <?php if ($type_area_province == "80"){ echo "selected";} ?>>นครศรีธรรมราช</option>
-<option value="60:นครสวรรค์" <?php if ($type_area_province == "60"){ echo "selected";} ?>>นครสวรรค์</option>
-<option value="12:นนทบุรี" <?php if ($type_area_province == "12"){ echo "selected";} ?>>นนทบุรี</option>
-<option value="96:นราธิวาส" <?php if ($type_area_province == "96"){ echo "selected";} ?>>นราธิวาส</option>
-<option value="55:น่าน" <?php if ($type_area_province == "55"){ echo "selected";} ?>>น่าน</option>
-<option value="38:บึงกาฬ" <?php if ($type_area_province == "38"){ echo "selected";} ?>>บึงกาฬ</option>
-<option value="31:บุรีรัมย์" <?php if ($type_area_province == "31"){ echo "selected";} ?>>บุรีรัมย์</option>
-<option value="13:ปทุมธานี" <?php if ($type_area_province == "13"){ echo "selected";} ?>>ปทุมธานี</option>
-<option value="77:ประจวบคีรีขันธ์" <?php if ($type_area_province == "77"){ echo "selected";} ?>>ประจวบคีรีขันธ์</option>
-<option value="25:ปราจีนบุรี" <?php if ($type_area_province == "25"){ echo "selected";} ?>>ปราจีนบุรี</option>
-<option value="94:ปัตตานี" <?php if ($type_area_province == "94"){ echo "selected";} ?>>ปัตตานี</option>
-<option value="14:พระนครศรีอยุธยา" <?php if ($type_area_province == "14"){ echo "selected";} ?>>พระนครศรีอยุธยา</option>
-<option value="56:พะเยา" <?php if ($type_area_province == "56"){ echo "selected";} ?>>พะเยา</option>
-<option value="82:พังงา" <?php if ($type_area_province == "82"){ echo "selected";} ?>>พังงา</option>
-<option value="93:พัทลุง" <?php if ($type_area_province == "93"){ echo "selected";} ?>>พัทลุง</option>
-<option value="66:พิจิตร" <?php if ($type_area_province == "66"){ echo "selected";} ?>>พิจิตร</option>
-<option value="65:พิษณุโลก" <?php if ($type_area_province == "65"){ echo "selected";} ?>>พิษณุโลก</option>
-<option value="76:เพชรบุรี" <?php if ($type_area_province == "76"){ echo "selected";} ?>>เพชรบุรี</option>
-<option value="67:เพชรบูรณ์" <?php if ($type_area_province == "67"){ echo "selected";} ?>>เพชรบูรณ์</option>
-<option value="54:แพร่" <?php if ($type_area_province == "54"){ echo "selected";} ?>>แพร่</option>
-<option value="83:ภูเก็ต" <?php if ($type_area_province == "83"){ echo "selected";} ?>>ภูเก็ต</option>
-<option value="44:มหาสารคาม" <?php if ($type_area_province == "44"){ echo "selected";} ?>>มหาสารคาม</option>
-<option value="49:มุกดาหาร" <?php if ($type_area_province == "49"){ echo "selected";} ?>>มุกดาหาร</option>
-<option value="58:แม่ฮ่องสอน" <?php if ($type_area_province == "58"){ echo "selected";} ?>>แม่ฮ่องสอน</option>
-<option value="35:ยโสธร" <?php if ($type_area_province == "35"){ echo "selected";} ?>>ยโสธร</option>
-<option value="95:ยะลา" <?php if ($type_area_province == "95"){ echo "selected";} ?>>ยะลา</option>
-<option value="45:ร้อยเอ็ด" <?php if ($type_area_province == "45"){ echo "selected";} ?>>ร้อยเอ็ด</option>
-<option value="85:ระนอง" <?php if ($type_area_province == "85"){ echo "selected";} ?>>ระนอง</option>
-<option value="21:ระยอง" <?php if ($type_area_province == "21"){ echo "selected";} ?>>ระยอง</option>
-<option value="70:ราชบุรี" <?php if ($type_area_province == "70"){ echo "selected";} ?>>ราชบุรี</option>
-<option value="16:ลพบุรี" <?php if ($type_area_province == "16"){ echo "selected";} ?>>ลพบุรี</option>
-<option value="52:ลำปาง" <?php if ($type_area_province == "52"){ echo "selected";} ?>>ลำปาง</option>
-<option value="51:ลำพูน" <?php if ($type_area_province == "51"){ echo "selected";} ?>>ลำพูน</option>
-<option value="42:เลย" <?php if ($type_area_province == "42"){ echo "selected";} ?>>เลย</option>
-<option value="33:ศรีสะเกษ" <?php if ($type_area_province == "33"){ echo "selected";} ?>>ศรีสะเกษ</option>
-<option value="47:สกลนคร" <?php if ($type_area_province == "47"){ echo "selected";} ?>>สกลนคร</option>
-<option value="90:สงขลา" <?php if ($type_area_province == "90"){ echo "selected";} ?>>สงขลา</option>
-<option value="91:สตูล" <?php if ($type_area_province == "91"){ echo "selected";} ?>>สตูล</option>
-<option value="11:สมุทรปราการ" <?php if ($type_area_province == "11"){ echo "selected";} ?>>สมุทรปราการ</option>
-<option value="75:สมุทรสงคราม" <?php if ($type_area_province == "75"){ echo "selected";} ?>>สมุทรสงคราม</option>
-<option value="74:สมุทรสาคร" <?php if ($type_area_province == "74"){ echo "selected";} ?>>สมุทรสาคร</option>
-<option value="27:สระแก้ว" <?php if ($type_area_province == "27"){ echo "selected";} ?>>สระแก้ว</option>
-<option value="19:สระบุรี" <?php if ($type_area_province == "19"){ echo "selected";} ?>>สระบุรี</option>
-<option value="17:สิงห์บุรี" <?php if ($type_area_province == "17"){ echo "selected";} ?>>สิงห์บุรี</option>
-<option value="64:สุโขทัย" <?php if ($type_area_province == "64"){ echo "selected";} ?>>สุโขทัย</option>
-<option value="72:สุพรรณบุรี" <?php if ($type_area_province == "72"){ echo "selected";} ?>>สุพรรณบุรี</option>
-<option value="84:สุราษฎร์ธานี" <?php if ($type_area_province == "84"){ echo "selected";} ?>>สุราษฎร์ธานี</option>
-<option value="32:สุรินทร์" <?php if ($type_area_province == "32"){ echo "selected";} ?>>สุรินทร์</option>
-<option value="43:หนองคาย" <?php if ($type_area_province == "43"){ echo "selected";} ?>>หนองคาย</option>
-<option value="39:หนองบัวลำภู" <?php if ($type_area_province == "39"){ echo "selected";} ?>>หนองบัวลำภู</option>
-<option value="15:อ่างทอง" <?php if ($type_area_province == "15"){ echo "selected";} ?>>อ่างทอง</option>
-<option value="37:อำนาจเจริญ" <?php if ($type_area_province == "37"){ echo "selected";} ?>>อำนาจเจริญ</option>
-<option value="41:อุดรธานี" <?php if ($type_area_province == "41"){ echo "selected";} ?>>อุดรธานี</option>
-<option value="53:อุตรดิตถ์" <?php if ($type_area_province == "53"){ echo "selected";} ?>>อุตรดิตถ์</option>
-<option value="61:อุทัยธานี" <?php if ($type_area_province == "61"){ echo "selected";} ?>>อุทัยธานี</option>
-<option value="34:อุบลราชธานี" <?php if ($type_area_province == "34"){ echo "selected";} ?>>อุบลราชธานี</option>
+                            <option value="10:กรุงเทพมหานคร" <?php if ($type_area_province == "10"){ echo "selected";} ?>>กรุงเทพมหานคร</option>
+                            <option value="81:กระบี่" <?php if ($type_area_province == "81"){ echo "selected";} ?>>กระบี่</option>
+                            <option value="71:กาญจนบุรี" <?php if ($type_area_province == "71"){ echo "selected";} ?>>กาญจนบุรี</option>
+                            <option value="46:กาฬสินธุ์" <?php if ($type_area_province == "46"){ echo "selected";} ?>>กาฬสินธุ์</option>
+                            <option value="62:กำแพงเพชร" <?php if ($type_area_province == "62"){ echo "selected";} ?>>กำแพงเพชร</option>
+                            <option value="40:ขอนแก่น" <?php if ($type_area_province == "40"){ echo "selected";} ?>>ขอนแก่น</option>
+                            <option value="22:จันทบุรี" <?php if ($type_area_province == "22"){ echo "selected";} ?>>จันทบุรี</option>
+                            <option value="24:ฉะเชิงเทรา" <?php if ($type_area_province == "24"){ echo "selected";} ?>>ฉะเชิงเทรา</option>
+                            <option value="20:ชลบุรี" <?php if ($type_area_province == "20"){ echo "selected";} ?>>ชลบุรี</option>
+                            <option value="18:ชัยนาท" <?php if ($type_area_province == "18"){ echo "selected";} ?>>ชัยนาท</option>
+                            <option value="36:ชัยภูมิ" <?php if ($type_area_province == "36"){ echo "selected";} ?>>ชัยภูมิ</option>
+                            <option value="86:ชุมพร" <?php if ($type_area_province == "86"){ echo "selected";} ?>>ชุมพร</option>
+                            <option value="57:เชียงราย" <?php if ($type_area_province == "57"){ echo "selected";} ?>>เชียงราย</option>
+                            <option value="50:เชียงใหม่" <?php if ($type_area_province == "50"){ echo "selected";} ?>>เชียงใหม่</option>
+                            <option value="92:ตรัง" <?php if ($type_area_province == "92"){ echo "selected";} ?>>ตรัง</option>
+                            <option value="23:ตราด" <?php if ($type_area_province == "23"){ echo "selected";} ?>>ตราด</option>
+                            <option value="63:ตาก" <?php if ($type_area_province == "63"){ echo "selected";} ?>>ตาก</option>
+                            <option value="26:นครนายก" <?php if ($type_area_province == "26"){ echo "selected";} ?>>นครนายก</option>
+                            <option value="73:นครปฐม" <?php if ($type_area_province == "73"){ echo "selected";} ?>>นครปฐม</option>
+                            <option value="48:นครพนม" <?php if ($type_area_province == "48"){ echo "selected";} ?>>นครพนม</option>
+                            <option value="30:นครราชสีมา" <?php if ($type_area_province == "30"){ echo "selected";} ?>>นครราชสีมา</option>
+                            <option value="80:นครศรีธรรมราช" <?php if ($type_area_province == "80"){ echo "selected";} ?>>นครศรีธรรมราช</option>
+                            <option value="60:นครสวรรค์" <?php if ($type_area_province == "60"){ echo "selected";} ?>>นครสวรรค์</option>
+                            <option value="12:นนทบุรี" <?php if ($type_area_province == "12"){ echo "selected";} ?>>นนทบุรี</option>
+                            <option value="96:นราธิวาส" <?php if ($type_area_province == "96"){ echo "selected";} ?>>นราธิวาส</option>
+                            <option value="55:น่าน" <?php if ($type_area_province == "55"){ echo "selected";} ?>>น่าน</option>
+                            <option value="38:บึงกาฬ" <?php if ($type_area_province == "38"){ echo "selected";} ?>>บึงกาฬ</option>
+                            <option value="31:บุรีรัมย์" <?php if ($type_area_province == "31"){ echo "selected";} ?>>บุรีรัมย์</option>
+                            <option value="13:ปทุมธานี" <?php if ($type_area_province == "13"){ echo "selected";} ?>>ปทุมธานี</option>
+                            <option value="77:ประจวบคีรีขันธ์" <?php if ($type_area_province == "77"){ echo "selected";} ?>>ประจวบคีรีขันธ์</option>
+                            <option value="25:ปราจีนบุรี" <?php if ($type_area_province == "25"){ echo "selected";} ?>>ปราจีนบุรี</option>
+                            <option value="94:ปัตตานี" <?php if ($type_area_province == "94"){ echo "selected";} ?>>ปัตตานี</option>
+                            <option value="14:พระนครศรีอยุธยา" <?php if ($type_area_province == "14"){ echo "selected";} ?>>พระนครศรีอยุธยา</option>
+                            <option value="56:พะเยา" <?php if ($type_area_province == "56"){ echo "selected";} ?>>พะเยา</option>
+                            <option value="82:พังงา" <?php if ($type_area_province == "82"){ echo "selected";} ?>>พังงา</option>
+                            <option value="93:พัทลุง" <?php if ($type_area_province == "93"){ echo "selected";} ?>>พัทลุง</option>
+                            <option value="66:พิจิตร" <?php if ($type_area_province == "66"){ echo "selected";} ?>>พิจิตร</option>
+                            <option value="65:พิษณุโลก" <?php if ($type_area_province == "65"){ echo "selected";} ?>>พิษณุโลก</option>
+                            <option value="76:เพชรบุรี" <?php if ($type_area_province == "76"){ echo "selected";} ?>>เพชรบุรี</option>
+                            <option value="67:เพชรบูรณ์" <?php if ($type_area_province == "67"){ echo "selected";} ?>>เพชรบูรณ์</option>
+                            <option value="54:แพร่" <?php if ($type_area_province == "54"){ echo "selected";} ?>>แพร่</option>
+                            <option value="83:ภูเก็ต" <?php if ($type_area_province == "83"){ echo "selected";} ?>>ภูเก็ต</option>
+                            <option value="44:มหาสารคาม" <?php if ($type_area_province == "44"){ echo "selected";} ?>>มหาสารคาม</option>
+                            <option value="49:มุกดาหาร" <?php if ($type_area_province == "49"){ echo "selected";} ?>>มุกดาหาร</option>
+                            <option value="58:แม่ฮ่องสอน" <?php if ($type_area_province == "58"){ echo "selected";} ?>>แม่ฮ่องสอน</option>
+                            <option value="35:ยโสธร" <?php if ($type_area_province == "35"){ echo "selected";} ?>>ยโสธร</option>
+                            <option value="95:ยะลา" <?php if ($type_area_province == "95"){ echo "selected";} ?>>ยะลา</option>
+                            <option value="45:ร้อยเอ็ด" <?php if ($type_area_province == "45"){ echo "selected";} ?>>ร้อยเอ็ด</option>
+                            <option value="85:ระนอง" <?php if ($type_area_province == "85"){ echo "selected";} ?>>ระนอง</option>
+                            <option value="21:ระยอง" <?php if ($type_area_province == "21"){ echo "selected";} ?>>ระยอง</option>
+                            <option value="70:ราชบุรี" <?php if ($type_area_province == "70"){ echo "selected";} ?>>ราชบุรี</option>
+                            <option value="16:ลพบุรี" <?php if ($type_area_province == "16"){ echo "selected";} ?>>ลพบุรี</option>
+                            <option value="52:ลำปาง" <?php if ($type_area_province == "52"){ echo "selected";} ?>>ลำปาง</option>
+                            <option value="51:ลำพูน" <?php if ($type_area_province == "51"){ echo "selected";} ?>>ลำพูน</option>
+                            <option value="42:เลย" <?php if ($type_area_province == "42"){ echo "selected";} ?>>เลย</option>
+                            <option value="33:ศรีสะเกษ" <?php if ($type_area_province == "33"){ echo "selected";} ?>>ศรีสะเกษ</option>
+                            <option value="47:สกลนคร" <?php if ($type_area_province == "47"){ echo "selected";} ?>>สกลนคร</option>
+                            <option value="90:สงขลา" <?php if ($type_area_province == "90"){ echo "selected";} ?>>สงขลา</option>
+                            <option value="91:สตูล" <?php if ($type_area_province == "91"){ echo "selected";} ?>>สตูล</option>
+                            <option value="11:สมุทรปราการ" <?php if ($type_area_province == "11"){ echo "selected";} ?>>สมุทรปราการ</option>
+                            <option value="75:สมุทรสงคราม" <?php if ($type_area_province == "75"){ echo "selected";} ?>>สมุทรสงคราม</option>
+                            <option value="74:สมุทรสาคร" <?php if ($type_area_province == "74"){ echo "selected";} ?>>สมุทรสาคร</option>
+                            <option value="27:สระแก้ว" <?php if ($type_area_province == "27"){ echo "selected";} ?>>สระแก้ว</option>
+                            <option value="19:สระบุรี" <?php if ($type_area_province == "19"){ echo "selected";} ?>>สระบุรี</option>
+                            <option value="17:สิงห์บุรี" <?php if ($type_area_province == "17"){ echo "selected";} ?>>สิงห์บุรี</option>
+                            <option value="64:สุโขทัย" <?php if ($type_area_province == "64"){ echo "selected";} ?>>สุโขทัย</option>
+                            <option value="72:สุพรรณบุรี" <?php if ($type_area_province == "72"){ echo "selected";} ?>>สุพรรณบุรี</option>
+                            <option value="84:สุราษฎร์ธานี" <?php if ($type_area_province == "84"){ echo "selected";} ?>>สุราษฎร์ธานี</option>
+                            <option value="32:สุรินทร์" <?php if ($type_area_province == "32"){ echo "selected";} ?>>สุรินทร์</option>
+                            <option value="43:หนองคาย" <?php if ($type_area_province == "43"){ echo "selected";} ?>>หนองคาย</option>
+                            <option value="39:หนองบัวลำภู" <?php if ($type_area_province == "39"){ echo "selected";} ?>>หนองบัวลำภู</option>
+                            <option value="15:อ่างทอง" <?php if ($type_area_province == "15"){ echo "selected";} ?>>อ่างทอง</option>
+                            <option value="37:อำนาจเจริญ" <?php if ($type_area_province == "37"){ echo "selected";} ?>>อำนาจเจริญ</option>
+                            <option value="41:อุดรธานี" <?php if ($type_area_province == "41"){ echo "selected";} ?>>อุดรธานี</option>
+                            <option value="53:อุตรดิตถ์" <?php if ($type_area_province == "53"){ echo "selected";} ?>>อุตรดิตถ์</option>
+                            <option value="61:อุทัยธานี" <?php if ($type_area_province == "61"){ echo "selected";} ?>>อุทัยธานี</option>
+                            <option value="34:อุบลราชธานี" <?php if ($type_area_province == "34"){ echo "selected";} ?>>อุบลราชธานี</option>
                            
                         </select>
                     </div>
@@ -926,7 +870,7 @@
     <div class="container border bg-white p-3">
         <div id="result_ac">
             <div id="head" align="center">
-                <h3>รายงานการละเมิดสิทธิฯ ผ่านระบบ CRS <?php echo $quarter_get; ?> <?php echo $area_detail." ".$quarter_detail; ?></h3>
+                <h3>รายงานการละเมิดสิทธิฯ ผ่านระบบ CRS <?php echo $area_detail." ".$quarter_get." ".$quarter_detail; ?></h3>
             </div>
 
             <div id="head" align="center">
@@ -957,6 +901,7 @@
                     <?php } ?>
                 </p>
             </div>
+            
             <?php if ($type_area != "2"){?>
                 <div id="paragrahp2" class="indent1 container">
                 <p style="text-align: justify;">
@@ -969,17 +914,17 @@
                     <?php echo $case_sort[0]; ?> เรื่อง (ดังตารางที่ 1)
                 </p>
             </div>
-            <? }else{ ?>
+            <?php }else{ ?>
                 <div id="paragrahp2" class="indent1 container">
-                <p style="text-align: justify;">
-                    มีหน่วยงานที่ช่วยจัดการการละเมิดสิทธิจำนวน <?php echo $prov_total; ?> หน่วยงาน โดย
+                    <p style="text-align: justify;">
+                        มีหน่วยงานที่ช่วยจัดการการละเมิดสิทธิจำนวน <?php echo $prov_total; ?> หน่วยงาน โดย
+                        
+                        <?php $count = 1; foreach ($pilot_prov_name as $value) { if ($count != $count_office ) {echo $value." ".$case_sort[$count]." เรื่อง ";}else{ echo "และ".$value;} $count++;} ?>
                     
-                    <?php $count = 1; foreach ($pilot_prov_name as $value) { if ($count != $count_office ) {echo $value." ".$case_sort[$count]." เรื่อง ";}else{ echo "และ".$value;} $count++;} ?>
-                   
-                    <?php echo $case_sort[0]; ?> เรื่อง (ดังตารางที่ 1)
-                </p>
-            </div>
-            <? } ?>
+                        <?php echo $case_sort[0]; ?> เรื่อง (ดังตารางที่ 1)
+                    </p>
+                </div>
+            <?php } ?>
             <div class="indent2 container">
                 <p><b>ตารางที่ 1</b> สรุปข้อมูลการร้องเรียนในระบบ CRS ข้อมูลในระบบ<?php echo $quarter_title; ?>
                     <?php echo $quarter_detail; ?> จำแนกตามกรณีร้องเรียน </p>
