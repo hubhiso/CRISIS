@@ -1,12 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mb-5">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"> Crisis Response System </div>
+                <div class="panel-heading">เข้าใช้ระบบ Crisis Response System </div>
                 <div class="panel-body">
+
+                @if(\Session::has('message'))
+                <div class="notification is-danger">
+                    <button class="delete noti-close " onclick="this.parentElement.style.display='none'"></button>
+                    <strong>{{ \Session::get('message') }}</strong>
+                </div>
+                @endif
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('officer.login.submit') }}">
                         {{ csrf_field() }}
 
@@ -50,11 +58,11 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="button is-danger">
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('officer.password.request') }}">
+                                <a class="button is-info" href="{{ route('officer.password.request') }}">
                                     ลืมหรัสผ่าน
                                 </a>
                             </div>
@@ -62,6 +70,8 @@
                     </form>
                 </div>
             </div>
+
+            <a class="button is-danger" href="{{ route('register') }}"> <i class="fas fa-user-plus">&nbsp;</i> {{ trans('message.tx_user_regis') }} </a>
         </div>
     </div>
 </div>

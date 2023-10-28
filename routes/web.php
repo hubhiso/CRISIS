@@ -19,19 +19,24 @@ Auth::routes();
 Route::prefix('manager')->group(function (){
     Route::get('/reject_case/{case_id}', 'ManagerController@reject')->name('manager.reject_frm');
     Route::get('/transfer_case/{case_id}', 'ManagerController@transfer')->name('manager.transfer_frm');
-    Route::get('/register', 'ManagerController@load_register')->name('manager.register');
+    
 
     Route::get('ajax-email/{email}','ManagerController@ajax_email');
     Route::get('ajax-tel/{tel}','ManagerController@ajax_tel');
 
     Route::post('/reject_cfm', 'ManagerController@reject_cfm')->name('manager.reject_cfm');
     Route::post('/transfer_cfm', 'ManagerController@transfer_cfm')->name('manager.transfer_cfm');
-    Route::post('/register_cfm', 'ManagerController@create_officer')->name('manager.register_cfm');
+   
 
     Route::prefix('transfer_case')->group(function (){
         Route::get('ajax-amphur/{prov_id}','ManagerController@ajax_amphur');
     });
+
+    Route::get('/share_case/{case_id}', 'ManagerController@share_case')->name('manager.share_case');
+    Route::post('/manage_sharecase', 'ManagerController@manage_sharecase')->name('manager.manage_sharecase');
 });
+
+
 Route::prefix('officer')->group(function () {
     Route::get('/', 'OfficerController@index')->name('officer.main');
     Route::get('/show/{mode_id}', 'OfficerInputController@show')->name('officer.show');
@@ -80,6 +85,8 @@ Route::prefix('officer')->group(function () {
     Route::get('/printcase/{case_id}', 'OfficerUpdateController@printcase')->name('officer.printpage');
 
     Route::get('/m_officer', 'ManageofficerController@m_officer')->name('officer.m_officer');
+    Route::post('m_officer', 'ManageofficerController@m_officer')->name('m_officer');
+
     Route::resource('/e_officer', 'ManageofficerController');
 
     Route::get('/logOfficer', 'ManageofficerController@view_log')->name('officer.view_log');
@@ -90,6 +97,12 @@ Route::prefix('officer')->group(function () {
 
     Route::post('/exportexcel', 'OfficerUpdateController@exportexcel')->name('officer.Export_Excel');
 
+    Route::get('/verifydata', 'OfficerUpdateController@showverifydata')->name('officer.verifydata');
+
+    Route::get('/view_officer', 'ManageofficerController@view_officer')->name('officer.view_officer');
+
+    //Route::post('/emailapprov', 'EmailController@sendEmailapprov')->name('send.emailapprov');
+
 });
 
 Route::get('status', function () {
@@ -99,6 +112,10 @@ Route::get('status/{case_id}', 'case_controller@show')->name('case.status');
 Route::post('evaluate', 'case_controller@up_evaluate')->name('case.update');
 
 Route::post('/store', 'case_controller@store')->name('store');
+
+Route::get('/register', 'RegisterController@load_register')->name('register');
+
+Route::post('/register_cfm', 'RegisterController@create_officer')->name('register_cfm');
 
 
 
@@ -147,6 +164,11 @@ Route::get('/resource', function () {
     return view('resource');
 });
 
+//Route::post('/store', 'case_controller@store')->name('store');
+
+Route::get('/createusersuccess', function () {
+    return view('createusersuccess');
+});
 
 
 
