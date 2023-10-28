@@ -35,13 +35,13 @@
         
         require("phpsqli_dbinfo.php");
 
-        $conn = mysqli_connect($hostname, $username, $password, $database);
-        if (mysqli_connect_errno()) 
-    { 
-        echo "Database connection failed."; 
-    }
+        //$conn = mysqli_connect($hostname, $username, $password, $database);
+        /*if (mysqli_connect_errno()) 
+        { 
+            echo "Database connection failed."; 
+        }*/
         // Change character set to utf8
-        mysqli_set_charset($conn,"utf8");
+       // mysqli_set_charset($conn,"utf8");
 
        $pr = $_POST["pr"];
        
