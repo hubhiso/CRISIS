@@ -8,14 +8,17 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
 
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
+    <link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet">
+    <link href="{{ asset('bulma-tooltip/bulma-tooltip.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modal/modal.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('css/font-awesome5.0.6/css/fontawesome-all.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     {{ Html::script('js/jquery.min.js') }}
     <link href="{{ asset('/css/uploadicon/new3.css') }}" rel="stylesheet">
 
     <link href="{{ asset('/css/nicelabel/css/jquery-nicelabel.css') }}" rel="stylesheet">
+
 
     {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
     {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
@@ -26,25 +29,20 @@
     {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
     {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
 
-    <!--modal popup -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <link href="{{ asset('css/bulma-switch.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bulma-checkradio.min.css') }}" rel="stylesheet">
 
-    <script src="css/modal/modal.js"></script>
-    <link href="{{ asset('css/modal/modal.css') }}" rel="stylesheet">
 
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"> </script>
-
-    <title> ปกป้อง </title>
+    <title> ปกป้อง (CRS) </title>
 
 
 </head>
 
 <body class="has-background-light">
 
-    <form name="RegForm" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST"
+    <form name="RegForm" id="RegForm" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST"
         onsubmit="return vali_case();" action="{{ route('store') }}">
+
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
         @component('component.input_head') @endcomponent
@@ -55,7 +53,7 @@
 
                     @if(Config::get('app.locale') == 'en')
 
-                    <a class="button is-danger is-inverted is-rounded is-small" href="{{ URL::to('change/th') }}"> Thai
+                    <a class="button is-danger is-inverted is-rounded is-small button_addshadow" href="{{ URL::to('change/th') }}"> Thai
                         Site&nbsp;
                         <span class="fa-stack fa-1x">
                             <i class="fa fa-circle fa-stack-2x"></i>
@@ -65,7 +63,7 @@
 
                     @elseif(Config::get('app.locale') == 'th')
 
-                    <a class="button is-danger is-inverted is-rounded is-small" href="{{ URL::to('change/en') }}">
+                    <a class="button is-danger is-inverted is-rounded is-small button_addshadow" href="{{ URL::to('change/en') }}">
                         English
                         Site&nbsp;
                         <span class="fa-stack fa-1x">
@@ -95,17 +93,30 @@
 
             <h2 id="modern-framework" class=""> {{ trans('message.txt_head_rc') }} </h2>
             <br>
+            
+            <div class="level">
+                <!-- Left side -->
+                <div class="level-left">
+                    <div class="level-item">
+                        <button  id="chk_agent" type="button" class="button is-info button_addshadow" value="1"
+                            onclick="showHideDiv('data-agent')"><i class="fa fa-user-plus"
+                                aria-hidden="true"></i>&nbsp;{{ trans('message.bt_victim_rc') }}</button>
+                    </div>
 
+                    <input type="hidden" id="emergency" name="emergency" value="0">
 
-            <div id="text-checkbox" class="buttons">
-                <button id="chk_agent" id="chk_agent" type="button" class="button is-info" value="1"
-                    onclick="showHideDiv('data-agent')"><i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;{{ trans('message.bt_victim_rc') }}</button>
+                </div>
 
-                <input class="text-nicelabel" id="emergency" name="emergency" value="1"
-                    data-nicelabel='{"position_class": "text_checkbox", "checked_text": "{{ trans('message.bt_urgent_rc') }}", "unchecked_text": "{{ trans('message.bt_urgent_rc') }}"}'
-                    type="checkbox" />
-
+                <!-- Right side -->
+                <div class="level-right">
+                    <div class="level-item">
+                        <a class="button is-danger button_addshadow btn_colorred" style="margon: 30px;" id="showModal"><i
+                                class="fas fa-exclamation-triangle fa-shake" style="--fa-animation-duration: 3s;">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</a>
+                    </div>
+                </div>
             </div>
+
+
 
             <div class="box " id="data-agent">
                 <div class="field is-horizontal">
@@ -114,7 +125,7 @@
                     </div>
                 </div>
 
-                
+
 
                 @component('component.informer_detail') @endcomponent
 
@@ -126,14 +137,38 @@
             </div>
 
             <input id="case_id" name="case_id" type="text" value="{{  $new_id }}" hidden>
-            <div class="box" id="data-person">
+
+            <div class="box " id="data-person">
 
                 <div class="field is-horizontal">
                     <div class="field-label ">
                         <!-- Left empty for spacing -->
                     </div>
                 </div>
-                <label>{{ trans('message.txt_head2_rc') }}</label>
+
+                <div class="level">
+                    <!-- Left side -->
+                    <div class="level-left">
+                        <div class="level-item">
+                            <label>{{ trans('message.txt_head2_rc') }} <span
+                                    class='has-text-danger '>{{ trans('message.txt_head2_rc_2') }}</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="level-right">
+                        <div class="level-item">
+                            <p>{{ trans('message.tag_help_status') }} <span id="tag_alert"
+                                    class="tag is-medium is-rounded is-success is-light has-tooltip-multiline"
+                                    data-tooltip="{{ trans('message.txt_short_urgenthelp_7day') }}"><b>{{ trans('message.btn_nourgent') }}</b></span>
+                                <span id="tag_notalert"
+                                    class="tag is-medium is-rounded is-danger is-light has-tooltip-multiline "
+                                    data-tooltip="{{ trans('message.txt_short_urgenthelp') }}"><i
+                                        class="fas fa-exclamation-triangle">&nbsp;</i><b>{{ trans('message.btn_urgent') }}</b></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
                 <hr> @if($errors->any())
 
@@ -143,6 +178,44 @@
                     @endforeach
                 </ul>
                 @endif
+
+                <div class="level">
+                    <!-- Left side -->
+                    <div class="level-left">
+
+
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="level-right">
+
+                        <div class="control">
+                            <p class=" is-danger is-medium has-text-link" id="getsuccess">&nbsp;</p>
+                        </div>
+
+                        <div class="control  ">
+                            <!--p>คลิกเพื่อระบุตำแหน่งในปัจจุบัน </p-->
+                            <a class="button is-danger button_addshadow" onclick="getLocation()">
+                                <span class="icon is-left">
+                                    <i class="fas fa-location-arrow"></i>
+                                </span>
+                                <span>{{ trans('message.bt_location') }}</span>
+                            </a>
+                            {{ Form::hidden('geolat', null, array('id' => 'glat')) }}
+                            {{ Form::hidden('geolon', null, array('id' => 'glon')) }}
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="field is-horizontal">
+                    <div class="field-label ">
+                        <!-- Left empty for spacing -->
+                    </div>
+                </div>
+
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
                         <label class="label">{{ trans('message.txt_name') }} *</label>
@@ -168,6 +241,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="field is-horizontal">
                     <div class="field-label ">
                         <!-- Left empty for spacing -->
@@ -179,18 +253,16 @@
                         <label class="label">{{ trans('message.txt_sex') }} *</label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <label class="radio">
-                                {{ Form::radio('biosex', '1' , true) }} {{ trans('message.txt_sex1') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('biosex', '2' , false) }} {{ trans('message.txt_sex2') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('biosex', '0' , false) }} {{ trans('message.txt_sex0') }}
-                            </label>
+                         <div class="field is-narrow">
+                            <div class="control">
+                                <input class="is-checkradio is-info" type="radio" id="biosex1" name="biosex" value="1"
+                                    checked="checked">
+                                <label for="biosex1">{{ trans('message.txt_sex1') }}</label>
+                                <input class="is-checkradio is-info" type="radio" id="biosex2" name="biosex" value="2">
+                                <label for="biosex2">{{ trans('message.txt_sex2') }}</label>
+                                <input class="is-checkradio is-info" type="radio" id="biosex0" name="biosex" value="0">
+                                <label for="biosex0">{{ trans('message.txt_sex0') }}</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -206,35 +278,27 @@
                         <label class="label"> {{ trans('message.txt_nat') }} *</label>
                     </div>
                     <div class="field-body">
-                        <div class="field">
-                            <label class="radio">
-                                {{ Form::radio('nation', '1' , true) }} {{ trans('message.txt_nat1') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '2' , false) }} {{ trans('message.txt_nat2') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '3' , false) }} {{ trans('message.txt_nat3') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '4' , false) }} {{ trans('message.txt_nat4') }}
-                            </label>
+                        <div class="field  ">
+                            <input class="is-checkradio is-info" type="radio" id="nation1" name="nation" value="1"
+                                checked="checked">
+                            <label for="nation1">{{ trans('message.txt_nat1') }}</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation2" name="nation" value="2">
+                            <label for="nation2">{{ trans('message.txt_nat2') }}</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation3" name="nation" value="3">
+                            <label for="nation3">{{ trans('message.txt_nat3') }}</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation4" name="nation" value="4">
+                            <label for="nation4">{{ trans('message.txt_nat4') }}</label>
                             <br>
-                            <label class="radio">
-                                {{ Form::radio('nation', '5' , false) }} {{ trans('message.txt_nat5') }}
-                            </label>
-                            &nbsp;
-                            <label class="radio">
-                                {{ Form::radio('nation', '6' , false) }} {{ trans('message.txt_nat6') }}
-                            </label>
-                            &nbsp;
-                            {!!
-                            Form::text('nation_etc',null,['class'=>'input','placeholder'=>
-                            trans('message.txt_nat6_sp'), 'style'=>'display:
-                            none']) !!}
+                            <br>
+                            <input class="is-checkradio is-info" type="radio" id="nation5" name="nation" value="5">
+                            <label for="nation5">{{ trans('message.txt_nat5') }}</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation7" name="nation" value="7">
+                            <label for="nation7">{{ trans('message.txt_nat7') }}</label>
+                            <input class="is-checkradio is-info" type="radio" id="nation6" name="nation" value="6">
+                            <label for="nation6">{{ trans('message.txt_nat6') }}</label>
+                            <input type="text" class="input" name="nation_etc" placeholder="{{ trans('message.txt_nat6_sp') }}"
+                                style="display:none">
+                            
                         </div>
                     </div>
                 </div>
@@ -373,36 +437,6 @@
                     </div>
                 </div>
 
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label"> </label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field  is-grouped">
-                            <div class="control  ">
-                                <!--p>คลิกเพื่อระบุตำแหน่งในปัจจุบัน </p-->
-                                <a class="button is-primary" onclick="getLocation()">
-                                    <span class="icon is-left">
-                                        <i class="fas fa-location-arrow"></i>
-                                    </span>
-                                    <span>{{ trans('message.bt_location') }}</span>
-                                </a>
-                                {{ Form::hidden('geolat', null, array('id' => 'glat')) }}
-                                {{ Form::hidden('geolon', null, array('id' => 'glon')) }}
-                            </div>
-                            <div class="control">
-                                <p class=" is-primary is-medium has-text-info" id="getsuccess"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="field is-horizontal">
-                    <div class="field-label ">
-                        <!-- Left empty for spacing -->
-                    </div>
-                </div>
-
 
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
@@ -472,7 +506,8 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <textarea name="detail" class="textarea"></textarea>
+                                <textarea name="detail" class="textarea"
+                                    placeholder="{{ trans('message.tx_des1') }}"></textarea>
                                 {{--<textarea class="textarea"  id ="detail" name="detail" placeholder=" กรอกรายละเอียดของปัญหา "></textarea>--}}
                             </div>
                         </div>
@@ -485,7 +520,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <textarea name="need" class="textarea"></textarea>
+                                <textarea name="need" class="textarea" placeholder="กรอกรายละเอียด"></textarea>
                                 {{--<textarea name="detail" class="textarea" placeholder="กรอกรายละเอียด"></textarea>--}}
                             </div>
                         </div>
@@ -497,9 +532,9 @@
                         <label class="label"> {{ trans('message.tx_upload') }} </label>
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
-                                <input class="input-file" id="file1" name="file1" type="file" name="resume">
+                                <input class="input-file" id="file1" name="file1" type="file">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
@@ -520,9 +555,9 @@
                     <div class="field-label is-normal">
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
-                                <input class="input-file" id="file2" name="file2" type="file" name="resume">
+                                <input class="input-file" id="file2" name="file2" type="file">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
@@ -543,9 +578,9 @@
                     <div class="field-label is-normal">
                     </div>
                     <div class="field-body">
-                        <div class="file is-primary has-name is-fullwidth">
+                        <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
-                                <input class="input-file" id="file3" name="file3" type="file" name="resume">
+                                <input class="input-file" id="file3" name="file3" type="file">
                                 <span class="file-cta">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
@@ -567,15 +602,15 @@
             <div class="field is-grouped">
                 <p class="control">
                     <!--{!! Form::submit('ส่งข้อมูล',['class'=>'button is-primary']) !!}-->
-                    <input type="submit" class="button is-primary" value="{{ trans('message.bt_submit') }}"
-                        onsubmit="return validateForm();">
+                    <button type="submit" class="button is-danger button_addshadow" form="RegForm"
+                        onsubmit="return validateForm();">{{ trans('message.bt_submit') }}</button>
 
                     <input type="button" name="btn" value="Submit" id="submitBtn" data-toggle="modal"
-                        data-target="#confirm-submit" class="btn btn-default" style="display:none" />
+                        data-target="#confirm-submit" class="btn btn-default button_addshadow" style="display:none" />
 
                 </p>
                 <p class="control">
-                    <a><a class="button is-outlined"
+                    <a><a class="button is-outlined button_addshadow"
                             href="{{ route('guest_home') }}">{{ trans('message.bt_cancle') }}</a></a>
                 </p>
             </div>
@@ -583,7 +618,12 @@
 
 
     </form>
+
     <br>
+
+    <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
+    <script src="{{ asset('bulma/main.js') }}"></script>
+
     @if(Config::get('app.locale') == 'en')
     {{ Html::script('js/select_list_en.js') }}
     @elseif(Config::get('app.locale') == 'th')
@@ -737,7 +777,7 @@
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-            getsuccess.innerHTML = "{{ trans('message.tx_location_wait') }}";
+            getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_wait') }}&nbsp;&nbsp;";
         } else {
             latlon.innerHTML = "Geolocation is not supported by this browser.";
         }
@@ -745,7 +785,7 @@
 
     function showPosition(position) {
 
-        getsuccess.innerHTML = "{{ trans('message.tx_location_ss') }}";
+        getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_ss') }}&nbsp;&nbsp;";
 
         document.getElementById('glat').value = position.coords.latitude;
         document.getElementById('glon').value = position.coords.longitude;
@@ -754,7 +794,42 @@
 
 
     $(document).ready(function() {
-        
+
+        document.getElementById("tag_notalert").style.display = 'none';
+
+        var btn = document.querySelector('#showModal');
+        var modalDlg = document.querySelector('#modal_alert');
+        var imageModalCloseBtn = document.querySelector('.modalclose');
+        var imageModalCloseBtn_alert = document.querySelector('.modalclose_alert');
+        var imageModalCloseBtn_notalert = document.querySelector('.modalclose_notalert');
+
+        btn.addEventListener('click', function() {
+            modalDlg.classList.add('is-active');
+        });
+
+        imageModalCloseBtn.addEventListener('click', function() {
+            modalDlg.classList.remove('is-active');
+        });
+
+        imageModalCloseBtn_alert.addEventListener('click', function() {
+            //$('#emergency2').val(0);
+            modalDlg.classList.remove('is-active');
+        });
+
+        imageModalCloseBtn_notalert.addEventListener('click', function() {
+            //$('#emergency2').val(1);
+            modalDlg.classList.remove('is-active');
+        });
+        // .click(function() {
+        //   .addClass("is-active");  
+        // });
+
+        // $(".modal-close").click(function() {
+        //    $(".modal").removeClass("is-active");
+        // });
+
+
+
         document.getElementById("case1").checked = true;
         //  loadinput(val);
         document.getElementById("data-agent").style.display = 'none';
@@ -790,8 +865,8 @@
             document.RegForm.submit();
         });
 
-        $('#submit').on('click', function(){
-            $(this).addClass('is-loading');        
+        $('#submit').on('click', function() {
+            $(this).addClass('is-loading');
         });
 
         //button to able accept button
@@ -817,7 +892,6 @@
     @extends('footer')
 
     <!-- popup box -->
-
     <div id="boxes">
         <div style="top: 250px; left: 551.5px; display: none; " id="dialog" class="window sizebox2">
             <div class="box">
@@ -841,7 +915,17 @@
         </div>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <!--modal popup -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>-->
+
+    <script src="css/modal/modal.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!--<script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"> </script>-->
+
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
     <script src="css/modal/modal.js"></script>
 
 
@@ -895,6 +979,82 @@
         </div>
     </div>
 
+    <div id="modal_alert" class="modal ">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title has-text-danger"><i
+                            class="fas fa-exclamation-triangle">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</p>
+                </header>
+                <section class="modal-card-body">
+
+                    <p class="is-size-4">
+                        {{ trans('message.tx_h_table') }}
+                    </p>
+                    <p class="is-size-5 mb-3">
+                        {{ trans('message.tx_sh_table') }}
+                    </p>
+                    <div class="panel table-container">
+
+                        <table class="table is-fullwidth is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th class="has-text-danger">{{ trans('message.tx_agency_name') }}</th>
+                                    <th class="has-text-danger">{{ trans('message.txt_tel') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>{{ trans('message.tx_rsat') }}</th>
+                                    <td class="has-text-left">02-7316533</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_tnp_plus') }}</th>
+                                    <td class="has-text-left">02-3775065</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_far') }}</th>
+                                    <td class="has-text-left">097-2194393</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_swing') }}</th>
+                                    <td class="has-text-left">02-6329502 </td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_rtf') }}</th>
+                                    <td class="has-text-left">063-2057188</td>
+                                </tr>
+                                <tr>
+                                    <th>Health and Opportunity Network (HON)</th>
+                                    <td class="has-text-left">038-425808</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_nam_kwan_sirung') }}</th>
+                                    <td class="has-text-left">054-070599</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_stm') }}</th>
+                                    <td class="has-text-left">074-313409</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <p class="is-size-5">{{ trans('message.txt_ask_urgenthelp') }}</p>
+                    <p class="is-size-6 has-text-danger">{{ trans('message.txt_tell_urgenthelp') }}</p>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-danger modalclose_alert button_addshadow" onclick="sitwch_alert('on')">{{ trans('message.btn_need') }}</button>
+                    <button class="button is-info modalclose_notalert button_addshadow" onclick="sitwch_alert('off')">{{ trans('message.btn_noneed') }}</button>
+                </footer>
+            </div>
+        </div>
+        <button class="modal-close modalclose"></button>
+    </div>
+
 
 </body>
 
@@ -904,6 +1064,32 @@ $(function() {
     $('#text-checkbox  > input').nicelabel();
 
 });
+</script>
+
+
+
+<script>
+function sitwch_alert(data) {
+
+    if (data == 'on') {
+        document.getElementById("emergency").value = "1";
+        document.getElementById("tag_alert").style.display = 'none';
+        document.getElementById("tag_notalert").style.display = '';
+
+        document.getElementById("data-agent").classList.add("has-background-danger-light");
+        document.getElementById("data-person").classList.add("has-background-danger-light");
+
+    } else if (data == 'off') {
+        document.getElementById("emergency").value = "0";
+        document.getElementById("tag_alert").style.display = '';
+        document.getElementById("tag_notalert").style.display = 'none';
+
+        document.getElementById("data-agent").classList.remove("has-background-danger-light");
+        document.getElementById("data-person").classList.remove("has-background-danger-light");
+
+    }
+
+}
 </script>
 
 </html>
