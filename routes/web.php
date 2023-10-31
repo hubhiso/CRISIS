@@ -21,9 +21,6 @@ Route::prefix('manager')->group(function (){
     Route::get('/transfer_case/{case_id}', 'ManagerController@transfer')->name('manager.transfer_frm');
     
 
-    Route::get('ajax-email/{email}','ManagerController@ajax_email');
-    Route::get('ajax-tel/{tel}','ManagerController@ajax_tel');
-
     Route::post('/reject_cfm', 'ManagerController@reject_cfm')->name('manager.reject_cfm');
     Route::post('/transfer_cfm', 'ManagerController@transfer_cfm')->name('manager.transfer_cfm');
    
@@ -116,6 +113,9 @@ Route::post('/store', 'case_controller@store')->name('store');
 Route::get('/register', 'RegisterController@load_register')->name('register');
 
 Route::post('/register_cfm', 'RegisterController@create_officer')->name('register_cfm');
+
+Route::get('ajax-email-regis/{email}','RegisterController@ajax_email');
+Route::get('ajax-tel-regis/{tel}','RegisterController@ajax_tel');
 
 
 

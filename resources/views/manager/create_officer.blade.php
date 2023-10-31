@@ -10,7 +10,7 @@
 
     <link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
-    <script src="{{ asset('css/jquery.min.js') }}"></script>
+    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
 
     {{ Html::script('js/jquery.min.js') }}
@@ -56,6 +56,13 @@
                     </li>
                 </ul>
             </nav>
+
+            @if(\Session::has('message'))
+            <div class="notification is-danger">
+                <button class="delete noti-close " onclick="this.parentElement.style.display='none'"></button>
+                <strong>{{ \Session::get('message') }}</strong>
+            </div>
+            @endif
 
             <div class="level">
                 <!-- Left side -->
@@ -380,9 +387,8 @@
     <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
     <script src="{{ asset('bulma/main.js') }}"></script>
 
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bm/jq-3.6.0/dt-1.11.3/datatables.min.js">
-    </script>
 
+    <script src="{{ asset('css/jquery.min.js') }}"></script>
 
     <script>
     document.querySelector("html").classList.add('js');
@@ -445,7 +451,7 @@
 
         if (email) {
 
-            $.get('ajax-email/' + email, function(data) {
+            $.get('ajax-email-regis/' + email, function(data) {
 
                 if (data == 1) {
                     console.log(data);
@@ -491,7 +497,7 @@
 
         if (tel) {
 
-            $.get('ajax-tel/' + tel, function(data) {
+            $.get('ajax-tel-regis/' + tel, function(data) {
 
                 if (data == 1) {
                     console.log(data);

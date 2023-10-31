@@ -112,46 +112,67 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         //$this->create($request->all());
 
-        officer::create([
+        $tel = $request->input('tel');
+        $email = $request->input('email');
 
-            'active' => 'no',
-            'approv' => 'no',
-            'username'=>$request->input('username'),
-            'name'=>$request->input('name'),
-            'nameorg'=>$request->input('nameorg'),
-            'email'=>$request->input('email'),
-            'tel'=>$request->input('tel'),
-            'password'=> bcrypt($request->input('password')),
-            'area_id'=>$request->input('area_id'),
-            'prov_id'=>$request->input('prov_id'),
-            'position'=>$request->input('position'),
-            'p_view_all'=>$request->input('p_view_all'),
-            'p_receive'=>$request->input('p_receive'),
+        $ck_officer_tel = officer::where('tel', '=', $tel)->first();
 
-            'fileupload1'=>$request->input('fileupload1'),
-            'fileupload2'=>$request->input('fileupload2')
+        $ck_officer_email = officer::where('email', '=', $email)->first();
+
+        if(!$ck_officer_tel or !$ck_officer_email){
+
+            
+            officer::create([
+
+                'active' => 'no',
+                'approv' => 'no',
+                'username'=>$request->input('username'),
+                'name'=>$request->input('name'),
+                'nameorg'=>$request->input('nameorg'),
+                'email'=>$request->input('email'),
+                'tel'=>$request->input('tel'),
+                'password'=> bcrypt($request->input('password')),
+                'area_id'=>$request->input('area_id'),
+                'prov_id'=>$request->input('prov_id'),
+                'position'=>$request->input('position'),
+                'p_view_all'=>$request->input('p_view_all'),
+                'p_receive'=>$request->input('p_receive'),
+
+                'fileupload1'=>$request->input('fileupload1'),
+                'fileupload2'=>$request->input('fileupload2')
 
 
-        ]);
+            ]);
 
-        $pathfile = "upload_officers/".$username;
-        $fileupload1 = "";
+            $pathfile = "upload_officers/".$username;
+            
+            $fileupload1 = "";
 
-        if ($request->file('fileupload1') != null) {
-           $fileupload1 =  time() . $request->file('fileupload1').'.'.$request->file('fileupload1')->getClientOriginalExtension();
-           $request->file('fileupload1')->move(public_path($pathfile), $fileupload1);
+            if ($request->file('fileupload1') != null) {
+            //$fileupload1 =  $request->file('fileupload1')->getClientOriginalName();
+            $fileupload1 =  md5(time() . $request->file('fileupload1')).'.'.$request->file('fileupload1')->getClientOriginalExtension();
+            $request->file('fileupload1')->move(public_path($pathfile), $fileupload1);
+            }
+
+            $fileupload2 = "";
+
+            if ($request->file('fileupload2') != null) {
+            //$fileupload2 =  $request->file('fileupload2')->getClientOriginalName();
+            $fileupload2 =  md5(time() . $request->file('fileupload2')).'.'.$request->file('fileupload2')->getClientOriginalExtension();
+            $request->file('fileupload2')->move(public_path($pathfile), $fileupload2);
+            }
+
+
+
+            officer::where('username','=',$username)->update([ 'fileupload1' => $fileupload1, 'fileupload2' => $fileupload2]);
+
+            return redirect('createusersuccess');
+
+        }else{
+
+            //$_SESSION["error"] = "เบอร์ติดต่อซ้ำ";
+            return redirect()->back()->with(['message' => 'เบอร์ติดต่อ หรือ Email ซ้ำ']);
+            //return redirect('register');
         }
-
-        $fileupload2 = "";
-
-        if ($request->file('fileupload2') != null) {
-           $fileupload2 =  time() . $request->file('fileupload2').'.'.$request->file('fileupload2')->getClientOriginalExtension();
-           $request->file('fileupload2')->move(public_path($pathfile), $fileupload2);
-        }
-
-
-        officer::where('username','=',$username)->update([ 'fileupload1' => $fileupload1, 'fileupload2' => $fileupload2]);
-
-        return redirect('createusersuccess');
     }
 }
