@@ -72,6 +72,10 @@ class case_controller extends Controller
         $YearAct = $request->input('year_hidden');
 
         $accident_date = $YearAct."-".$request->input('MonthAct')."-".$request->input('DayAct');
+
+        if ($accident_date == "1970-01-01"){
+            $accident_date = date('Y-m-d');
+        }
         
         if ($request->input('biosex') == 1) {
             $biosex_name = 'ชาย';
@@ -118,9 +122,6 @@ class case_controller extends Controller
             'group_code'=>$request->input('group_code'),
             'detail'=>$request->input('detail'),
             'need'=>$request->input('need'),
-            /*
-            'group_code'=>$request->input('group_code'),
-            'group_code'=>$request->input('group_code'),*/
 
             'file1'=>$request->input('file1'),
             'file2'=>$request->input('file2'),
@@ -129,6 +130,7 @@ class case_controller extends Controller
             'accident_date'=>$accident_date
 
         ]);
+
         $case_id = Request::input('case_id');
         $emergency = Request::input('emergency');
         $prov_id = Request::input('prov_id');

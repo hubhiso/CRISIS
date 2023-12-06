@@ -75,8 +75,14 @@ class OfficerInputController extends Controller
         //
 
         //case_input::create($request->all());
+
+        $YearAct = $request->input('year_hidden');
         
         $accident_date = date('Y-m-d',strtotime(str_replace('-','/', $request->input('DateAct'))));
+
+        if ($accident_date == "1970-01-01"){
+            $accident_date = date('Y-m-d');
+        }
         
         if ($request->input('biosex') == 1) {
             $biosex_name = 'ชาย';
@@ -84,7 +90,7 @@ class OfficerInputController extends Controller
             $biosex_name = 'หญิง';
         }else if ($request->input('biosex') == 0) {
             $biosex_name = 'ไม่ประสงค์ตอบ';
-        }    
+        }
 
         case_input::create([
             'emergency'=>$request->input('emergency'),
@@ -113,8 +119,6 @@ class OfficerInputController extends Controller
             'group_code'=>$request->input('group_code'),
             'detail'=>$request->input('detail'),
             'need'=>$request->input('need'),
-            'group_code'=>$request->input('group_code'),
-            'group_code'=>$request->input('group_code'),
 
             'file1'=>$request->input('file1'),
             'file2'=>$request->input('file2'),
@@ -128,6 +132,14 @@ class OfficerInputController extends Controller
         $emergency = Request::input('emergency');
         $prov_id = Request::input('prov_id');
         $provname = province::where('PROVINCE_CODE', $prov_id)->first();
+        $problem_case = Request::input('problem_case');
+        $problem_case_names = case_input::leftJoin('r_problem_case AS f', 'case_inputs.problem_case', '=', 'f.code')->where('f.code','=', $problem_case )->select('f.name as fname')->first();
+
+        foreach ($problem_case_names as $problem_case_name) {
+
+            $problem_case_names_ss =  $problem_case_names->fname;
+
+        }
 
         $pathfile = "uploads/".$case_id;
         $file1 = "";
@@ -171,13 +183,6 @@ class OfficerInputController extends Controller
             ]);
 
         }
-
-        $accident_date = date('Y-m-d',strtotime(str_replace('-','/', $request->input('DateAct'))));
-        if ($accident_date == "1970-01-01"){
-            $accident_date = date('Y-m-d');
-        }
-        
-        
 
         return view('layout.gen_caseid',compact('case_id','emergency','prov_id','provname'));
 
