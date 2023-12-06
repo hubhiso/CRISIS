@@ -184,7 +184,7 @@ class OfficerInputController extends Controller
 
         }
 
-        return view('layout.gen_caseid',compact('case_id','emergency','prov_id','provname'));
+        return view('layout.gen_caseid',compact('case_id','emergency','prov_id','provname','problem_case_names_ss'));
 
         
 
