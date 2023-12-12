@@ -131,7 +131,7 @@
                     <p class="control is-expanded has-icons-left ">
                         <label class="radio">
 
-                            <input class="is-checkradio is-info" type="radio" id="sender_case" name="sender_case" value="_"
+                            <input class="is-checkradio is-info" type="radio" id="sender_case" name="sender_case" value="3"
                                     checked="checked">
                             <label for="sender_case">เจ้าหน้าที่แจ้ง</label>
                         </label>
