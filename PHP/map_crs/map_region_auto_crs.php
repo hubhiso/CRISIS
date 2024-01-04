@@ -71,41 +71,33 @@ var example = 'geojson',
                 }
             },
 
-            colorAxis: {
-                tickPixelInterval: 100,
-                min: 0,
-                minColor: '#eee',
-                maxColor: '#cc3366'
-            },
-
-            credits: {
-                text: 'แบ่งเฉดสีตามค่าต่อเนื่องของจังหวัดในเขต',
-                href: '#',
-                style: {
-                    fontSize: '12px'
-                }
-            },
-
             legend: {
-                title: {
-                    text: '<?php echo $text_unit; ?>',
-                    style: {
-                        color: ( // theme
-                            Highcharts.defaultOptions &&
-                            Highcharts.defaultOptions.legend &&
-                            Highcharts.defaultOptions.legend.title &&
-                            Highcharts.defaultOptions.legend.title.style &&
-                            Highcharts.defaultOptions.legend.title.style.color
-                        ) || 'black'
-                    }
-                },
+            verticalAlign: 'middle',
+            align: 'right',
+            layout: 'vertical',
+               
+        },
 
-                <?php if ($chart_type == "1"){ ?>
-                valueDecimals: 0,
 
-                <?php }?>
-
-            },
+        colorAxis: {	
+            dataClasses: [{
+                from :0,
+                to: 0,
+                name: "ไม่มีข้อมูล",
+                color: '#ddd',
+            }, {
+                from :1,
+                to: 2,
+                name: "1 - 2 เรื่อง",
+                color: '#e046a2',
+            }, {
+                from :3,
+                to: 10000,
+                name: "3 เรื่องขึ้นไป",
+                color: '#de0867',
+            }
+            ]
+        },
 
 
 
