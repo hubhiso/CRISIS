@@ -617,8 +617,8 @@ class OfficerUpdateController extends Controller
 
         //$show_data = case_input::all();
 
-        $date_start = date('Y-m-d',strtotime(str_replace('-','/', $request->input('date_start2'))));
-        $date_end = date('Y-m-d',strtotime(str_replace('-','/', $request->input('date_end2')). "+1 day"));
+        $date_start = date('Y-m-d H:i:s',strtotime($request->input('date_start2')));
+        $date_end = date('Y-m-d H:i:s',strtotime($request->input('date_end2'). "+1 day"));
         $type_export = $request->input('type_export');
 
         if($type_export == 1){
@@ -632,7 +632,7 @@ class OfficerUpdateController extends Controller
             ->leftJoin('operate_details AS o', 'case_inputs.case_id', '=', 'o.case_id')
             ->leftJoin('timelines AS t', 'case_inputs.case_id', '=', 't.case_id')
             ->select('case_inputs.problem_case','case_inputs.group_code','b.PROVINCE_NAME','h.nhso','case_inputs.case_id', 'case_inputs.sender_case', 'g.name as gname', 'case_inputs.receiver', 'e.name AS ename', 'd.name AS dname', 'c.name AS cname', 'f.name AS fname', 'case_inputs.accident_date AS accident_date', 'case_inputs.created_at AS created_at', 'case_inputs.detail', 'case_inputs.need', 'case_inputs.nation' ,'t.operate_status' ,'t.operate_time','o.operate_result','o.operate_date','o.operate_detail','case_inputs.operate_result_status')
-            ->whereBetween('date(case_inputs.created_at)', [$date_start, $date_end])
+            ->whereBetween('case_inputs.created_at', [$date_start, $date_end])
             ->orderBy('case_inputs.created_at', 'asc')
             ->orderBy('t.operate_status', 'asc')
             ->orderBy('case_inputs.case_id', 'asc')
@@ -649,7 +649,7 @@ class OfficerUpdateController extends Controller
             ->leftJoin('timelines AS t', 'case_inputs.case_id', '=', 't.case_id')
             ->leftJoin('operate_details AS o', 'case_inputs.case_id', '=', 'o.case_id')
             ->select('case_inputs.problem_case','case_inputs.group_code','b.PROVINCE_NAME','h.nhso','case_inputs.case_id as case_id1', 'case_inputs.sender_case', 'g.name as gname', 'case_inputs.receiver', 'e.name AS ename', 'd.name AS dname', 'c.name AS cname', 'f.name AS fname', 'case_inputs.accident_date AS accident_date', 'case_inputs.created_at AS created_at', 'case_inputs.detail', 'case_inputs.need', 'case_inputs.nation' ,'t.operate_status' ,'t.operate_time','o.operate_result','o.operate_date','o.operate_detail','case_inputs.operate_result_status')
-            ->whereBetween('date(case_inputs.created_at)', [$date_start, $date_end])
+            ->whereBetween('case_inputs.created_at', [$date_start, $date_end])
             ->orderBy('case_inputs.created_at', 'asc')
             ->orderBy('t.operate_status', 'desc')
             ->orderBy('case_inputs.case_id', 'desc')
@@ -658,7 +658,7 @@ class OfficerUpdateController extends Controller
 
         //->groupBy('b.PROVINCE_NAME')
 
-        return view('officer.ExportExcel',compact('show_data','date_start','date_end','type_export'));
+        //return view('officer.ExportExcel',compact('show_data','date_start','date_end','type_export'));
     }
 
     public function showverifydata(){
