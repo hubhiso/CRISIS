@@ -658,7 +658,7 @@ class OfficerUpdateController extends Controller
 
         //->groupBy('b.PROVINCE_NAME')
 
-        //return view('officer.ExportExcel',compact('show_data','date_start','date_end','type_export'));
+        return view('officer.ExportExcel',compact('show_data','date_start','date_end','type_export'));
     }
 
     public function showverifydata(){
