@@ -708,7 +708,7 @@
 						FROM case_inputs c
                         left join add_details a on c.case_id = a.case_id
 						where receiver='".$row1['name']."'
-						and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+						and date(c.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(c.created_at) <= '".date("Y/m/d", strtotime($date_end))."'
 						group by receiver";
 
                         //echo $sql2."<br><BR><BR>";

@@ -447,8 +447,8 @@
                     ON last_update.id = c.id
                     inner join officers f on c.ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
-                    where f.name = '".$row1['name']."' 
-                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    WHERE f.name = '".$row1['name']."' 
+                    and date(ca.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(ca.created_at) <= '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $ousername = 0;
                     
@@ -467,7 +467,7 @@
                     inner join officers f on c.prev_ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
                     where f.name = '".$row1['name']."' 
-                    and ca.created_at >= '".date("Y/m/d", strtotime($date_start))."' and ca.created_at <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    and date(ca.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(ca.created_at) <= '".date("Y/m/d", strtotime($date_end))."' ";
                     
                     $prev_ousername = 0;
                     
@@ -488,7 +488,7 @@
                     count(status) as sum
                     FROM case_inputs
                     where receiver='".$row1['name']."'
-                    and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+                    and date(created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(created_at) <= '".date("Y/m/d", strtotime($date_end))."'
                     $sub_q
                     group by receiver";
 

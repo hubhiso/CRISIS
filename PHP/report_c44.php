@@ -513,7 +513,7 @@
                         sum( CASE WHEN  problem_case = '6' THEN 1 ELSE 0 END ) AS case1_6
 						FROM case_inputs c
 						where receiver='".$row1['name']."'
-						and c.created_at >= '".date("Y/m/d", strtotime($date_start))."' and c.created_at <= '".date("Y/m/d", strtotime($date_end))."'
+						and date(c.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(c.created_at) <= '".date("Y/m/d", strtotime($date_end))."'
 						group by receiver";
 
                         //echo $sql2."<br><BR><BR>";

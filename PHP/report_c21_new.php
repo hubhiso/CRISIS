@@ -514,7 +514,7 @@
 							sum(CASE WHEN problem_case = '1' THEN 1 ELSE 0 END) as sum
 							FROM case_inputs
 							where receiver='".$row1['name']."'
-							and created_at >= '".date("Y/m/d", strtotime($date_start))."' and created_at <= '".date("Y/m/d", strtotime($date_end))."'
+							and date(created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(created_at) <= '".date("Y/m/d", strtotime($date_end))."'
 							group by receiver";
 
 

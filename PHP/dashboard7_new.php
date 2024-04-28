@@ -85,11 +85,11 @@
 
 
         
-        $sql = "select year(ca.created_at) as y,month(ca.created_at) as m,count(*) as count, ca.prov_id, pr.name
+        $sql = "SELECT year(ca.created_at) as y,month(ca.created_at) as m,count(*) as count, ca.prov_id, pr.name
         from case_inputs ca
         left join prov_geo pr
         on ca.prov_id = pr.code
-        where created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'  and pr.nhso = '$area'
+        where date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'  and pr.nhso = '$area'
         group by  year(ca.created_at),month(ca.created_at), ca.prov_id";
 
         $result1 = mysqli_query($conn, $sql); 
@@ -105,11 +105,11 @@
             $last_i = $i;
         }
 
-        $sql2 = "select year(ca.created_at) as y, month(ca.created_at) as m, count(*) as count, ca.prov_id, ca.receiver, f.nameorg, f.username
+        $sql2 = "SELECT year(ca.created_at) as y, month(ca.created_at) as m, count(*) as count, ca.prov_id, ca.receiver, f.nameorg, f.username
         from case_inputs ca
         left join officers f
         on f.name = ca.receiver
-        where ca.created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' and ca.prov_id ='".$pr."'  and ca.receiver <> ''
+        where date(ca.created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' and ca.prov_id ='".$pr."'  and ca.receiver <> ''
         group by  year(ca.created_at),month(ca.created_at), prov_id, receiver, f.nameorg, f.username";
 
 

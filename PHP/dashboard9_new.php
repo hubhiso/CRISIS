@@ -39,7 +39,7 @@
         mysqli_set_charset($conn,"utf8");
 
         
-        $sql = "select group_code, r_group_code.name, count(group_code) as count
+        $sql = "SELECT group_code, r_group_code.name, count(group_code) as count
         from case_inputs
         left join r_group_code
         on r_group_code.code = case_inputs.group_code
@@ -56,7 +56,7 @@
             $last_i = $i;
         }
 
-        $sql2 = "select group_code, r_group_code.name, count(group_code) as count, case_inputs.sex
+        $sql2 = "SELECT group_code, r_group_code.name, count(group_code) as count, case_inputs.sex
         from case_inputs
         left join r_group_code
         on r_group_code.code = case_inputs.group_code

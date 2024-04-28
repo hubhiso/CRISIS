@@ -30,15 +30,7 @@
 
     <?php
         
-        require("phpsql_dbinfo.php");
-
-        $conn = mysqli_connect($hostname, $username, $password, $database);
-        if (mysqli_connect_errno()) 
-        { 
-            echo "Database connection failed."; 
-        }
-        // Change character set to utf8
-        mysqli_set_charset($conn,"utf8");
+        require("phpsqli_dbinfo.php");
 
         $last_year = date("Y");
         $last_month = date("M");
@@ -56,7 +48,6 @@
 
         $sql = "select year(created_at) as y ,month(created_at) as m,count(*) as count
         from case_inputs
-        
         group by year(created_at), month(created_at)";
 
         $result1 = mysqli_query($conn, $sql); 
@@ -70,17 +61,16 @@
             $last_i += $i;
         }
 
-        $sql2 = "select month(created_at) as month, 
+        $sql2 = "SELECT month(created_at) as month, 
         sum(case when problem_case = 1 THEN 1 ELSE 0 END) as case1, 
         sum(case when problem_case = 2 THEN 1 ELSE 0 END) as case2, 
         sum(case when problem_case = 3 THEN 1 ELSE 0 END) as case3, 
         sum(case when problem_case = 4 THEN 1 ELSE 0 END) as case4, 
         sum(case when problem_case = 5 THEN 1 ELSE 0 END) as case5, 
         sum(case when problem_case = 6 THEN 1 ELSE 0 END) as case6 
-        from case_inputs 
-        where created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' 
+        FROM case_inputs 
+        WHERE date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30' 
         group by month";
-
         
         $result2 = mysqli_query($conn, $sql2); 
         $row2 = mysqli_num_rows($result2); 
@@ -137,86 +127,29 @@
             <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
                     href="dashboard3_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>Dashboard</h6>
-                        <span>สรุปสถานการณ์</span>
+                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="automated.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>รายงาน</h6>
-                        <span>การละเมิดสิทธิ</span>
+                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="mapcrisis_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-map" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right ">
-                        <h6>พิกัดการ</h6>
-                        <span>ละเมิดสิทธิ</span>
+                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
                     </div>
                 </a>
 
                 <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
                     href="table.blade.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
                     <div class="text text-right">
-                        <h6>สรุปข้อมูล</h6>
-                        <span>ภาพรวม</span>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c1_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>สรุปกรณี</h6>
-                        <span>ละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c2_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ตารางสรุป</h6>
-                        <span>การละเมิดสิทธิ</span>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class=" icon-left d-flex align-items-center justify-content-center h4">
-                        <i class="far fa-file-alt" aria-hidden="true"></i>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                    <div class="text text-right">
-                        <h6>ระยะเวลา</h6>
-                        <span>ดำเนินการ</span>
+                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
                     </div>
                 </a>
 
@@ -231,30 +164,43 @@
             <div class="btn-group flex-wrap">
                 <a class="btn btn-white  btn-rounded border" href="dashboard3_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์การละเมิดสิทธิ</span>
+                    <span>ภาพรวม</span>
                 </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard5_new.php">
+                <a class="btn btn-primary btn-rounded" href="dashboard5_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายปี</span>
-                </a>
-                <a class="btn btn-primary btn-white btn-rounded border" href="dashboard6_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายเดือน</span>
+                    <span>ช่วงเวลา (รายปี/รายเดือน)</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="dashboard7_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>สถานการณ์รายจังหวัด</span>
+                    <span>รายพื้นที่ (เขต/จังหวัด)</span>
                 </a>
-                <a class="btn btn-white  btn-rounded border" href="dashboard1_new.php">
+                <a class="btn btn-white btn-rounded border" href="dashboard1_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ข้อมูลแยกตามขั้นตอน</span>
+                    <span>จำแนกสถานะการดำเนินงาน</span>
                 </a>
                 <a class="btn btn-white btn-rounded border" href="dashboard2_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ข้อมูลแยกตามปัญหา</span>
+                    <span>จำแนกปัญหา</span>
                 </a>
             </div>
 
+        </div>
+
+        <!--div class="p-3 text-center">
+            <p class="h5">รายงานการละเมิดสิทธิในระบบ CRS รายปี</p>
+        </div-->
+
+        <br>
+
+        <div class="text-center ">
+                <a class="btn btn-white btn-rounded border" href="dashboard5_new.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>รายปี</span>
+                </a>
+                <a class="btn btn-primary btn-rounded" href="dashboard6_new.php">
+                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
+                    <span>รายเดือน</span>
+                </a>
         </div>
         <br>
 

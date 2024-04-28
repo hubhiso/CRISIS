@@ -48,7 +48,7 @@
     $sql = "SELECT prov_id, prov_geo.prov_name_en, prov_geo.name, count(*) as ccase
 	FROM case_inputs, prov_geo
 	where prov_geo.code = case_inputs.prov_id
-    and created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
+    and date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql); 
@@ -77,7 +77,7 @@
     $sql_q1  = "SELECT count(*) as ccase
 	FROM case_inputs
 	where 
-    created_at BETWEEN '".($years-1)."-10-01' and '".($years-1)."-12-31'
+    date(created_at) BETWEEN '".($years-1)."-10-01' and '".($years-1)."-12-31'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q1); 
@@ -91,7 +91,7 @@
     $sql_q2  = "SELECT count(*) as ccase
 	FROM case_inputs
 	where 
-    created_at BETWEEN '".$years."-01-01' and '".$years."-03-31'
+    date(created_at) BETWEEN '".$years."-01-01' and '".$years."-03-31'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q2); 
@@ -105,7 +105,7 @@
     $sql_q3  = "SELECT count(*) as ccase
 	FROM case_inputs
 	where 
-    created_at BETWEEN '".$years."-04-01' and '".$years."-06-30'
+    date(created_at) BETWEEN '".$years."-04-01' and '".$years."-06-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q3); 
@@ -119,7 +119,7 @@
     $sql_q4  = "SELECT count(*) as ccase
 	FROM case_inputs
 	where 
-    created_at BETWEEN '".$years."-07-01' and '".$years."-09-30'
+    date(created_at) BETWEEN '".$years."-07-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
 	$result = mysqli_query($conn, $sql_q4); 

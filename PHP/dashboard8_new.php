@@ -51,10 +51,10 @@
 
         if($years == ''){$years = $last_year;}
         
-        $sql = "select count(case_id) as count,c.group_code,month(c.created_at) as month,year(c.created_at)
+        $sql = "SELECT count(case_id) as count,c.group_code,month(c.created_at) as month,year(c.created_at)
         from case_inputs c 
         where sub_problem = '2' and 
-        created_at BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
+        date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         group by year(c.created_at),month(created_at),group_code
         order by year(c.created_at),month(created_at),c.group_code";
 
