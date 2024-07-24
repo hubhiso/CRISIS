@@ -374,8 +374,9 @@ class OfficerUpdateController extends Controller
         $parea = $request->input('parea');
 
         
+        $iduser = Auth::user()->username;
 
-        $joinofficer = officer::where('name', $username)->first();
+        $joinofficer = officer::where(['username'=> $iduser])->first();
 
         $sharecases = sharecase::where('user_share','=', $joinofficer->username)->get();
 
@@ -576,17 +577,17 @@ class OfficerUpdateController extends Controller
             }
         }
 
-        if($request->input('Filter')<>6){
-            if($joinofficer->group != null && $joinofficer->g_view_all == 'yes'){
-                $groups = officer::where('group','=', $joinofficer->group)->get();
-    
-                foreach ($groups as $group) {
-                    //$cases =  $cases->orWhere('prov_id', '=', $group->prov_id );
-                    $cases =  $cases->orWhere('receiver', '=', $group->name );
-                    $filter++;
-                }
+        if($request->input('Filter') != 6 and $joinofficer->group != NULL and $joinofficer->g_view_all == "yes"){
+
+            $groups = officer::where(['group' => $joinofficer->group])->get();
+
+            foreach ($groups as $group) {
+                //$cases =  $cases->orWhere('prov_id', '=', $group->prov_id );
+                $cases =  $cases->orWhere(['receiver' =>  $group->name] );
+                $filter++;
             }
-        }
+
+    }
         
         if($filter > 0){
             $cases = $cases->get();
@@ -669,8 +670,8 @@ class OfficerUpdateController extends Controller
         ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
         ->where('operate_details.id', \DB::raw("(select max(operate_details.id) from operate_details)"))
         ->get();
-*/
-/*
+        */
+        /*
         $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
         ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
         ->select('case_inputs.id','case_inputs.receiver','case_inputs.case_id','operate_details.id', \DB::raw("(select max(operate_details.id) from operate_details)"))
@@ -680,7 +681,7 @@ class OfficerUpdateController extends Controller
         ->groupBy('operate_details.id')
         ->orderBy('case_inputs.id')
         ->get();*/
-/*
+        /*
         $show_data = case_input::leftjoin('add_details', 'case_inputs.case_id', '=', 'add_details.case_id')
         ->leftjoin('operate_details', 'case_inputs.case_id', '=', 'operate_details.case_id')
         ->orderBy('case_inputs.id')
