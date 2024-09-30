@@ -504,6 +504,14 @@
     <br>
 
     <script>
+    $(document).ready(function() {
+        $('#operate_date').val($('#Monthoperate').val() + "/" + $('#Dayoperate').val() + "/" + ($('#Yearoperate').val() - 543));
+        //var date = $('#operate_date').val();
+        //alert(date);
+    });
+    </script>
+
+    <script>
     ////////////////////////////// operate control /////////////////////////
     function edit_operate(operate_id) {
         var url = "{{route('officer.edit_operate',['operate_id' => ":operate_id"]) }}";
@@ -617,6 +625,11 @@
             success: function(data) {
                 //console.log(data);
                 clear_edit(operate_id)
+                renderTable();
+                clear_input();
+                //alert(data.cout)
+                $('#current_operate').hide();
+                $('#btn_add').show();
             }
         })
     }
@@ -719,6 +732,7 @@
                 $("#ajaxResponse").append("<div>" + data.msg + "</div>");
                 renderTable();
                 clear_input();
+                $('#operate_date').val($('#Monthoperate').val() + "/" + $('#Dayoperate').val() + "/" + ($('#Yearoperate').val() - 543));
                 //alert(data.cout)
                 $('#current_operate').hide();
                 $('#btn_add').show();
