@@ -28,21 +28,43 @@ class ManageofficerController extends Controller
 
             if(Auth::user()->position == "manager"){
                 $prov_id_se = Auth::user()->prov_id;
+            }else if(Auth::user()->position == "manager_area"){
+                $nhso_se = Auth::user()->area_id;
             }else{
+                $nhso_se = $request->input('nhso');
                 $prov_id_se = $request->input('prov_id');
             }
+
+            if($nhso_se == "" || $nhso_se == "0"){
+
+                if($prov_id_se == "" || $prov_id_se == "0"){
+                    $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->orderBy('officers.id')->get();
+                }else{
+                    $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->where('prov_id','=',$prov_id_se)->orderBy('officers.id')->get();
+                }
+            }else{
+
+                if($prov_id_se == "" || $prov_id_se == "0"){
+                    $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->join('prov_geo', 'prov_id', '=', 'prov_geo.code')->where('prov_geo.nhso','=',$nhso_se)->orderBy('officers.id')->get();
+                }else{
+                    $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->where('prov_id','=',$prov_id_se)->orderBy('officers.id')->get();
+                }
+
+            }
             
-        if($prov_id_se == "" || $prov_id_se == "0"){
-            $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->orderBy('officers.id')->get();
-        }else{
-            $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->where('prov_id','=',$prov_id_se)->orderBy('officers.id')->get();
-        }
+            /*
+            if($prov_id_se == "" || $prov_id_se == "0"){
+                $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->orderBy('officers.id')->get();
+            }else{
+                $show_list = officer::leftJoin('officer_groups', 'officers.group', '=', 'officer_groups.code')->where('prov_id','=',$prov_id_se)->orderBy('officers.id')->get();
+                }*/
 
-        $nowdate =  Carbon::now();
-        $show_group = officer_group::all();
-        $show_prov = province::orderBy('PROVINCE_NAME')->get();
+            $nowdate =  Carbon::now();
+            $show_group = officer_group::all();
+            //$show_prov = province::orderBy('PROVINCE_NAME')->get();
+            $show_prov = province::join('prov_geo', 'PROVINCE_CODE', '=', 'prov_geo.code')->orderBy('PROVINCE_NAME', 'asc')->get();
 
-        return view('officer.manageofficer',compact('show_list','nowdate','show_group','show_prov','prov_id_se'));
+            return view('officer.manageofficer',compact('show_list','nowdate','show_group','show_prov','prov_id_se','nhso_se'));
         }
 
 
@@ -165,10 +187,20 @@ class ManageofficerController extends Controller
         ]);
 
 
-        $active = $request->input('e_active');
+        $approv = $request->input('e_approv');
+
+        $active = "";
+
+        if($request->input('e_active') == 'Active'){
+            $active = "yes";
+        }else if($request->input('e_active') == 'Waiting'){
+            $active = "wait";
+        }else if($request->input('e_active') == 'Inactive'){
+            $active = "no";
+        }
 
 
-        if($active == 'yes' and $o_active == 'no'){
+        if($active == 'yes' and ($o_active == 'no' or $o_active == 'wait')){
             $ck_mailwarning = NULL;
             $ck_mailwarning_at = NULL;
 
@@ -188,12 +220,14 @@ class ManageofficerController extends Controller
             $ck_mailwarning_at = $o_mailwarning_at;
 
             $ck_lastlogin = $o_last_login_at;
+            
             $ck_approv = "";
+            
         }
 
         officer::where('username','=',$id)->update([
 
-            'active' => $request->input('e_active'),
+            'active' => $active,
 
             'mailwarning' => $ck_mailwarning,
             'mailwarning_at' => $ck_mailwarning_at,
@@ -216,9 +250,63 @@ class ManageofficerController extends Controller
         
         ]);
 
-        if($request->input('e_active') == 'yes'){
+        if($request->input('e_position') == "admin"){
+            $ck_new_position = "admin";
+        }else  if($request->input('e_position') == "ผู้ดูแลระดับเขต"){
+            $ck_new_position = "manager_area";
+        }else  if($request->input('e_position') == "ผู้ดูแลระดับจังหวัด"){
+            $ck_new_position = "manager";
+        }else  if($request->input('e_position') == "เจ้าหน้าที่"){
+            $ck_new_position = "officer";
+        }
+
+        if($o_position != $ck_new_position){
+
+            if($ck_new_position == "admin"){
+                officer::where('username','=',$id)->update([
+                    'area_id' => NULL,
+                    'prov_id' => NULL,
+                    'position' => "admin"
+                ]);
+            }else  if($ck_new_position == "manager_area"){
+                officer::where('username','=',$id)->update([
+                    'area_id' => $request->input('e_area'),
+                    'prov_id' => NULL,
+                    'position' => "manager_area"
+                ]);
+            }else  if($ck_new_position == "manager"){
+                officer::where('username','=',$id)->update([
+                    'area_id' => NULL,
+                    'prov_id' => $request->input('e_prov'),
+                    'position' => "manager"
+                ]);
+            }else  if($ck_new_position == "officer"){
+                officer::where('username','=',$id)->update([
+                    'area_id' => NULL,
+                    'prov_id' => $request->input('e_prov'),
+                    'position' => "officer"
+                ]);
+            }
+
+        }
+
+        if($active == 'yes'){
             officer::where('username','=',$id)->update([
                 'approv' => 'yes'
+            ]);
+        }
+
+        if($approv == 'no'){
+            officer::where('username','=',$id)->update([
+                'approv' => 'no',
+                'active' => 'no'
+            ]);
+        }
+
+        if($approv == 'wait'){
+            officer::where('username','=',$id)->update([
+                'approv' => 'wait',
+                'active' => 'wait'
             ]);
         }
 
@@ -237,6 +325,8 @@ class ManageofficerController extends Controller
             $message->to($data['email'])->subject($data['subject']);
             });
         }
+
+        echo "<br>อัพเดตรายละเอียดเจ้าหน้าที่เรียบร้อย";
 
         return back()->with('success','อัพเดตรายละเอียดเจ้าหน้าที่เรียบร้อย');
 

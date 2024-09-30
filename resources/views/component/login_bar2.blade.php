@@ -50,19 +50,19 @@
                         </a>
 
                         <div class="navbar-dropdown is-right is-boxed ">
-                            <a class="navbar-item has-text-primary" href="{{ route('register') }}">
+                            <a class="navbar-item has-text-danger" href="{{ route('register') }}">
                                 <i class="fas fa-user-plus"></i>&nbsp;
                                 ลงทะเบียนเจ้าหน้าที่เพิ่มเติม
                             </a>
                             <hr class="navbar-divider">
                             @if( Auth::user()->position == "admin" )
-                            <a class="navbar-item  has-text-info" href="{{ route('officer.m_officer') }}">
+                            <a class="navbar-item  has-text-link" href="{{ route('officer.m_officer') }}">
                                 <i class="fa fa-users"></i>&nbsp;
                                 จัดการรายชื่อเจ้าหน้าที่ </a>
 
                             @else
                             
-                            <a class="navbar-item  has-text-info" href="{{ route('officer.view_officer') }}">
+                            <a class="navbar-item  has-text-link" href="{{ route('officer.view_officer') }}">
                                 <i class="fa fa-users"></i>&nbsp;
                                 รายชื่อเจ้าหน้าที่ </a>
 
@@ -74,7 +74,7 @@
 
 
                     <div class="navbar-item">
-                        <a class="button navbar-item is-danger is-small is-rounded" href="{{ route('officer.logout') }}"
+                        <a class="button  is-danger has-text-white is-small is-rounded" href="{{ route('officer.logout') }}"
                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <span><b><i class="fa fa-power-off" aria-hidden="true"></i>&nbsp;Logout</b></span>
