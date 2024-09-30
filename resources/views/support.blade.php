@@ -78,11 +78,11 @@
                 </div>
                 <div class="tile is-parent">
                     <article class="tile is-child box">
-                        <a href="http://www.aidsrightsthailand.com">
+                        <a href="http://fairthailand.org/">
                             <figure class="">
-                                <img src="images/logo/logo2-x100.png">
+                                <img src="images/logo/logo_fair-4.png" height="150">
                             </figure>
-                            <p class="is-size-6">มูลนิธิศูนย์คุ้มครองสิทธิ์ด้านเอดส์</p>
+                            <p class="is-size-6">มูลนิธิเพื่อสิทธิความหลากหลาย</p>
                         </a>
                     </article>
                 </div>

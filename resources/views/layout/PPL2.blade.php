@@ -63,17 +63,17 @@
                 <div class="column " style="  padding: 20px;">
                     <div class="columns is-mobile is-tablet is-desktop has-background-white"
                         style="border-radius: 5px; max-height: 80px;">
-                        <div class="column">
+                        <div class="column is-2">
                             <img class="image  " style="max-height: 70px;" src="images/logoPPL/l-h1.png" alt="">
                         </div>
-                        <div class="column">
+                        <div class="column is-3 border">
                             <img class="image  " style="max-height: 70px; border-radius: 10px;"
-                                src="images/logoPPL/l-h2.png" alt="">
+                                src="images/logoPPL/logo_fair-2.png" alt="">
                         </div>
-                        <div class="column is-4">
+                        <div class="column is-3">
                             <img class="image  " src="images/logoPPL/l-h3-2.png" alt="">
                         </div>
-                        <div class="column is-4">
+                        <div class="column is-3">
                             <img class="image  " src="images/logoPPL/l-h4-2.png" alt="">
                         </div>
 
@@ -227,9 +227,9 @@
         </div>
         <div class="tile is-parent">
             <article class="tile is-child box">
-                <a href="http://www.aidsrightsthailand.com/all-article.php?lang=">
+                <a href="http://fairthailand.org/">
                     <h4 class="subtitle is-4 ">"กรณีศึกษาที่น่าสนใจเกี่ยวกับกรณีการละเมิดสิทธิ"</h4>
-                    <p>มูลนิธิศูนย์คุ้มครองสิทธิด้านเอดส์<br>Foundation For AIDS Rights (FAR)</p>
+                    <p>มูลนิธิเพื่อสิทธิความหลากหลาย (FAIR)</p>
                 </a>
             </article>
         </div>
@@ -275,7 +275,7 @@
         <div class="tile is-parent">
             <article class="tile is-child box">
                 <a href="https://www.thaihealthreport.com/">
-                    <h4 class="subtitle is-4 ">"รายงานสุขภาพคนไทย 2562"</h4>
+                    <h4 class="subtitle is-4 ">"รายงานสุขภาพคนไทย"</h4>
                     <p>สถาบันวิจัยประชากรและสังคม <br>มหาวิทยาลัยมหิดล</p>
                 </a>
             </article>
@@ -357,10 +357,10 @@
                                     target="_blank">{{ trans('message.bt_map') }}</a></td>
                             <td class="has-text-centered"><a
                                     class='tag is-medium btn_facebook is-rounded button_addshadow'
-                                    href="https://www.facebook.com/foundationforaidsrights" target="_blank"><i
+                                    href="https://www.facebook.com/people/%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%99%E0%B8%B4%E0%B8%98%E0%B8%B4%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B4%E0%B8%97%E0%B8%98%E0%B8%B4%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2-FAIR/61557330737859/" target="_blank"><i
                                         class="fab fa-facebook-f">&nbsp;</i></a></td>
-                            <td class="has-text-left"><a href="https://www.aidsrightsthailand.com"
-                                    target="_blank">https://www.aidsrightsthailand.com</a></td>
+                            <td class="has-text-left"><a href="http://fairthailand.org/"
+                                    target="_blank">http://fairthailand.org/</a></td>
                         </tr>
                         <tr>
                             <th>{{ trans('message.tx_swing_silom') }}</th>
@@ -680,7 +680,7 @@
                 </p>
                 <p class="control">
                     <a class="button is-info is-focused is-medium is-fullwidth  is-rounded"
-                        href="https://www.facebook.com/foundationforaidsrights"> <i
+                        href="https://www.facebook.com/people/%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%99%E0%B8%B4%E0%B8%98%E0%B8%B4%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B4%E0%B8%97%E0%B8%98%E0%B8%B4%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%81%E0%B8%AB%E0%B8%A5%E0%B8%B2%E0%B8%A2-FAIR/61557330737859/"> <i
                             class="fa fa-comment-dots">&nbsp;</i>{{ trans('message.bt_link_far') }}</a>
                 </p>
             </div>

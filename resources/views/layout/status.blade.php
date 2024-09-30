@@ -108,7 +108,7 @@
 				</div>
 
 			  <!-- Right side -->
-				<div class="level-right">
+				<!--div class="level-right">
 					<div class="level-item">
 						<a class="button is-medium   modal-button" data-target="modal-ter">
 							<span class="icon is-medium">
@@ -117,7 +117,7 @@
 							<span> {{ trans('message.bt_rate_status') }} </span>
 						</a>
 					</div>
-			  	</div>
+			  	</div-->
 			</nav>
 			
 			<hr>
