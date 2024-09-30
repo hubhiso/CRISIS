@@ -21,8 +21,9 @@
     <link media="all" type="text/css" rel="stylesheet"
         href="../public/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"-->
 
     <link href="report.css" rel="stylesheet">
 
@@ -34,6 +35,8 @@
     <?php
 		
 		require("phpsqli_dbinfo.php");
+        require("setdateformat.php");
+        date_default_timezone_set("Asia/Bangkok");
 
 		$pr = $_POST["pr"];
         $nhso = $_POST["nhso"];
@@ -57,14 +60,14 @@
 	    $se1 = $_POST["problem_case"];
 	    $se2 = $_POST["sub_problem"];
 	    $se3 = $_POST["group_code"];
-	   //echo $se1,' ',$se2," ",$se3," ";
+	    //echo $se1,' ',$se2," ",$se3," ";
 	
-	   $se_time = $_POST["se_time"];
-       $se_year = $_POST["se_year"];
-       $se_quarter = $_POST["se_quarter"];
-       $se_month = $_POST["se_month"];
+        $se_time = $_POST["se_time"];
+        $se_year = $_POST["se_year"];
+        $se_quarter = $_POST["se_quarter"];
+        $se_month = $_POST["se_month"];
 
-       $year_now =  date("Y");
+        $year_now =  date("Y");
 
         if(date("m")>9){
             $year_now++;
@@ -73,95 +76,126 @@
         if($years == ''){$years = $year_now;}
 
        
-       if($se_year == ''){
-           $se_year = $year_now;
-       }
+        if($se_year == ''){
+            $se_year = $year_now;
+        }
 
-       if($se_time == ''){
-           $se_time = 1;
+        if($se_time == ''){
+            $se_time = 1;
 
-           $date_start = "10/1/".($se_year-1);
-           $date_end = "9/30/".$se_year;
-       }
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "30/09/".$se_year;
+        }
 
-       if($se_time== 1){
+        if($se_time== 1){
 
-           if($se_quarter== 0){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 1){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "12/31/".($se_year-1);
-           }else if($se_quarter== 2){
-               $date_start = "1/1/".$se_year;
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 3){
-               $date_start = "4/1/".$se_year;
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 4){
-               $date_start = "7/1/".$se_year;
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 12){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 13){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 99){
-               if($se_month== 10){
-                   $date_start = "10/1/".($se_year-1);
-                   $date_end = "10/31/".($se_year-1);
-               }else if($se_month== 11){
-                   $date_start = "11/1/".($se_year-1);
-                   $date_end = "11/30/".($se_year-1);
-               }else if($se_month== 12){
-                   $date_start = "12/1/".($se_year-1);
-                   $date_end = "12/31/".($se_year-1);
-               }else if($se_month== 1){
-                   $date_start = "1/1/".$se_year;
-                   $date_end = "1/31/".$se_year;
-               }else if($se_month== 2){
-                   $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
-               }else if($se_month== 3){
-                   $date_start = "3/1/".$se_year;
-                   $date_end = "3/31/".$se_year;
-               }else if($se_month== 4){
-                   $date_start = "4/1/".$se_year;
-                   $date_end = "4/30/".$se_year;
-               }else if($se_month== 5){
-                   $date_start = "5/1/".$se_year;
-                   $date_end = "5/31/".$se_year;
-               }else if($se_month== 6){
-                   $date_start = "6/1/".$se_year;
-                   $date_end = "6/30/".$se_year;
-               }else if($se_month== 7){
-                   $date_start = "7/1/".$se_year;
-                   $date_end = "7/31/".$se_year;
-               }else if($se_month== 8){
-                   $date_start = "8/1/".$se_year;
-                   $date_end = "8/31/".$se_year;
-               }else if($se_month== 9){
-                   $date_start = "9/1/".$se_year;
-                   $date_end = "9/30/".$se_year;
-               }
-           }
+            if($se_quarter== 0){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 1){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/12/".($se_year-1);
+            }else if($se_quarter== 2){
+                $date_start = "01/01/".$se_year;
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 3){
+                $date_start = "01/04/".$se_year;
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 4){
+                $date_start = "01/07/".$se_year;
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 12){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 13){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 99){
+                if($se_month== 10){
+                    $date_start = "01/10/".($se_year-1);
+                    $date_end = "31/10/".($se_year-1);
+                }else if($se_month== 11){
+                    $date_start = "01/11/".($se_year-1);
+                    $date_end = "30/11/".($se_year-1);
+                }else if($se_month== 12){
+                    $date_start = "01/12/".($se_year-1);
+                    $date_end = "31/12/".($se_year-1);
+                }else if($se_month== 1){
+                    $date_start = "01/01/".$se_year;
+                    $date_end = "31/01/".$se_year;
+                }else if($se_month== 2){
+                    $date_start = "01/02/".$se_year;
+                    $date_end = strtotime("3/1/".$se_year)-1;
+                    $date_end = date("d/m/Y",$date_end);
 
-       }else if($se_time== 2){
+                }else if($se_month== 3){
+                    $date_start = "01/03/".$se_year;
+                    $date_end = "31/03/".$se_year;
+                }else if($se_month== 4){
+                    $date_start = "01/04/".$se_year;
+                    $date_end = "30/04/".$se_year;
+                }else if($se_month== 5){
+                    $date_start = "01/05/".$se_year;
+                    $date_end = "31/05/".$se_year;
+                }else if($se_month== 6){
+                    $date_start = "01/06/".$se_year;
+                    $date_end = "30/06/".$se_year;
+                }else if($se_month== 7){
+                    $date_start = "01/07/".$se_year;
+                    $date_end = "31/07/".$se_year;
+                }else if($se_month== 8){
+                    $date_start = "01/08/".$se_year;
+                    $date_end = "31/08/".$se_year;
+                }else if($se_month== 9){
+                    $date_start = "01/09/".$se_year;
+                    $date_end = "30/09/".$se_year;
+                }
+            }
 
-           $date_start = $_POST["date_start"];
-           $date_end = $_POST["date_end"];
-           
-           if($date_end==''){
-               $date_end = date("m/d/Y");
-           }
+        }else if($se_time== 2){
 
-       }
+            $date_start = $_POST["date_start"];
+            $date_end = $_POST["date_end"];
+            
+            if($date_end==''){
+                $date_end = date("D/M/Y");
+            }
+
+        }
+
+
+        if($date_start != "" ){
+            $yyyymmdd = substr($date_start,6,4)."/".substr($date_start,3,2)."/".substr($date_start,0,2);
+            $date_s =  $yyyymmdd;
+        }
+    
+        if($date_end != "" ){
+            $yyyymmdd = substr($date_end,6,4)."/".substr($date_end,3,2)."/".substr($date_end,0,2);
+            $date_e =  $yyyymmdd;
+        }
+
+        if($se1 != '0'){
+            $q_se1 = " and problem_case = '$se1' ";
+
+            if($se2 != '0'){
+                $q_se2 = " and sub_problem = '$se2' ";
+
+                if($se3 != '0'){
+
+                    $q_se2 = " and group_code = '$se3' ";
+                }
+            }
+
+        }else{
+            $q_se1 = "";
+            $q_se2 = "";
+            $q_se3 = "";
+        }
 	
 
 		$sql1 = "SELECT r.code,r.name,c.status,count(c.id) as n_status 
 		FROM r_status r left join case_inputs c on r.code = c.status  left join prov_geo on prov_geo.code = c.prov_id
-		where date(created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(created_at) <= '".date("Y/m/d", strtotime($date_end))."'
+		where c.activecase = 'yes' $q_se1 $q_se2 $q_se3 and date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."'
 		$pr_q
 		group by r.code";
 		
@@ -224,72 +258,114 @@
             </ol>
         </nav>
 
-        <div class="text-center ">
+        <div class="text-center p-4">
+            <div class="btn-group btn-group-toggle my-auto flex-wrap  ">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
-                    href="dashboard3_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
+                <div class="dropdown tabtype btn active">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-chart-bar">&nbsp;</i> Dashboard สรุปสถานการณ์
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard3_new.php">
+                            ภาพรวม</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard5_new.php">
+                            ช่วงเวลา (รายปี/รายเดือน)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard7_new2.php">
+                            รายพื้นที่ (เขต/จังหวัด)</a>
+
+                        <a class="dropdown-item active" id="dropdown-layouts" href="dashboard1_new.php">
+                            จำแนกสถานะการดำเนินงาน</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard2_new.php">
+                            จำแนกปัญหา</a>
+
+                    </div>
+
+                </div>
+
+                <a href="automated.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-file-alt">&nbsp;</i> รายงานการละเมิดสิทธิ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="automated.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
+                <a href="mapcrisis_new.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-map">&nbsp;</i> พิกัดจุดเกิดเหตุ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="mapcrisis_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
-                    </div>
-                </a>
+                <div class="dropdown tabtype btn ">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-table">&nbsp;</i> สรุปข้อมูลภาพรวม
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="table_new.php">
+                            ภาพรวม</a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="table.blade.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="report_c3_new.php">แยกตามกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c1_new.php">รายหน่วยบริการ
+                                </a>
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">ตารางสรุปการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="mapreport1.php">แผนที่
+                                </a>
+                                <a class="dropdown-item " href="report_c44.php">แยกกรณีละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c2_new.php">รวมทุกกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c21_new.php">กรณี 1 บังคับตรวจเอชไอวี
+                                </a>
+                                <a class="dropdown-item " href="report_c22_new.php">กรณี 3
+                                    เลือกปฏิบัติในกลุ่มผู้ติดเชื้อ
+                                </a>
+                                <a class="dropdown-item " href="report_c23_new.php">กรณี 4 เลือกปฏิบัติในกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item " href="dashboard8_new.php">ข้อมูลกลุ่มเปราะบางรายเดือน
+                                </a>
+                                <a class="dropdown-item " href="dashboard4_new.php">สัดส่วนกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item "
+                                    href="dashboard9_new.php">สัดส่วนกลุ่มเปราะบางเปรียบเทียบประชากรข้ามชาติ
+                                </a>
+                                <a class="dropdown-item " href="report_c41.php">สัดส่วนการละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c4.php">สัดส่วนประเภทหน่วยงาน
+                                </a>
+                                <a class="dropdown-item " href="report_c43.php">สัดส่วนการดำเนินการ
+                                </a>
+                                <a class="dropdown-item " href="report_c42.php">สัดส่วนผลการดำเนินการ
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                            ระยะเวลาการดำเนินการ</a>
+
                     </div>
-                </a>
+
+                </div>
+
 
             </div>
-
         </div>
 
-        <br>
-
-        <div class="text-center ">
-
-            <div class="btn-group flex-wrap">
-                <a class="btn btn-white btn-rounded border" href="dashboard3_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ภาพรวม</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard5_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>ช่วงเวลา (รายปี/รายเดือน)</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard7_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>รายพื้นที่ (เขต/จังหวัด)</span>
-                </a>
-                <a class="btn btn-primary btn-white btn-rounded border" href="dashboard1_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>จำแนกสถานะการดำเนินงาน</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard2_new.php">
-                    <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
-                    <span>จำแนกปัญหา</span>
-                </a>
-
-            </div>
-
-        </div>
-
-        <br>
         <div class="container p-3">
 
             <form name="form_menu" method="post" action="dashboard1_new.php">
@@ -301,14 +377,14 @@
                     </div>
                     <div class="col-auto">
                         <select id="problem_case" name="problem_case" class="form-select">
-                            <option value="0">โปรดเลือกประเภทปัญหาของท่าน</option>
-                            <option value="1">บังคับตรวจเอชไอวี</option>
+                            <option value="0">ทุกประเภทปัญหา</option>
+                            <option value="1" <?php if($se1 == '1' ){echo "selected";} ?>>บังคับตรวจเอชไอวี</option>
                             <option value="2" <?php if($se1 == '2' ){echo "selected";} ?>>เปิดเผยสถานะการติดเชื้อเอชไอวี
                             </option>
-                            <option value="3">ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี</option>
-                            <option value="4">ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง</option>
-                            <option value="5">อื่นๆ ที่เกี่ยวข้องกับ HIV</option>
-                            <option value="6">อื่นๆ </option>
+                            <option value="3" <?php if($se1 == '3' ){echo "selected";} ?>>ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจาการติดเชื้อเอชไอวี</option>
+                            <option value="4" <?php if($se1 == '4' ){echo "selected";} ?>>ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง</option>
+                            <option value="5" <?php if($se1 == '5' ){echo "selected";} ?>>อื่นๆ ที่เกี่ยวข้องกับ HIV</option>
+                            <option value="6" <?php if($se1 == '6' ){echo "selected";} ?>>อื่นๆ </option>
 
                         </select>
                     </div>
@@ -496,16 +572,15 @@
                     </div>
 
                     <div class="col-auto ">
-                        <input type="submit" class="btn bgcolor1" id="submit" name="submit" value="ตกลง">
+                        <input type="submit" class="btn btn_color1" id="submit" name="submit" value="ตกลง">
 
                     </div>
 
                     <br>
 
                     <p class="subtitle ">
-                        <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                        <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                        <strong> ข้อมูล ณ วันที่ (ว/ด/ป) : </strong>
+                        <?php echo thai_date_short_number_time(strtotime(date("Y-m-d H:i:s"))); ?>
                     </p>
 
                 </div>
@@ -554,10 +629,78 @@
 
     <script src="../public/js/jquery.min.js"></script>
     <script src="../public/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-
+    
     <script type="text/javascript" src="../public/NewFusionChart/js/fusioncharts.js"></script>
     <script type="text/javascript" src="../public/NewFusionChart/js/themes/fusioncharts.theme.hulk-light.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
+    </script>
+
+    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+    $.fn.dropdown = (function() {
+        var $bsDropdown = $.fn.dropdown;
+        return function(config) {
+            if (typeof config === 'string' && config === 'toggle') { // dropdown toggle trigged
+                $('.has-child-dropdown-show').removeClass('has-child-dropdown-show');
+                $(this).closest('.dropdown').parents('.dropdown').addClass(
+                    'has-child-dropdown-show');
+            }
+            var ret = $bsDropdown.call($(this), config);
+            $(this).off(
+                'click.bs.dropdown'
+            ); // Turn off dropdown.js click event, it will call 'this.toggle()' internal
+            return ret;
+        }
+    })();
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.dropdown [data-toggle="dropdown"]').on('click', function(e) {
+            $(this).dropdown('toggle');
+            e
+                .stopPropagation(); // do not fire dropdown.js click event, it will call 'this.toggle()' internal
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e) {
+            if ($(this).is('.has-child-dropdown-show')) {
+                $(this).removeClass('has-child-dropdown-show');
+                e.preventDefault();
+            }
+            e.stopPropagation(); // do not need pop in multi level mode
+        });
+    });
+
+    // for hover
+    $('.dropdown-hover').on('mouseenter', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover').on('mouseleave', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseenter', '.dropdown', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseleave', '.dropdown', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    </script>
 
     <script>
     $(document).ready(function() {
@@ -587,6 +730,77 @@
             echo "$('.se_time_g2').hide();";
         }
         ?>
+
+        //alert($('#group_code').val(););
+
+        if($('#problem_case').val() !== '0' ){
+            //alert("yes");
+
+            var prob_id = $('#problem_case').val();
+
+            $('#group_code').empty();
+            $('#group_code').attr('disabled', 'disabled');
+            if ((prob_id == 1) || (prob_id == 5)|| (prob_id == 6)) {
+                $('#sub_problem').empty();
+                $('#sub_problem').removeAttr('disabled');
+                $('#sub_problem').append(
+                    '<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>'
+                );
+                $('#sub_problem').append(
+                    '<option value="1" <?php if($se2 == '1' ){echo "selected";} ?> style="width:250px">ผู้ติดเชื้อเอชไอวี</option>'
+                );
+                $('#sub_problem').append(
+                    '<option value="2" <?php if($se2 == '2' ){echo "selected";} ?> style="width:250px">กลุ่มเปราะบาง</option>'
+                );
+                $('#sub_problem').append(
+                    '<option value="4" <?php if($se2 == '4' ){echo "selected";} ?>  style="width:250px">ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
+                $('#sub_problem').append('<option value="3" style="width:250px">ประชาชนทั่วไป</option>');
+            } else if (prob_id == 2) {
+                $('#sub_problem').empty();
+                $('#sub_problem').removeAttr('disabled');
+                $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+                $('#sub_problem').append('<option value="1" <?php if($se2 == '1' ){echo "selected";} ?>>ผู้ติดเชื้อเอชไอวี</option>');
+            } else if (prob_id == 3) {
+                $('#sub_problem').empty();
+                $('#sub_problem').removeAttr('disabled');
+                $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+                $('#sub_problem').append('<option value="1" <?php if($se2 == '1' ){echo "selected";} ?>  >ผู้ติดเชื้อเอชไอวี</option>');
+                $('#sub_problem').append('<option value="4" <?php if($se2 == '4' ){echo "selected";} ?>  >ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
+            } else if (prob_id == 4) {
+                $('#sub_problem').empty();
+                $('#sub_problem').removeAttr('disabled');
+                $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+                $('#sub_problem').append('<option value="2" <?php if($se2 == '2' ){echo "selected";} ?>  style="width:250px">กลุ่มเปราะบาง</option>');
+                $('#group_code').empty();
+                $('#group_code').removeAttr('disabled');
+                $('#group_code').append('<option value="0" <?php if($se3 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่มย่อย</option>');
+                $('#group_code').append('<option value="1" <?php if($se3 == '1' ){echo "selected";} ?>  style="width:250px">กลุ่มหลากหลายทางเพศ</option>');
+                $('#group_code').append('<option value="2" <?php if($se3 == '2' ){echo "selected";} ?>  style="width:250px">พนักงานบริการ </option>');
+                $('#group_code').append('<option value="3" <?php if($se3 == '3' ){echo "selected";} ?>  style="width:250px">ผู้ใช้สารเสพติด</option>');
+                $('#group_code').append('<option value="4" <?php if($se3 == '4' ){echo "selected";} ?>  style="width:250px">ประชากรข้ามชาติ</option>');
+                $('#group_code').append('<option value="5" <?php if($se3 == '5' ){echo "selected";} ?>  style="width:250px">ผู้ถูกคุมขัง</option>');
+                $('#group_code').append('<option value="6" <?php if($se3 == '6' ){echo "selected";} ?>  style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+                $('#group_code').append('<option value="7" <?php if($se3 == '7' ){echo "selected";} ?>  style="width:250px">คนพิการ</option>');
+
+            } else {
+                $('#sub_problem').empty();
+                $('#sub_problem').attr('disabled', 'disabled');
+            }
+
+            if($('#group_code').val() != null ){
+                $('#group_code').empty();
+                $('#group_code').removeAttr('disabled');
+                $('#group_code').append('<option value="0" <?php if($se3 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่มย่อย</option>');
+                $('#group_code').append('<option value="1" <?php if($se3 == '1' ){echo "selected";} ?>  style="width:250px">กลุ่มหลากหลายทางเพศ</option>');
+                $('#group_code').append('<option value="2" <?php if($se3 == '2' ){echo "selected";} ?>  style="width:250px">พนักงานบริการ </option>');
+                $('#group_code').append('<option value="3" <?php if($se3 == '3' ){echo "selected";} ?>  style="width:250px">ผู้ใช้สารเสพติด</option>');
+                $('#group_code').append('<option value="4" <?php if($se3 == '4' ){echo "selected";} ?>  style="width:250px">ประชากรข้ามชาติ</option>');
+                $('#group_code').append('<option value="5" <?php if($se3 == '5' ){echo "selected";} ?>  style="width:250px">ผู้ถูกคุมขัง</option>');
+                $('#group_code').append('<option value="6" <?php if($se3 == '6' ){echo "selected";} ?>  style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+                $('#group_code').append('<option value="7" <?php if($se3 == '7' ){echo "selected";} ?>  style="width:250px">คนพิการ</option>');
+            }
+
+        }
     });
 
     $('#se_quarter').on('change', function(e) {
@@ -615,9 +829,16 @@
     </script>
 
     <script>
+        $('.input-daterange input').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    </script>
+
+    <script>
     $('.input-daterange input').each(function() {
 
         $(this).datepicker('');
+        
         //$('#date_end').datepicker("setDate", new Date());
     }).on('changeDate', function(e) {
         //load_case()
@@ -632,37 +853,45 @@
             $('#sub_problem').empty();
             $('#sub_problem').removeAttr('disabled');
             $('#sub_problem').append(
+                '<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>'
+            );
+            $('#sub_problem').append(
                 '<option value="1" <?php if($se2 == '1' ){echo "selected";} ?> style="width:250px">ผู้ติดเชื้อเอชไอวี</option>'
             );
             $('#sub_problem').append(
                 '<option value="2" <?php if($se2 == '2' ){echo "selected";} ?> style="width:250px">กลุ่มเปราะบาง</option>'
             );
             $('#sub_problem').append(
-                '<option value="4" style="width:250px">ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
+                '<option value="4" <?php if($se2 == '4' ){echo "selected";} ?>  style="width:250px">ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
             $('#sub_problem').append('<option value="3" style="width:250px">ประชาชนทั่วไป</option>');
         } else if (prob_id == 2) {
             $('#sub_problem').empty();
             $('#sub_problem').removeAttr('disabled');
-            $('#sub_problem').append(
-                '<option value="1" <?php if($se2 == '1' ){echo "selected";} ?>>ผู้ติดเชื้อเอชไอวี</option>');
+            $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+            $('#sub_problem').append('<option value="1" <?php if($se2 == '1' ){echo "selected";} ?>>ผู้ติดเชื้อเอชไอวี</option>');
         } else if (prob_id == 3) {
             $('#sub_problem').empty();
             $('#sub_problem').removeAttr('disabled');
-            $('#sub_problem').append('<option value="1" >ผู้ติดเชื้อเอชไอวี</option>');
-            $('#sub_problem').append('<option value="4" >ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
+            $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+            $('#sub_problem').append('<option value="1" <?php if($se2 == '1' ){echo "selected";} ?>  >ผู้ติดเชื้อเอชไอวี</option>');
+            $('#sub_problem').append('<option value="4" <?php if($se2 == '4' ){echo "selected";} ?>  >ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี</option>');
         } else if (prob_id == 4) {
             $('#sub_problem').empty();
             $('#sub_problem').removeAttr('disabled');
-            $('#sub_problem').append('<option value="2" style="width:250px">กลุ่มเปราะบาง</option>');
+            $('#sub_problem').append('<option value="0" <?php if($se2 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่ม</option>');
+            $('#sub_problem').append('<option value="2" <?php if($se2 == '2' ){echo "selected";} ?>  style="width:250px">กลุ่มเปราะบาง</option>');
             $('#group_code').empty();
             $('#group_code').removeAttr('disabled');
-            $('#group_code').append('<option value="1" style="width:250px">กลุ่มหลากหลายทางเพศ</option>');
-            $('#group_code').append('<option value="2" style="width:250px">พนักงานบริการ </option>');
-            $('#group_code').append('<option value="3" style="width:250px">ผู้ใช้สารเสพติด</option>');
-            $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
-            $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
-            $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
-            $('#group_code').append('<option value="7" style="width:250px">คนพิการ</option>');
+            $('#group_code').append(
+                '<option value="0" <?php if($se3 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่มย่อย</option>'
+            );
+            $('#group_code').append('<option value="1" <?php if($se3 == '1' ){echo "selected";} ?>  style="width:250px">กลุ่มหลากหลายทางเพศ</option>');
+            $('#group_code').append('<option value="2" <?php if($se3 == '2' ){echo "selected";} ?>  style="width:250px">พนักงานบริการ </option>');
+            $('#group_code').append('<option value="3" <?php if($se3 == '3' ){echo "selected";} ?>  style="width:250px">ผู้ใช้สารเสพติด</option>');
+            $('#group_code').append('<option value="4" <?php if($se3 == '4' ){echo "selected";} ?>  style="width:250px">ประชากรข้ามชาติ</option>');
+            $('#group_code').append('<option value="5" <?php if($se3 == '5' ){echo "selected";} ?>  style="width:250px">ผู้ถูกคุมขัง</option>');
+            $('#group_code').append('<option value="6" <?php if($se3 == '6' ){echo "selected";} ?>  style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+            $('#group_code').append('<option value="7" <?php if($se3 == '7' ){echo "selected";} ?>  style="width:250px">คนพิการ</option>');
 
         } else {
             $('#sub_problem').empty();
@@ -675,16 +904,19 @@
             $('#group_code').empty();
             $('#group_code').removeAttr('disabled');
             $('#group_code').append(
+                '<option value="0" <?php if($se3 == '0' ){echo "selected";} ?> style="width:250px">ทุกประเภทกลุ่มย่อย</option>'
+            );
+            $('#group_code').append(
                 '<option value="1" <?php if($se3 == '1' ){echo "selected";} ?> style="width:250px">กลุ่มหลากหลายทางเพศ</option>'
             );
             $('#group_code').append(
                 '<option value="2" <?php if($se3 == '2' ){echo "selected";} ?>style="width:250px">พนักงานบริการ</option>'
             );
-            $('#group_code').append('<option value="3" style="width:250px">ผู้ใช้สารเสพติด</option>');
-            $('#group_code').append('<option value="4" style="width:250px">ประชากรข้ามชาติ</option>');
-            $('#group_code').append('<option value="5" style="width:250px">ผู้ถูกคุมขัง</option>');
-            $('#group_code').append('<option value="6" style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
-            $('#group_code').append('<option value="7" style="width:250px">คนพิการ</option>');
+            $('#group_code').append('<option value="3" <?php if($se3 == '3' ){echo "selected";} ?> style="width:250px">ผู้ใช้สารเสพติด</option>');
+            $('#group_code').append('<option value="4" <?php if($se3 == '4' ){echo "selected";} ?> style="width:250px">ประชากรข้ามชาติ</option>');
+            $('#group_code').append('<option value="5" <?php if($se3 == '5' ){echo "selected";} ?> style="width:250px">ผู้ถูกคุมขัง</option>');
+            $('#group_code').append('<option value="6" <?php if($se3 == '6' ){echo "selected";} ?> style="width:250px">กลุ่มชาติพันธุ์และชนเผ่า</option>');
+            $('#group_code').append('<option value="7" <?php if($se3 == '7' ){echo "selected";} ?> style="width:250px">คนพิการ</option>');
 
 
 

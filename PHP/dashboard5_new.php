@@ -34,6 +34,8 @@
     <?php
 		
 		require("phpsqli_dbinfo.php");
+        require("setdateformat.php");
+        date_default_timezone_set("Asia/Bangkok");
 	
 	$years = $_POST["years"];
 
@@ -47,7 +49,7 @@
 
     $sql = "SELECT prov_id, prov_geo.prov_name_en, prov_geo.name, count(*) as ccase
 	FROM case_inputs, prov_geo
-	where prov_geo.code = case_inputs.prov_id
+	where case_inputs.activecase = 'yes' and prov_geo.code = case_inputs.prov_id
     and date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
@@ -76,7 +78,7 @@
 
     $sql_q1  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where 
+	where activecase = 'yes' and
     date(created_at) BETWEEN '".($years-1)."-10-01' and '".($years-1)."-12-31'
 	group by prov_id order by ccase desc";
 
@@ -90,7 +92,7 @@
 
     $sql_q2  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where 
+	where activecase = 'yes' and
     date(created_at) BETWEEN '".$years."-01-01' and '".$years."-03-31'
 	group by prov_id order by ccase desc";
 
@@ -104,7 +106,7 @@
 
     $sql_q3  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where 
+	where activecase = 'yes' and
     date(created_at) BETWEEN '".$years."-04-01' and '".$years."-06-30'
 	group by prov_id order by ccase desc";
 
@@ -118,7 +120,7 @@
 
     $sql_q4  = "SELECT count(*) as ccase
 	FROM case_inputs
-	where 
+	where activecase = 'yes' and
     date(created_at) BETWEEN '".$years."-07-01' and '".$years."-09-30'
 	group by prov_id order by ccase desc";
 
@@ -166,7 +168,7 @@
             </ol>
         </nav>
 
-        <div class="text-center ">
+        <!--div class="text-center ">
 
             <div class="btn-group flex-wrap">
                 <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex "
@@ -228,25 +230,131 @@
                 </a>
             </div>
 
-        </div>
+        </div-->
 
         <!--div class="p-3 text-center">
             <p class="h5">รายงานการละเมิดสิทธิในระบบ CRS รายปี</p>
         </div-->
 
-        <br>
+        <div class="text-center p-4">
+            <div class="btn-group btn-group-toggle my-auto flex-wrap  ">
+
+                <div class="dropdown tabtype btn active">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-chart-bar">&nbsp;</i> Dashboard สรุปสถานการณ์
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard3_new.php">
+                            ภาพรวม</a>
+
+                        <a class="dropdown-item active" id="dropdown-layouts" href="dashboard5_new.php">
+                            ช่วงเวลา (รายปี/รายเดือน)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard7_new2.php">
+                            รายพื้นที่ (เขต/จังหวัด)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard1_new.php">
+                            จำแนกสถานะการดำเนินงาน</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard2_new.php">
+                            จำแนกปัญหา</a>
+
+                    </div>
+
+                </div>
+
+                <a href="automated.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-file-alt">&nbsp;</i> รายงานการละเมิดสิทธิ
+                    </div>
+                </a>
+
+                <a href="mapcrisis_new.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-map">&nbsp;</i> พิกัดจุดเกิดเหตุ
+                    </div>
+                </a>
+
+                <div class="dropdown tabtype btn ">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-table">&nbsp;</i> สรุปข้อมูลภาพรวม
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="table_new.php">
+                            ภาพรวม</a>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="report_c3_new.php">แยกตามกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c1_new.php">รายหน่วยบริการ
+                                </a>
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">ตารางสรุปการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="mapreport1.php">แผนที่
+                                </a>
+                                <a class="dropdown-item " href="report_c44.php">แยกกรณีละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c2_new.php">รวมทุกกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c21_new.php">กรณี 1 บังคับตรวจเอชไอวี
+                                </a>
+                                <a class="dropdown-item " href="report_c22_new.php">กรณี 3
+                                    เลือกปฏิบัติในกลุ่มผู้ติดเชื้อ
+                                </a>
+                                <a class="dropdown-item " href="report_c23_new.php">กรณี 4 เลือกปฏิบัติในกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item " href="dashboard8_new.php">ข้อมูลกลุ่มเปราะบางรายเดือน
+                                </a>
+                                <a class="dropdown-item " href="dashboard4_new.php">สัดส่วนกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item "
+                                    href="dashboard9_new.php">สัดส่วนกลุ่มเปราะบางเปรียบเทียบประชากรข้ามชาติ
+                                </a>
+                                <a class="dropdown-item " href="report_c41.php">สัดส่วนการละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c4.php">สัดส่วนประเภทหน่วยงาน
+                                </a>
+                                <a class="dropdown-item " href="report_c43.php">สัดส่วนการดำเนินการ
+                                </a>
+                                <a class="dropdown-item " href="report_c42.php">สัดส่วนผลการดำเนินการ
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                            ระยะเวลาการดำเนินการ</a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
 
         <div class="text-center ">
-        <a class="btn btn-primary btn-rounded" href="dashboard5_new.php">
+        <a class="btn btn_color1 btn-rounded" href="dashboard5_new.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>รายปี</span>
                 </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard6_new.php">
+                <a class="btn btn-white btn-rounded border" href="dashboard6_new2.php">
                     <span class="icon is-small"><i class="far fa-chart-bar" aria-hidden="true"></i></span>
                     <span>รายเดือน</span>
                 </a>
         </div>
-        <br>
 
         <div class=" p-3">
 
@@ -293,7 +401,7 @@
                     </div>
 
                     <div class="col-auto ">
-                        <input type="submit" class="btn bgcolor1" id="submit" name="submit" value="ตกลง">
+                        <input type="submit" class="btn btn_color1" id="submit" name="submit" value="ตกลง">
 
                     </div>
                 </div>
@@ -301,9 +409,8 @@
                 <br>
 
                 <p class="subtitle ">
-                    <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                    <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                    <strong> ข้อมูล ณ วันที่ (ว/ด/ป) : </strong>
+                    <?php echo thai_date_short_number_time(strtotime(date("Y-m-d H:i:s"))); ?>
                 </p>
 
             </form>
@@ -325,7 +432,7 @@
         </div>
 
         <div class="text-end p-2">
-            <label class="textcolor1">* พื้นที่ต้นแบบ 10 จังหวัด, พื้นที่อื่นๆ <?php echo $i_loop-10 ?> จังหวัด</label>
+            <!--label class="textcolor1">* พื้นที่ต้นแบบ 10 จังหวัด, พื้นที่อื่นๆ <?php echo $i_loop-10 ?> จังหวัด</label-->
         </div>
 
         <div class="row ">
@@ -352,6 +459,7 @@
 
                                     echo '<tr >';
 
+                                    /*
                                     $ck=0;
                                     for($i = 0; $i <= 9; $i++){
 
@@ -366,7 +474,10 @@
                                         echo "<td>".$j."</td>";
                                         echo "<td>".$prov_name[$j]."</td>";
                                         echo "<td>".$case[$j]."</td>";
-                                    }
+                                    }*/
+                                    echo "<td>".$j."</td>";
+                                    echo "<td>".$prov_name[$j]."</td>";
+                                    echo "<td>".$case[$j]."</td>";
                                     echo "</tr>";
                                 }
                             ?>
@@ -396,6 +507,16 @@
     <script src="../public/bootstrap/js/bootstrap.min.js"></script>
     <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
+    </script>
+
     <SCRIPT LANGUAGE="Javascript" SRC="../public/NewFusionChart/Fusion/fusioncharts.js"></SCRIPT>
     <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.charts.js"></script>
     <script type='text/javascript' src="../public/NewFusionChart/Fusion/fusioncharts.maps.js"></script>
@@ -407,6 +528,63 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
+    </script>
+
+    <script type="text/javascript">
+    $.fn.dropdown = (function() {
+        var $bsDropdown = $.fn.dropdown;
+        return function(config) {
+            if (typeof config === 'string' && config === 'toggle') { // dropdown toggle trigged
+                $('.has-child-dropdown-show').removeClass('has-child-dropdown-show');
+                $(this).closest('.dropdown').parents('.dropdown').addClass(
+                    'has-child-dropdown-show');
+            }
+            var ret = $bsDropdown.call($(this), config);
+            $(this).off(
+                'click.bs.dropdown'
+            ); // Turn off dropdown.js click event, it will call 'this.toggle()' internal
+            return ret;
+        }
+    })();
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.dropdown [data-toggle="dropdown"]').on('click', function(e) {
+            $(this).dropdown('toggle');
+            e
+                .stopPropagation(); // do not fire dropdown.js click event, it will call 'this.toggle()' internal
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e) {
+            if ($(this).is('.has-child-dropdown-show')) {
+                $(this).removeClass('has-child-dropdown-show');
+                e.preventDefault();
+            }
+            e.stopPropagation(); // do not need pop in multi level mode
+        });
+    });
+
+    // for hover
+    $('.dropdown-hover').on('mouseenter', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover').on('mouseleave', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseenter', '.dropdown', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseleave', '.dropdown', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
     </script>
 
     <script>
