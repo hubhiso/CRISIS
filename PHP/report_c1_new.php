@@ -35,18 +35,21 @@
 
     <?php
 		
-		require("phpsqli_dbinfo.php");
+        require("phpsqli_dbinfo.php");
+
+        require("setdateformat.php");
+        date_default_timezone_set("Asia/Bangkok");
+
+        $date_start = $_POST["date_start"];
+        $date_end = $_POST["date_end"];
 
 
-	   $date_start = $_POST["date_start"];
-	   $date_end = $_POST["date_end"];
-	
-	   $se_time = $_POST["se_time"];
-       $se_year = $_POST["se_year"];
-       $se_quarter = $_POST["se_quarter"];
-       $se_month = $_POST["se_month"];
+        $se_time = $_POST["se_time"];
+        $se_year = $_POST["se_year"];
+        $se_quarter = $_POST["se_quarter"];
+        $se_month = $_POST["se_month"];
 
-       $year_now =  date("Y");
+        $year_now =  date("Y");
 
         if(date("m")>9){
             $year_now++;
@@ -59,86 +62,99 @@
             $se_year = $year_now;
         }
 
-       if($se_time == ''){
-           $se_time = 1;
+        if($se_time == ''){
+            $se_time = 1;
 
-           $date_start = "10/1/".($se_year-1);
-           $date_end = "9/30/".$se_year;
-       }
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "30/09/".$se_year;
+        }
 
-       if($se_time== 1){
+        if($se_time== 1){
 
-           if($se_quarter== 0){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 1){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "12/31/".($se_year-1);
-           }else if($se_quarter== 2){
-               $date_start = "1/1/".$se_year;
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 3){
-               $date_start = "4/1/".$se_year;
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 4){
-               $date_start = "7/1/".$se_year;
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 12){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 13){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 99){
-               if($se_month== 10){
-                   $date_start = "10/1/".($se_year-1);
-                   $date_end = "10/31/".($se_year-1);
-               }else if($se_month== 11){
-                   $date_start = "11/1/".($se_year-1);
-                   $date_end = "11/30/".($se_year-1);
-               }else if($se_month== 12){
-                   $date_start = "12/1/".($se_year-1);
-                   $date_end = "12/31/".($se_year-1);
-               }else if($se_month== 1){
-                   $date_start = "1/1/".$se_year;
-                   $date_end = "1/31/".$se_year;
-               }else if($se_month== 2){
-                   $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
-               }else if($se_month== 3){
-                   $date_start = "3/1/".$se_year;
-                   $date_end = "3/31/".$se_year;
-               }else if($se_month== 4){
-                   $date_start = "4/1/".$se_year;
-                   $date_end = "4/30/".$se_year;
-               }else if($se_month== 5){
-                   $date_start = "5/1/".$se_year;
-                   $date_end = "5/31/".$se_year;
-               }else if($se_month== 6){
-                   $date_start = "6/1/".$se_year;
-                   $date_end = "6/30/".$se_year;
-               }else if($se_month== 7){
-                   $date_start = "7/1/".$se_year;
-                   $date_end = "7/31/".$se_year;
-               }else if($se_month== 8){
-                   $date_start = "8/1/".$se_year;
-                   $date_end = "8/31/".$se_year;
-               }else if($se_month== 9){
-                   $date_start = "9/1/".$se_year;
-                   $date_end = "9/30/".$se_year;
-               }
-           }
+            if($se_quarter== 0){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 1){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/12/".($se_year-1);
+            }else if($se_quarter== 2){
+                $date_start = "01/01/".$se_year;
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 3){
+                $date_start = "01/04/".$se_year;
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 4){
+                $date_start = "01/07/".$se_year;
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 12){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 13){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 99){
+                if($se_month== 10){
+                    $date_start = "01/10/".($se_year-1);
+                    $date_end = "31/10/".($se_year-1);
+                }else if($se_month== 11){
+                    $date_start = "01/11/".($se_year-1);
+                    $date_end = "30/11/".($se_year-1);
+                }else if($se_month== 12){
+                    $date_start = "01/12/".($se_year-1);
+                    $date_end = "31/12/".($se_year-1);
+                }else if($se_month== 1){
+                    $date_start = "01/01/".$se_year;
+                    $date_end = "31/01/".$se_year;
+                }else if($se_month== 2){
+                    $date_start = "01/02/".$se_year;
+                    $date_end = strtotime("3/1/".$se_year)-1;
+                    $date_end = date("d/m/Y",$date_end);
 
-       }else if($se_time== 2){
+                }else if($se_month== 3){
+                    $date_start = "01/03/".$se_year;
+                    $date_end = "31/03/".$se_year;
+                }else if($se_month== 4){
+                    $date_start = "01/04/".$se_year;
+                    $date_end = "30/04/".$se_year;
+                }else if($se_month== 5){
+                    $date_start = "01/05/".$se_year;
+                    $date_end = "31/05/".$se_year;
+                }else if($se_month== 6){
+                    $date_start = "01/06/".$se_year;
+                    $date_end = "30/06/".$se_year;
+                }else if($se_month== 7){
+                    $date_start = "01/07/".$se_year;
+                    $date_end = "31/07/".$se_year;
+                }else if($se_month== 8){
+                    $date_start = "01/08/".$se_year;
+                    $date_end = "31/08/".$se_year;
+                }else if($se_month== 9){
+                    $date_start = "01/09/".$se_year;
+                    $date_end = "30/09/".$se_year;
+                }
+            }
 
-           $date_start = $_POST["date_start"];
-           $date_end = $_POST["date_end"];
-           
-           if($date_end==''){
-               $date_end = date("m/d/Y");
-           }
+        }else if($se_time== 2){
 
-       }
+            $date_start = $_POST["date_start"];
+            $date_end = $_POST["date_end"];
+            
+            if($date_end==''){
+                $date_end = date("D/M/Y");
+            }
+
+        }
+
+
+        if($date_start != "" ){
+            $yyyymmdd = substr($date_start,6,4)."/".substr($date_start,3,2)."/".substr($date_start,0,2);
+            $date_s =  $yyyymmdd;
+        }
+    
+        if($date_end != "" ){
+            $yyyymmdd = substr($date_end,6,4)."/".substr($date_end,3,2)."/".substr($date_end,0,2);
+            $date_e =  $yyyymmdd;
+        }
 
 	   $p_case = $_POST["pcase"];
 	   if($p_case > '0'){
@@ -181,97 +197,117 @@
         </nav>
 
 
-        <div class="text-center mb-3">
+        <div class="text-center p-4">
+            <div class="btn-group btn-group-toggle my-auto flex-wrap  ">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="dashboard3_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
+                <div class="dropdown tabtype btn ">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-chart-bar">&nbsp;</i> Dashboard สรุปสถานการณ์
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard3_new.php">
+                            ภาพรวม</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard5_new.php">
+                            ช่วงเวลา (รายปี/รายเดือน)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard7_new2.php">
+                            รายพื้นที่ (เขต/จังหวัด)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard1_new.php">
+                            จำแนกสถานะการดำเนินงาน</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard2_new.php">
+                            จำแนกปัญหา</a>
+
+                    </div>
+
+                </div>
+
+                <a href="automated.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-file-alt">&nbsp;</i> รายงานการละเมิดสิทธิ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="automated.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
+                <a href="mapcrisis_new.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-map">&nbsp;</i> พิกัดจุดเกิดเหตุ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="mapcrisis_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
-                    </div>
-                </a>
+                <div class="dropdown tabtype btn active">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-table">&nbsp;</i> สรุปข้อมูลภาพรวม
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="table_new.php">
+                            ภาพรวม</a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
-                    href="table.blade.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown active" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="report_c3_new.php">แยกตามกรณี
+                                </a>
+                                <a class="dropdown-item active" href="report_c1_new.php">รายหน่วยบริการ
+                                </a>
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">ตารางสรุปการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="mapreport1.php">แผนที่
+                                </a>
+                                <a class="dropdown-item " href="report_c44.php">แยกกรณีละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c2_new.php">รวมทุกกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c21_new.php">กรณี 1 บังคับตรวจเอชไอวี
+                                </a>
+                                <a class="dropdown-item " href="report_c22_new.php">กรณี 3
+                                    เลือกปฏิบัติในกลุ่มผู้ติดเชื้อ
+                                </a>
+                                <a class="dropdown-item " href="report_c23_new.php">กรณี 4 เลือกปฏิบัติในกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item " href="dashboard8_new.php">ข้อมูลกลุ่มเปราะบางรายเดือน
+                                </a>
+                                <a class="dropdown-item " href="dashboard4_new.php">สัดส่วนกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item "
+                                    href="dashboard9_new.php">สัดส่วนกลุ่มเปราะบางเปรียบเทียบประชากรข้ามชาติ
+                                </a>
+                                <a class="dropdown-item " href="report_c41.php">สัดส่วนการละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c4.php">สัดส่วนประเภทหน่วยงาน
+                                </a>
+                                <a class="dropdown-item " href="report_c43.php">สัดส่วนการดำเนินการ
+                                </a>
+                                <a class="dropdown-item " href="report_c42.php">สัดส่วนผลการดำเนินการ
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                            ระยะเวลาการดำเนินการ</a>
+
                     </div>
-                </a>
+
+                </div>
+
 
             </div>
         </div>
 
-        <div class="text-center mb-3">
+        <div class=" p-0">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="table.blade.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
-                    href="report_c1_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c2_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-
-        <div class="text-center ">
-
-            <div class="btn-group flex-wrap">
-                <a class="btn btn-white btn-rounded border" href="report_c3_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>แยกตามกรณี</span>
-                </a>
-                <a class="btn btn-primary btn-rounded" href="report_c1_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>รายหน่วยบริการ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c1-2_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>รายจังหวัด</span>
-                </a>
-            </div>
-
-        </div>
-
-        <div class=" p-4">
-
-            <div class="text-center p-3">
+            <div class="text-center p-3 mb-3">
                 <p class="h5">การรายงานการละเมิดสิทธิผ่านระบบ CRS รายหน่วยบริการ</p>
             </div>
 
@@ -385,9 +421,8 @@
                     <br>
 
                     <p class="subtitle ">
-                        <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                        <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                        <strong> ข้อมูล ณ วันที่ (ว/ด/ป) : </strong>
+                        <?php echo thai_date_short_number_time(strtotime(date("Y-m-d H:i:s"))); ?>
                     </p>
 
                 </div>
@@ -430,7 +465,7 @@
                 FROM officers o left join prov_geo p
                 on p.code = o.prov_id 
                 where
-                position = 'officer' or o.name = 'adminfar' or o.Name = 'adminhatc'
+                position = 'officer' or o.name = 'adminfar' or o.Name = 'adminhatc' or o.Name = 'HisoDev'
                 order by prov_id";
 
                 $result1 = mysqli_query($conn, $sql1); 
@@ -447,8 +482,8 @@
                     ON last_update.id = c.id
                     inner join officers f on c.ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
-                    WHERE f.name = '".$row1['name']."' 
-                    and date(ca.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(ca.created_at) <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    where ca.activecase = 'yes' and f.name = '".$row1['name']."' 
+                    and date(ca.created_at) >= '".date($date_s)."' and date(ca.created_at) <= '".date($date_e)."' ";
                     
                     $ousername = 0;
                     
@@ -466,8 +501,8 @@
                     ON last_update.id = c.id
                     inner join officers f on c.prev_ousername = f.username
                     inner join case_inputs ca on c.case_id = ca.case_id
-                    where f.name = '".$row1['name']."' 
-                    and date(ca.created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(ca.created_at) <= '".date("Y/m/d", strtotime($date_end))."' ";
+                    where ca.activecase = 'yes' and f.name = '".$row1['name']."' 
+                    and date(ca.created_at) >= '".date($date_s)."' and date(ca.created_at) <= '".date($date_e)."' ";
                     
                     $prev_ousername = 0;
                     
@@ -486,12 +521,13 @@
                     sum(CASE WHEN status = '5' THEN 1 ELSE 0 END) as case5,
                     sum(CASE WHEN status = '6' THEN 1 ELSE 0 END) as case6,
                     count(status) as sum
-                    FROM case_inputs
-                    where receiver='".$row1['name']."'
-                    and date(created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(created_at) <= '".date("Y/m/d", strtotime($date_end))."'
+                    FROM case_inputs c
+                    where c.activecase = 'yes' and receiver='".$row1['name']."' 
+                    and date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."'
                     $sub_q
                     group by receiver";
 
+                    //echo "<br>".$sql2;
 
                     $result2 = mysqli_query($conn, $sql2); 
                     $row2 = mysqli_num_rows($result2); 
@@ -521,7 +557,7 @@
 
                             
                             echo "<tr>";
-                            echo "<th>".$i."</th>";
+                            echo "<td>".$i."</td>";
                             echo "<td>".$row3["nameorg"]."</td>";
                             echo "<td>".$row3["provname"]."</td>";
                             echo "<td>".$row3["nhso"]."</td>";
@@ -542,7 +578,7 @@
                         
                     } else {
                         echo "<tr>";
-                            echo "<th>".$i."</th>";
+                            echo "<td>".$i."</td>";
                             echo "<td>".$row1["nameorg"]."</td>";
                             echo "<td>".$row1["provname"]."</td>";
                             echo "<td>".$row1["nhso"]."</td>";
@@ -562,27 +598,27 @@
                 }
 
                 $i++;
-
-                echo "<tr>";
-                        echo "<th colspan='4' class='bg-danger' style='vertical-align: center; color: white;' >รวม</th>";
-                        echo "<td style='display: none;'></td>";
-                        echo "<td style='display: none;'></td>";
-                        echo "<td style='display: none;'></td>";
-                        echo "<td>".$c_s1."</td>";
-                        echo "<td>".$c_s2."</td>";
-                        echo "<td>".$c_s3."</td>";
-                        echo "<td>".$c_s4."</td>";
-                        echo "<td>".$c_s5."</td>";
-                        echo "<td>".$sum_t."</td>";
-                        echo "<td>".$sum_t2."</td>";
-                        echo "<td>".$c_s6."</td>";
-                        echo "<td>".$c_as."</td>";
-                echo "</tr>";
                 echo "</tbody>";
-                echo "</table>";
 
-                $conn->close();
-            ?>
+                ?>
+
+                    <tfoot>
+                        <tr>
+                            <th colspan='4' class='bgcolor1' style='vertical-align: middle; background: #de0867;' >รวม</th>
+                            
+                            <td><?php echo $c_s1; ?></td>
+                            <td><?php echo $c_s2; ?></td>
+                            <td><?php echo $c_s3; ?></td>
+                            <td><?php echo $c_s4; ?></td>
+                            <td><?php echo $c_s5; ?></td>
+                            <td><?php echo $sum_t; ?></td>
+                            <td><?php echo $sum_t2; ?></td>
+                            <td><?php echo $c_s6; ?></td>
+                            <td><?php echo $c_as; ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
 
 
     </div>
@@ -600,12 +636,88 @@
 
     <script src="../public/js/jquery.min.js"></script>
     <script src="../public/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
+    </script>
+
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
+    </script>
+
+    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+    $.fn.dropdown = (function() {
+        var $bsDropdown = $.fn.dropdown;
+        return function(config) {
+            if (typeof config === 'string' && config === 'toggle') { // dropdown toggle trigged
+                $('.has-child-dropdown-show').removeClass('has-child-dropdown-show');
+                $(this).closest('.dropdown').parents('.dropdown').addClass(
+                    'has-child-dropdown-show');
+            }
+            var ret = $bsDropdown.call($(this), config);
+            $(this).off(
+                'click.bs.dropdown'
+            ); // Turn off dropdown.js click event, it will call 'this.toggle()' internal
+            return ret;
+        }
+    })();
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.dropdown [data-toggle="dropdown"]').on('click', function(e) {
+            $(this).dropdown('toggle');
+            e
+                .stopPropagation(); // do not fire dropdown.js click event, it will call 'this.toggle()' internal
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e) {
+            if ($(this).is('.has-child-dropdown-show')) {
+                $(this).removeClass('has-child-dropdown-show');
+                e.preventDefault();
+            }
+            e.stopPropagation(); // do not need pop in multi level mode
+        });
+    });
+
+    // for hover
+    $('.dropdown-hover').on('mouseenter', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover').on('mouseleave', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseenter', '.dropdown', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseleave', '.dropdown', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    </script>
+
+    <script>
+        $('.input-daterange input').datepicker({
+            format: 'dd/mm/yyyy'
+        });
     </script>
 
     <script>
@@ -674,11 +786,10 @@
             "dom": 'Bfrtip',
             "scrollX": true,
             "responsive": true,
+            "pageLength": 100,
             "buttons": [
                 'excel', 'copy', 'print'
-            ],
-            "paging": false,
-            "ordering": true
+            ]
         });
     });
     </script>

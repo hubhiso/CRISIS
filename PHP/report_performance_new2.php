@@ -35,133 +35,148 @@
 
     <?php
 		
-		require("phpsqli_dbinfo.php");
-        require("setdateformat.php");
-        date_default_timezone_set("Asia/Bangkok");
+    require("phpsqli_dbinfo.php");
+    require("setdateformat.php");
+    date_default_timezone_set("Asia/Bangkok");
 
-
-	   $date_start = $_POST["date_start"];
-	   $date_end = $_POST["date_end"];
+	// Change character set to utf8
+	mysqli_set_charset($conn,"utf8");
 	
-	   $se_time = $_POST["se_time"];
-       $se_year = $_POST["se_year"];
-       $se_quarter = $_POST["se_quarter"];
-       $se_month = $_POST["se_month"];
+	$date_start = $_POST["date_start"];
+	$date_end = $_POST["date_end"];
 
-       
-       $year_now =  date("Y");
+    $ck_group = $_POST["group"];
 
-        if(date("m")>9){
-            $year_now++;
-        }
+    if ( $ck_group <> ''){
+        $query_group = "and o.group = '".$ck_group."' ";
+    }else{
+        $query_group = "or  o.name = 'adminfar' or o.name = 'adminhatc' or o.name = 'hisoDev'";
+    }
+    
+	$se_time = $_POST["se_time"];
+    $se_year = $_POST["se_year"];
+    $se_quarter = $_POST["se_quarter"];
+    $se_month = $_POST["se_month"];
 
-        if($years == ''){$years = $year_now;}
+    
+    $year_now =  date("Y");
 
-        
-        if($se_year == ''){
-            $se_year = $year_now;
-        }
+    if(date("m")>9){
+        $year_now++;
+    }
 
-        if($se_time == ''){
-            $se_time = 1;
+    if($years == ''){$years = $year_now;}
 
+    
+    if($se_year == ''){
+        $se_year = $year_now;
+    }
+
+    if($se_time == ''){
+        $se_time = 1;
+
+        $date_start = "01/10/".($se_year-1);
+        $date_end = "30/09/".$se_year;
+    }
+
+    if($se_time== 1){
+
+        if($se_quarter== 0){
             $date_start = "01/10/".($se_year-1);
             $date_end = "30/09/".$se_year;
-        }
-
-        if($se_time== 1){
-
-            if($se_quarter== 0){
+        }else if($se_quarter== 1){
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "31/12/".($se_year-1);
+        }else if($se_quarter== 2){
+            $date_start = "01/01/".$se_year;
+            $date_end = "31/03/".$se_year;
+        }else if($se_quarter== 3){
+            $date_start = "01/04/".$se_year;
+            $date_end = "30/06/".$se_year;
+        }else if($se_quarter== 4){
+            $date_start = "01/07/".$se_year;
+            $date_end = "30/09/".$se_year;
+        }else if($se_quarter== 12){
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "31/03/".$se_year;
+        }else if($se_quarter== 13){
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "30/06/".$se_year;
+        }else if($se_quarter== 99){
+            if($se_month== 10){
                 $date_start = "01/10/".($se_year-1);
-                $date_end = "30/09/".$se_year;
-            }else if($se_quarter== 1){
-                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/10/".($se_year-1);
+            }else if($se_month== 11){
+                $date_start = "01/11/".($se_year-1);
+                $date_end = "30/11/".($se_year-1);
+            }else if($se_month== 12){
+                $date_start = "01/12/".($se_year-1);
                 $date_end = "31/12/".($se_year-1);
-            }else if($se_quarter== 2){
+            }else if($se_month== 1){
                 $date_start = "01/01/".$se_year;
+                $date_end = "31/01/".$se_year;
+            }else if($se_month== 2){
+                $date_start = "01/02/".$se_year;
+                $date_end = strtotime("3/1/".$se_year)-1;
+                $date_end = date("d/m/Y",$date_end);
+
+            }else if($se_month== 3){
+                $date_start = "01/03/".$se_year;
                 $date_end = "31/03/".$se_year;
-            }else if($se_quarter== 3){
+            }else if($se_month== 4){
                 $date_start = "01/04/".$se_year;
+                $date_end = "30/04/".$se_year;
+            }else if($se_month== 5){
+                $date_start = "01/05/".$se_year;
+                $date_end = "31/05/".$se_year;
+            }else if($se_month== 6){
+                $date_start = "01/06/".$se_year;
                 $date_end = "30/06/".$se_year;
-            }else if($se_quarter== 4){
+            }else if($se_month== 7){
                 $date_start = "01/07/".$se_year;
+                $date_end = "31/07/".$se_year;
+            }else if($se_month== 8){
+                $date_start = "01/08/".$se_year;
+                $date_end = "31/08/".$se_year;
+            }else if($se_month== 9){
+                $date_start = "01/09/".$se_year;
                 $date_end = "30/09/".$se_year;
-            }else if($se_quarter== 12){
-                $date_start = "01/10/".($se_year-1);
-                $date_end = "31/03/".$se_year;
-            }else if($se_quarter== 13){
-                $date_start = "01/10/".($se_year-1);
-                $date_end = "30/06/".$se_year;
-            }else if($se_quarter== 99){
-                if($se_month== 10){
-                    $date_start = "01/10/".($se_year-1);
-                    $date_end = "31/10/".($se_year-1);
-                }else if($se_month== 11){
-                    $date_start = "01/11/".($se_year-1);
-                    $date_end = "30/11/".($se_year-1);
-                }else if($se_month== 12){
-                    $date_start = "01/12/".($se_year-1);
-                    $date_end = "31/12/".($se_year-1);
-                }else if($se_month== 1){
-                    $date_start = "01/01/".$se_year;
-                    $date_end = "31/01/".$se_year;
-                }else if($se_month== 2){
-                    $date_start = "01/02/".$se_year;
-                    $date_end = strtotime("3/1/".$se_year)-1;
-                    $date_end = date("d/m/Y",$date_end);
-
-                }else if($se_month== 3){
-                    $date_start = "01/03/".$se_year;
-                    $date_end = "31/03/".$se_year;
-                }else if($se_month== 4){
-                    $date_start = "01/04/".$se_year;
-                    $date_end = "30/04/".$se_year;
-                }else if($se_month== 5){
-                    $date_start = "01/05/".$se_year;
-                    $date_end = "31/05/".$se_year;
-                }else if($se_month== 6){
-                    $date_start = "01/06/".$se_year;
-                    $date_end = "30/06/".$se_year;
-                }else if($se_month== 7){
-                    $date_start = "01/07/".$se_year;
-                    $date_end = "31/07/".$se_year;
-                }else if($se_month== 8){
-                    $date_start = "01/08/".$se_year;
-                    $date_end = "31/08/".$se_year;
-                }else if($se_month== 9){
-                    $date_start = "01/09/".$se_year;
-                    $date_end = "30/09/".$se_year;
-                }
             }
-
-        }else if($se_time== 2){
-
-            $date_start = $_POST["date_start"];
-            $date_end = $_POST["date_end"];
-            
-            if($date_end==''){
-                $date_end = date("D/M/Y");
-            }
-
         }
 
-        if($date_start != "" ){
-            $yyyymmdd = substr($date_start,6,4)."/".substr($date_start,3,2)."/".substr($date_start,0,2);
-            $date_s =  $yyyymmdd;
+    }else if($se_time== 2){
+
+        $date_start = $_POST["date_start"];
+        $date_end = $_POST["date_end"];
+        
+        if($date_end==''){
+            $date_end = date("D/M/Y");
         }
+
+    }
     
-        if($date_end != "" ){
-            $yyyymmdd = substr($date_end,6,4)."/".substr($date_end,3,2)."/".substr($date_end,0,2);
-            $date_e =  $yyyymmdd;
-        }
+    if($date_start != "" ){
+        $yyyymmdd = substr($date_start,6,4)."/".substr($date_start,3,2)."/".substr($date_start,0,2);
+        $date_s =  $yyyymmdd;
+    }
 
-	   $p_case = $_POST["pcase"];
-	   if($p_case > '0'){
-		$sub_q = ' and problem_case = '.$p_case.' ';
-	   }
+    if($date_end != "" ){
+        $yyyymmdd = substr($date_end,6,4)."/".substr($date_end,3,2)."/".substr($date_end,0,2);
+        $date_e =  $yyyymmdd;
+    }
+
+    $sql = "select * from officer_groups";
+    $result = mysqli_query($conn, $sql); 
+    $i = 0;
+    while($row1 = $result->fetch_assoc()) {
+        $i++;
+        $g_code[$i] = $row1[code];
+        $g_name[$i] = $row1[groupname];
+        $loop_group = $i;
+
+    }
 
 	?>
-
 </head>
 
 <body class="bg-light">
@@ -177,7 +192,7 @@
 
     <div class="container-fluid p-4">
 
-    <nav aria-label="breadcrumb ">
+        <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="../public/"><span class="icon is-small">
@@ -245,14 +260,14 @@
                             ภาพรวม</a>
 
                         <div class="dropdown dropright">
-                            <a class="dropdown-item dropdown-toggle custom-dropdown active" id="dropdown-layouts" data-toggle="dropdown"
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
                             <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
                                 <a class="dropdown-item " href="report_c3_new.php">แยกตามกรณี
                                 </a>
                                 <a class="dropdown-item " href="report_c1_new.php">รายหน่วยบริการ
                                 </a>
-                                <a class="dropdown-item active" href="report_c1-2_new.php">รายจังหวัด
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
                                 </a>
                             </div>
                         </div>
@@ -292,7 +307,7 @@
                             </div>
                         </div>
 
-                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                        <a class="dropdown-item active" id="dropdown-layouts" href="report_performance_new2.php">
                             ระยะเวลาการดำเนินการ</a>
 
                     </div>
@@ -303,33 +318,29 @@
             </div>
         </div>
 
+
         <div class=" p-0">
 
             <div class="text-center p-3 mb-4">
-                <p class="h5">การรายงานการละเมิดสิทธิผ่านระบบ CRS รายจังหวัด</p>
+                <p class="h5">สรุปข้อมูลการร้องเรียนในระบบ CRS ข้อมูลในระบบ สัดส่วนผลการดำเนินการ</p>
             </div>
 
-            <form name="form_menu" method="post" action="report_c1-2_new.php">
+            <form name="form_menu" method="post" action="report_performance_new2.php">
+
                 <div class="row g-3 align-items-center mb-3">
                     <div class="col-auto">
-                        <label class="col-form-label"><strong> กรณีที่ถูกละเมิด </strong> </label>
+                        <label class="col-form-label"><strong> หน่วยงานหลัก </strong> </label>
                     </div>
                     <div class="col-auto">
-                        <select id="p_case" name="pcase" class="form-select">
-                            <option value="0" <?php if ($p_case == "0") { echo "selected";} ?>> ทุกกรณี
-                            </option>
-                            <option value="1" <?php if ($p_case == "1") { echo "selected";} ?>>
-                                บังคับตรวจเอชไอวี </option>
-                            <option value="2" <?php if ($p_case == "2") { echo "selected";} ?>>
-                                เปิดเผยสถานะ<br>การติดเชื้อเอชไอวี </option>
-                            <option value="3" <?php if ($p_case == "3") { echo "selected";} ?>>
-                                ถูกกีดกันหรือถูกเลือกปฏิบัติ<br>เนื่องมาจากกการติดเชื้อเอชไอวี </option>
-                            <option value="4" <?php if ($p_case == "4") { echo "selected";} ?>>
-                                ถูกกีดกันหรือถูกเลือกปฏิบัติ<br>เนื่องมาจากเป็นกลุ่มเปราะบาง </option>
-                            <option value="5" <?php if ($p_case == "5") { echo "selected";} ?>>
-                                กรณีอื่น ๆ ที่เกี่ยวข้องกับเอชไอวี </option>
-                            <option value="6" <?php if ($p_case == "6") { echo "selected";} ?>>
-                                กรณีอื่น ๆ </option>
+                        <select class="form-select form-control" id="group" name="group">
+                            <option value=''>ทั้งหมด</option>
+                            <?php
+                                    for($i = 1; $i <= $loop_group ; $i++){
+                                        if ($ck_group == $g_code[$i]) { $se_g = "selected";}
+                                        echo "<option value='$g_code[$i]' $se_g > $g_name[$i] </option>";
+                                        $se_g = "";
+                                    }
+                                ?>
                         </select>
                     </div>
                 </div>
@@ -351,7 +362,7 @@
                     </div>
                     <div class="col-auto se_time_g1">
                         <select class="form-select form-control" id="se_year" name="se_year">
-                        <?php
+                            <?php
                                 for($y = 2019; $y <= $year_now; $y++){
                                     if ($se_year == $y) { $se =  "selected";}
                                     echo "<option value='$y' $se> ".($y+543)." </option>";
@@ -362,13 +373,16 @@
                     </div>
                     <div class="col-auto se_time_g1">
                         <select class="form-select form-control" id="se_quarter" name="se_quarter">
-                            <option value='0'  <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ </option>
+                            <option value='0' <?php if($se_quarter == 0){ echo "selected"; } ?>> ทั้งปีงบประมาณ
+                            </option>
                             <option value='1' <?php if($se_quarter == 1){ echo "selected"; } ?>> ไตรมาส 1 </option>
                             <option value='2' <?php if($se_quarter == 2){ echo "selected"; } ?>> ไตรมาส 2 </option>
                             <option value='3' <?php if($se_quarter == 3){ echo "selected"; } ?>> ไตรมาส 3 </option>
                             <option value='4' <?php if($se_quarter == 4){ echo "selected"; } ?>> ไตรมาส 4 </option>
-                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2 </option>
-                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3 </option>
+                            <option value='12' <?php if($se_quarter == 12){ echo "selected"; } ?>> สะสมไตรมาส 1-2
+                            </option>
+                            <option value='13' <?php if($se_quarter == 13){ echo "selected"; } ?>> สะสมไตรมาส 1-3
+                            </option>
                             <option value='99' <?php if($se_quarter == 99){ echo "selected"; } ?>> เลือกเดือน </option>
                         </select>
                     </div>
@@ -429,151 +443,217 @@
         <table id='crisisc1' width="100%"
             class=" dt-responsive nowrap table table-responsive table-bordered table-striped table-hover">
             <thead class="bgcolor1">
-                <tr class="hideextra ">
-                    <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">ลำดับ</th>
-                    <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">ชื่อ</th>
-                    <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">จังหวัด</th>
-                    <th class="red3" style="vertical-align: middle; color: white;" rowspan="2">เขต</th>
-                    <th class="red3 text-center" style="vertical-align: middle; color: white;" colspan="8">สถานะการดำเนินงาน</th>
-                    <th class="red3 " style="vertical-align: middle; color: white;" rowspan="2">รวม</th>
 
+                <tr class="">
+                    <th class="" style="vertical-align: middle; color: white;" rowspan=2 width='$cel_width'>
+                        ลำดับ</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan=2 width='$cel_width'>
+                        เจ้าหน้าที่</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan=2 width='$cel_width'>
+                        จังหวัด</th>
+                    <th class="" style="vertical-align: middle; color: white;" rowspan=2 align='center'
+                        width='$cel_width'>รวม
+                    </th>
+                    <th class="" style="vertical-align: middle; color: white;" colspan=4 align='center'
+                        width='$cel_width'>
+                        จำนวนเคสที่ดำเนินการ (ราย) : เวลาเฉลี่ย (วัน)</th>
                 </tr>
                 <tr>
-                    <th class="red3" style="vertical-align: middle; color: white;">1. ส่งเรื่องสำเร็จ</th>
-                    <th class="red3" style="vertical-align: middle; color: white;">2. เจ้าหน้าที่รับเรื่องแล้ว</th>
-                    <th class="red3" style="vertical-align: middle; color: white;">3. เจ้าหน้าที่สอบถามข้อมูลเพิ่มเติมแล้ว
+                    <th class="" style="vertical-align: middle; color: white;" align='center'
+                        width='$cel_width'>แจ้งเหตุ ->
+                        รับเรื่อง
                     </th>
-                    <th class="red3" style="vertical-align: middle; color: white;">4. อยู่ระหว่างดำเนินการช่วยเหลือ</th>
-                    <th class="red3" style="vertical-align: middle; color: white;">5. ดำเนินการเสร็จสิ้น</th>
-
-                    <th class="red3" style="vertical-align: middle; color: white;">6. ส่งต่อภายในระบบ</th>
-                    <th class="red3" style="vertical-align: middle; color: white;">7. รับส่งต่อภายในระบบ</th>
-
-                    <th class="red3" style="vertical-align: middle; color: white;">8. ส่งต่อภายนอก</th>
+                    <th class="" style="vertical-align: middle; color: white;" align='center'
+                        width='$cel_width'>รับเรื่อง ->
+                        บันทึกข้อมูล
+                    </th>
+                    <th class="" style="vertical-align: middle; color: white;" align='center'
+                        width='$cel_width'>บันทึกข้อมูล ->
+                        ดำเนินการ
+                    </th>
+                    <th class="" style="vertical-align: middle; color: white;" align='center'
+                        width='$cel_width'>ดำเนินการ ->
+                        เสร็จสิ้น
+                    </th>
                 </tr>
+
+
             </thead>
-            <?php
 
-                $sql2 = "SELECT prov_id,prov_geo.code ,prov_geo.name ,prov_geo.nhso, 
-                sum(CASE WHEN status = '1' THEN 1 ELSE 0 END) as case1,
-                sum(CASE WHEN status = '2' THEN 1 ELSE 0 END) as case2,
-                sum(CASE WHEN status = '3' THEN 1 ELSE 0 END) as case3,
-                sum(CASE WHEN status = '4' THEN 1 ELSE 0 END) as case4,
-                sum(CASE WHEN status = '5' THEN 1 ELSE 0 END) as case5,
-                sum(CASE WHEN status = '6' THEN 1 ELSE 0 END) as case6,
-                count(status) as sum
-                FROM case_inputs c LEFT JOIN prov_geo ON c.prov_id = prov_geo.CODE
-                where c.activecase = 'yes' and date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."' 
-                $sub_q
-                group by prov_id";
+            <tbody>
 
+                <?php
 
-                $result2 = mysqli_query($conn, $sql2); 
-                $row2 = mysqli_num_rows($result2); 
-                
-                $c_s1 = 0;
-                $c_s2 = 0;
-                $c_s3 = 0;
-                $c_s4 = 0;
-                $c_s5 = 0;
-                $c_s6 = 0;
-                $c_as = 0;
-                
-                if ($result2->num_rows > 0) {
-                    
-                    while($row2 = $result2->fetch_assoc()) {
-
-                        $sqlt = "SELECT count(c.case_id) as total
-                        FROM casetransfer c
-                        INNER JOIN 
-                        (SELECT MAX(id) as id FROM casetransfer c2 where provid = '".$row2[prov_id]."'  GROUP BY c2.case_id) last_update 
-                        ON last_update.id = c.id
-                        inner join case_inputs ca on c.case_id = ca.case_id
-                        where ca.activecase = 'yes' and prov_id = '".$row2[prov_id]."'
-                        and date(ca.created_at) >= '".date($date_s)."' and date(ca.created_at) <= '".date($date_e)."'  ";
-
-                        $ousername = 0;
-
-                        $result_t = mysqli_query($conn, $sqlt); 
-                        $rowt = mysqli_num_rows($result_t); 
-                        while($rowt = $result_t->fetch_assoc()) {
-                            $ousername = $rowt['total'];
-                            $sum_t += $rowt['total'];
+                        function DateDiff($strDate1,$strDate2,$case_id)
+                        {
+                            return (strtotime($strDate2) - strtotime($strDate1))/  ( 60 * 60 * 24 );  // 1 day = 60*60*24
                         }
+                                
+                        $strSQL_office = "SELECT p.name,o.nameorg as nameorg,p.name as prov_name,o.prov_id,count(c.receiver) as total FROM officers o left join  case_inputs c on o.name = c.receiver left join prov_geo p on o.prov_id = p.code  where c.activecase = 'yes' and (position = 'officer' $query_group ) and date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."' group by o.prov_id,o.nameorg order by p.code;";
 
+                        //echo $strSQL_office;
 
-                        $sqlt2 = "SELECT count(c.case_id) as total
-                        FROM casetransfer c
-                        INNER JOIN 
-                        (SELECT MAX(id) as id FROM casetransfer c2 where prev_provid = '".$row2[prov_id]."'  GROUP BY c2.case_id) last_update 
-                        ON last_update.id = c.id
-                        inner join case_inputs ca on c.case_id = ca.case_id
-                        where ca.activecase = 'yes' and prov_id = '".$row2[prov_id]."'
-                        and date(ca.created_at) >= '".date($date_s)."' and date(ca.created_at) <= '".date($date_e)."'  ";
-                        
-                        $prev_ousername = 0;
+                        $count_no = 0;
 
-                        $result_t2 = mysqli_query($conn, $sqlt2); 
-                        $rowt2 = mysqli_num_rows($result_t2); 
-                        while($rowt2 = $result_t2->fetch_assoc()) {
-                            $prev_ousername = $rowt2['total'];
-                            $sum_t2 += $rowt2['total'];
-                        }
+                        $result_office = mysqli_query($conn, $strSQL_office); 
 
-                
-                        $i++;
-                        
-                        echo "<tr>";
-                        echo "<th>".$i."</th>";
-                        echo "<td>".$row2["code"]."</td>";
-                        echo "<td>".$row2["name"]."</td>";
-                        echo "<td>".$row2["nhso"]."</td>";
-                        echo "<td>".$row2["case1"]."</td>";
-                        echo "<td>".$row2["case2"]."</td>";
-                        echo "<td>".$row2["case3"]."</td>";
-                        echo "<td>".$row2["case4"]."</td>";
-                        echo "<td>".$row2["case5"]."</td>";
-                        echo "<td>".$ousername."</td>";
-                        echo "<td>".$prev_ousername."</td>";
-                        echo "<td>".$row2["case6"]."</td>";
-                        echo "<td>".$row2["sum"]."</td>";
-                        
-                        echo "</tr>";
-                        
-                        $c_s1 = $c_s1 + $row2["case1"];
-                        $c_s2 = $c_s2 + $row2["case2"];
-                        $c_s3 = $c_s3 + $row2["case3"];
-                        $c_s4 = $c_s4 + $row2["case4"];
-                        $c_s5 = $c_s5 + $row2["case5"];
-                        $c_s6 = $c_s6 + $row2["case6"];
-                        $c_as = $c_as + $row2["sum"];
-                    }
-
-                }
-
-
-
-                $i++;
-                echo "</tbody>";
-
-                ?>
-
-                    <tfoot>
-                        <tr>
-                            <th colspan='4' class='bgcolor1' style='vertical-align: middle; background: #de0867;' >รวม</th>
+                        while($row_office = $result_office->fetch_assoc())
+                        {
+                            $count_no++;
+                            echo "<tr>";
+                            echo " <td>".$count_no."</td>";
+                            echo " <td>".$row_office["nameorg"]."</td>";
+                            echo " <td>".$row_office["prov_name"]."</td>";
+                            echo " <td align='center' >".$row_office["total"]."</td>";		
+                                
                             
-                            <td><?php echo $c_s1; ?></td>
-                            <td><?php echo $c_s2; ?></td>
-                            <td><?php echo $c_s3; ?></td>
-                            <td><?php echo $c_s4; ?></td>
-                            <td><?php echo $c_s5; ?></td>
-                            <td><?php echo $sum_t; ?></td>
-                            <td><?php echo $sum_t2; ?></td>
-                            <td><?php echo $c_s6; ?></td>
-                            <td><?php echo $c_as; ?></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                            $strSQL = "SELECT o.name,c.case_id from case_inputs c inner join officers o on c.receiver = o.name where c.activecase = 'yes' and o.nameorg = '".$row_office["nameorg"]."' and o.prov_id = '".$row_office["prov_id"]."' limit 1;";
+
+                            //echo "<br>".$strSQL;
+
+                            $count_find_case_id_total = 0;
+                            
+                            $count_status1_total = 0;
+                            $count_status2_total = 0;
+                            $count_status3_total = 0;
+                            $count_status4_total = 0;
+                            $count_status5_total = 0;
+                            
+                            $datediff_status1_total = 0;
+                            $datediff_status2_total = 0;
+                            $datediff_status3_total = 0;
+                            $datediff_status4_total = 0;
+                            $datediff_status5_total = 0;
+                            
+
+                            $result = mysqli_query($conn, $strSQL); 
+                            while($row = $result->fetch_assoc())
+
+                            {
+                                //echo "loop action";
+                                $strSQL_find_case_id = "SELECT  receiver,case_id  from case_inputs where activecase = 'yes' and receiver = '".$row["name"]."' and date(created_at) >= '".date($date_s)."' and date(created_at) <= '".date($date_e)."' ;";
+                                //echo "<br>".$strSQL_find_case_id;
+                            
+
+                                $result_find_case_id = mysqli_query($conn, $strSQL_find_case_id); 
+                                $count_find_case_id = 0;
+                                $row_find_case_id = mysqli_num_rows($result_find_case_id); 
+                                while($row_find_case_id = $result_find_case_id->fetch_assoc())
+                                {
+                                    //echo "loop action1";
+                                    $strSQL_status1 = "SELECT case_id,date(operate_time) as operate_time FROM timelines  INNER JOIN (SELECT MAX(id) as id FROM timelines where operate_status = '1' GROUP BY case_id) last_update ON last_update.id = timelines.id where case_id = '".$row_find_case_id["case_id"]."';";
+                                    
+                                    //echo "<br>".$strSQL_status1;
+
+                                    $result_status1 = mysqli_query($conn, $strSQL_status1); 
+                                    $count_status1 = 0;
+                                    $count_status1 = mysqli_num_rows($result_status1); 
+                                    while($row_status1 = $result_status1->fetch_assoc())
+                                    {
+                                        //echo "loop action1-1";
+                                        $date_status1 = $row_status1["operate_time"];		
+                                    }
+                                            
+                                                    
+                                    $strSQL_status2 = "SELECT case_id,date(operate_time) as operate_time FROM timelines  INNER JOIN (SELECT MAX(id) as id FROM timelines where operate_status = '2' GROUP BY case_id) last_update ON last_update.id = timelines.id where case_id = '".$row_find_case_id["case_id"]."';";
+                                    
+
+                                    $result_status2 = mysqli_query($conn, $strSQL_status2); 
+                                    $count_status2 = 0;
+                                    $count_status2 = mysqli_num_rows($result_status2); 
+                                    while($row_status2 = $result_status2->fetch_assoc())
+                                    {
+                                        //echo "loop action1-2";
+                                        $date_status2 = $row_status2["operate_time"];
+                                    }
+                                                
+                                    $strSQL_status3 = "SELECT case_id,date(operate_time) as operate_time FROM timelines  INNER JOIN (SELECT MAX(id) as id FROM timelines where operate_status = '3' GROUP BY case_id) last_update ON last_update.id = timelines.id where case_id = '".$row_find_case_id["case_id"]."';";
+                                    
+
+                                    $result_status3 = mysqli_query($conn, $strSQL_status3); 
+                                    $count_status3 = 0;
+                                    $count_status3 = mysqli_num_rows($result_status3); 
+                                    while($count_status3 = $result_status3->fetch_assoc())
+                                    {
+                                        //echo "loop action1-3";
+                                        $date_status3 = $row_status3["operate_time"];
+                                    }
+                                                
+                                    $strSQL_status4 = "SELECT case_id,date(operate_time) as operate_time FROM timelines  INNER JOIN (SELECT MAX(id) as id FROM timelines where operate_status = '4' GROUP BY case_id) last_update ON last_update.id = timelines.id where case_id = '".$row_find_case_id["case_id"]."';";
+                                    
+
+                                    $result_status4 = mysqli_query($conn, $strSQL_status4); 
+                                    $count_status4 = 0;
+                                    $count_status4 = mysqli_num_rows($result_status4); 
+                                    while($row_status4 = $result_status4->fetch_assoc())
+                                    {
+                                        //echo "loop action1-4";
+                                        $date_status4 = $row_status4["operate_time"];
+                                    }
+
+                                    $strSQL_status5 = "SELECT case_id,date(operate_time) as operate_time FROM timelines  INNER JOIN (SELECT MAX(id) as id FROM timelines where operate_status = '5' GROUP BY case_id) last_update ON last_update.id = timelines.id where case_id = '".$row_find_case_id["case_id"]."';";
+                    
+
+                                    $result_status5 = mysqli_query($conn, $strSQL_status5); 
+                                    $count_status5 = 0;
+                                    $count_status5 = mysqli_num_rows($result_status5); 
+                                    while($row_status5 = $result_status5->fetch_assoc())
+                                    {
+                                        //echo "loop action1-5";
+                                        $date_status5 = $row_status5["operate_time"];
+                                    }
+                                                    
+                                    // 1
+                                    if (($date_status2 >= $date_status1) and ($count_status1 != 0)){
+                                        $count_status2_total++;
+                                        $datediff_status2_total += DateDiff($date_status1,$date_status2);
+                                        
+                                    }
+                                    // 2
+                                    if (($date_status3 >= $date_status2) and ($count_status2 == 1)){
+                                        $count_status3_total++;
+                                        $datediff_status3_total += DateDiff($date_status2,$date_status3);
+                                    }
+                                    // 3
+                                    if (($date_status4 >= $date_status3) and ($count_status3 == 1)){
+                                        $count_status4_total++;
+                                        $datediff_status4_total += DateDiff($date_status3,$date_status4);
+                                    }
+                                    // 4
+                                    if (($date_status5 >= $date_status4) and ($count_status4 == 1)){
+                                        $count_status5_total++;
+                                        $datediff_status5_total += DateDiff($date_status4,$date_status5);	
+                                    }
+                                                        
+                                }		
+                                
+                            }
+                            echo "<td  align='center' >".$count_status2_total." : ".round($datediff_status2_total/$count_status2_total,0)."</td><td  align='center' >".$count_status3_total." : ".round($datediff_status3_total/$count_status3_total,0)."</td><td  align='center' >".$count_status4_total." : ".round($datediff_status4_total/$count_status4_total,0)."</td><td  align='center' >".$count_status5_total." : ".round($datediff_status5_total/$count_status5_total,0)."</td></tr>";
+                            
+                    
+                            $count_status1 = 0;
+                            $count_status2 = 0;
+                            $count_status3 = 0;
+                            $count_status4 = 0;
+                            $count_status5 = 0;
+            
+                            $count_status1_total = 0;
+                            $count_status2_total = 0;
+                            $count_status3_total = 0;
+                            $count_status4_total = 0;
+                            $count_status5_total = 0;
+                            
+                            $datediff_status1_total = 0;
+                            $datediff_status2_total = 0;
+                            $datediff_status3_total = 0;
+                            $datediff_status4_total = 0;
+                            $datediff_status5_total = 0;
+                            
+                        }
+                    ?>
+
+            </tbody>
+        </table>
     </div>
 
     <!-- Footer -->
@@ -735,13 +815,15 @@
     <script>
     $(document).ready(function() {
         $('#crisisc1').DataTable({
+            "bFilter": true,
             "dom": 'Bfrtip',
             "scrollX": true,
             "responsive": true,
-            "pageLength": 100,
             "buttons": [
                 'excel', 'copy', 'print'
-            ]
+            ],
+            "paging": false,
+            "ordering": true
         });
     });
     </script>

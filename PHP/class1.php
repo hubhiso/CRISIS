@@ -1,4 +1,4 @@
-<?
+<?php
 
 
 
@@ -11,7 +11,9 @@ where problem_case = '1' $filter
 GROUP BY status
 order by r.code asc;";
 
-		$result = mysql_query($query_name);
+		$result = mysqli_query($conn,$query_name);
+
+		//$result = mysqli_query($query_name);
 
 		if (!$result) {
 
@@ -19,7 +21,8 @@ order by r.code asc;";
 
 		}
 		
-while ($row = mysql_fetch_array($result)) {
+		while($row = $result->fetch_assoc()) {
+//while ($row = mysql_fetch_array($result)) {
                       $res_total[] = $row["total"];
          			  $res_code[] = $row["code"];	
 		}

@@ -34,6 +34,8 @@
     <?php
         
         require("phpsqli_dbinfo.php");
+        require("setdateformat.php");
+        date_default_timezone_set("Asia/Bangkok");
 
         // Change character set to utf8
         mysqli_set_charset($conn,"utf8");
@@ -55,7 +57,7 @@
         from case_inputs
         left join r_group_code
         on r_group_code.code = case_inputs.group_code
-        where 
+        where case_inputs.activecase = 'yes' and
         date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         GROUP BY group_code";
 
@@ -75,7 +77,7 @@
         from case_inputs
         left join r_group_code
         on r_group_code.code = case_inputs.group_code
-        where group_code <> '' and group_code = '1'
+        where case_inputs.activecase = 'yes' and group_code <> '' and group_code = '1'
         and date(created_at) BETWEEN '".($years-1)."-10-01' and '".$years."-09-30'
         GROUP BY group_code, case_inputs.sex";
 
@@ -129,135 +131,117 @@
             </ol>
         </nav>
 
-        <div class="text-center mb-3">
+        <div class="text-center p-4">
+            <div class="btn-group btn-group-toggle my-auto flex-wrap  ">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="dashboard3_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
+                <div class="dropdown tabtype btn ">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-chart-bar">&nbsp;</i> Dashboard สรุปสถานการณ์
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard3_new.php">
+                            ภาพรวม</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard5_new.php">
+                            ช่วงเวลา (รายปี/รายเดือน)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard7_new2.php">
+                            รายพื้นที่ (เขต/จังหวัด)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard1_new.php">
+                            จำแนกสถานะการดำเนินงาน</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard2_new.php">
+                            จำแนกปัญหา</a>
+
+                    </div>
+
+                </div>
+
+                <a href="automated.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-file-alt">&nbsp;</i> รายงานการละเมิดสิทธิ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="automated.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
+                <a href="mapcrisis_new.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-map">&nbsp;</i> พิกัดจุดเกิดเหตุ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="mapcrisis_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
-                    </div>
-                </a>
+                <div class="dropdown tabtype btn active">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-table">&nbsp;</i> สรุปข้อมูลภาพรวม
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="table_new.php">
+                            ภาพรวม</a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex" href="table.blade.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="report_c3_new.php">แยกตามกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c1_new.php">รายหน่วยบริการ
+                                </a>
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown active" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">ตารางสรุปการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="mapreport1.php">แผนที่
+                                </a>
+                                <a class="dropdown-item " href="report_c44.php">แยกกรณีละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c2_new.php">รวมทุกกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c21_new.php">กรณี 1 บังคับตรวจเอชไอวี
+                                </a>
+                                <a class="dropdown-item " href="report_c22_new.php">กรณี 3
+                                    เลือกปฏิบัติในกลุ่มผู้ติดเชื้อ
+                                </a>
+                                <a class="dropdown-item " href="report_c23_new.php">กรณี 4 เลือกปฏิบัติในกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item " href="dashboard8_new.php">ข้อมูลกลุ่มเปราะบางรายเดือน
+                                </a>
+                                <a class="dropdown-item active" href="dashboard4_new.php">สัดส่วนกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item "
+                                    href="dashboard9_new.php">สัดส่วนกลุ่มเปราะบางเปรียบเทียบประชากรข้ามชาติ
+                                </a>
+                                <a class="dropdown-item " href="report_c41.php">สัดส่วนการละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c4.php">สัดส่วนประเภทหน่วยงาน
+                                </a>
+                                <a class="dropdown-item " href="report_c43.php">สัดส่วนการดำเนินการ
+                                </a>
+                                <a class="dropdown-item " href="report_c42.php">สัดส่วนผลการดำเนินการ
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                            ระยะเวลาการดำเนินการ</a>
+
                     </div>
-                </a>
+
+                </div>
+
 
             </div>
         </div>
 
-        <div class="text-center mb-3">
+        <div class="container p-0">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="table.blade.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c1_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
-                    href="report_c2_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <div class="text-center ">
-
-            <div class="btn-group flex-wrap">
-                <a class="btn btn-white btn-rounded border " href="mapreport1.php">
-                    <span class="icon is-small"><i class="far fa-map" aria-hidden="true"></i></span>
-                    <span>แผนที่</span>
-                </a>
-                <a class="btn btn-white btn-rounded border  " href="report_c44.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>แยกกรณีละเมิดสิทธิ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c2_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>รวมทุกกรณี</span>
-                </a>
-                <a class="btn btn-white btn-rounded border  " href="report_c21_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>กรณี 1 บังคับตรวจเอชไอวี</span>
-                </a>
-                <a class="btn btn-white btn-rounded border " href="report_c22_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>กรณี 3 เลือกปฎิบัติในกลุ่มผู้ติดเชื้อ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c23_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>กรณี 4 เลือกปฎิบัติในกลุ่มเปราะบาง</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard8_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>ข้อมูลกลุ่มเปราะบางรายเดือน</span>
-                </a>
-                <a class="btn btn-primary btn-rounded" href="dashboard4_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนกลุ่มเปราะบาง</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="dashboard9_new.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนกลุ่มเปราะบางเทียบประชากรข้ามชาติ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c41.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนการละเมิดสิทธิ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c4.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนประเภทหน่วยงาน</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c43.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนการดำเนินการ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c42.php">
-                    <span class="icon is-small"><i class="fa fa-table" aria-hidden="true"></i></span>
-                    <span>สัดส่วนผลการดำเนินการ</span>
-                </a>
-            </div>
-
-        </div>
-
-        <div class="container p-3">
-
-            <div class="text-center p-3">
+            <div class="text-center p-3 mb-4">
                 <p class="h5">สรุปข้อมูลการร้องเรียนในระบบ CRS ข้อมูลในระบบ สัดส่วนกลุ่มเปราะบาง</p>
             </div>
 
@@ -289,12 +273,9 @@
                 </div>
 
                 <p class="subtitle ">
-                    <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                    <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                    <strong> ข้อมูล ณ วันที่ (ว/ด/ป) : </strong>
+                    <?php echo thai_date_short_number_time(strtotime(date("Y-m-d H:i:s"))); ?>
                 </p>
-
-
 
             </form>
 
@@ -302,8 +283,6 @@
             <br>
 
             <div class="row text-right p-2">
-
-
 
                 <div name="chart" class="">
                     <div id="chart-container-b1" class="bg-white mb-3  text-center p-2 chart-rounded">
@@ -536,24 +515,92 @@
         </div>
 
 
-        <!-- Footer -->
-        <footer class="text-center text-lg-start bg-light text-muted">
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
 
-            <!-- Copyright -->
-            <div class="text-center p-5" style="background-color: #dddddd;">
-                Crisis Response System (CRS)
-                <p id="tsp"> <small> Source code licensed <a href="http://www.hiso.or.th">HISO</a>. </small> </p>
-            </div>
-            <!-- Copyright -->
-        </footer>
+        <!-- Copyright -->
+        <div class="text-center p-5" style="background-color: #dddddd;">
+            Crisis Response System (CRS)
+            <p id="tsp"> <small> Source code licensed <a href="http://www.hiso.or.th">HISO</a>. </small> </p>
+        </div>
+        <!-- Copyright -->
+    </footer>
 
-        <script src="../public/js/jquery.min.js"></script>
-        <script src="../public/bootstrap/js/bootstrap.min.js"></script>
-        <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="../public/js/jquery.min.js"></script>
+    <script src="../public/bootstrap/js/bootstrap.min.js"></script>
 
-        <script type="text/javascript" src="../public/NewFusionChart/js/fusioncharts.js"></script>
-        <script type="text/javascript" src="../public/NewFusionChart/js/themes/fusioncharts.theme.hulk-light.js">
-        </script>
+    <script type="text/javascript" src="../public/NewFusionChart/js/fusioncharts.js"></script>
+    <script type="text/javascript" src="../public/NewFusionChart/js/themes/fusioncharts.theme.hulk-light.js">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
+    </script>
+
+    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+    $.fn.dropdown = (function() {
+        var $bsDropdown = $.fn.dropdown;
+        return function(config) {
+            if (typeof config === 'string' && config === 'toggle') { // dropdown toggle trigged
+                $('.has-child-dropdown-show').removeClass('has-child-dropdown-show');
+                $(this).closest('.dropdown').parents('.dropdown').addClass(
+                    'has-child-dropdown-show');
+            }
+            var ret = $bsDropdown.call($(this), config);
+            $(this).off(
+                'click.bs.dropdown'
+            ); // Turn off dropdown.js click event, it will call 'this.toggle()' internal
+            return ret;
+        }
+    })();
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.dropdown [data-toggle="dropdown"]').on('click', function(e) {
+            $(this).dropdown('toggle');
+            e
+                .stopPropagation(); // do not fire dropdown.js click event, it will call 'this.toggle()' internal
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e) {
+            if ($(this).is('.has-child-dropdown-show')) {
+                $(this).removeClass('has-child-dropdown-show');
+                e.preventDefault();
+            }
+            e.stopPropagation(); // do not need pop in multi level mode
+        });
+    });
+
+    // for hover
+    $('.dropdown-hover').on('mouseenter', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover').on('mouseleave', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseenter', '.dropdown', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseleave', '.dropdown', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    </script>
 
         <script>
         $('.input-daterange input').each(function() {

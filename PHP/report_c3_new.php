@@ -36,7 +36,8 @@
     <?php
 		
 		require("phpsqli_dbinfo.php");
-
+        require("setdateformat.php");
+        date_default_timezone_set("Asia/Bangkok");
 		
         // Change character set to utf8
 		mysqli_set_charset($conn,"utf8");
@@ -62,86 +63,129 @@
             $se_year = $year_now;
         }
 
-       if($se_time == ''){
-           $se_time = 1;
+        if($se_time == ''){
+            $se_time = 1;
 
-           $date_start = "10/1/".($se_year-1);
-           $date_end = "9/30/".$se_year;
-       }
+            $date_start = "01/10/".($se_year-1);
+            $date_end = "30/09/".$se_year;
+        }
 
-       if($se_time== 1){
+        if($se_time== 1){
 
-           if($se_quarter== 0){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 1){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "12/31/".($se_year-1);
-           }else if($se_quarter== 2){
-               $date_start = "1/1/".$se_year;
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 3){
-               $date_start = "4/1/".$se_year;
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 4){
-               $date_start = "7/1/".$se_year;
-               $date_end = "9/30/".$se_year;
-           }else if($se_quarter== 12){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "3/31/".$se_year;
-           }else if($se_quarter== 13){
-               $date_start = "10/1/".($se_year-1);
-               $date_end = "6/30/".$se_year;
-           }else if($se_quarter== 99){
-               if($se_month== 10){
-                   $date_start = "10/1/".($se_year-1);
-                   $date_end = "10/31/".($se_year-1);
-               }else if($se_month== 11){
-                   $date_start = "11/1/".($se_year-1);
-                   $date_end = "11/30/".($se_year-1);
-               }else if($se_month== 12){
-                   $date_start = "12/1/".($se_year-1);
-                   $date_end = "12/31/".($se_year-1);
-               }else if($se_month== 1){
-                   $date_start = "1/1/".$se_year;
-                   $date_end = "1/31/".$se_year;
-               }else if($se_month== 2){
-                   $date_start = "2/1/".$se_year;
-                   $date_end = strtotime("3/31/".$se_year)-1;
-               }else if($se_month== 3){
-                   $date_start = "3/1/".$se_year;
-                   $date_end = "3/31/".$se_year;
-               }else if($se_month== 4){
-                   $date_start = "4/1/".$se_year;
-                   $date_end = "4/30/".$se_year;
-               }else if($se_month== 5){
-                   $date_start = "5/1/".$se_year;
-                   $date_end = "5/31/".$se_year;
-               }else if($se_month== 6){
-                   $date_start = "6/1/".$se_year;
-                   $date_end = "6/30/".$se_year;
-               }else if($se_month== 7){
-                   $date_start = "7/1/".$se_year;
-                   $date_end = "7/31/".$se_year;
-               }else if($se_month== 8){
-                   $date_start = "8/1/".$se_year;
-                   $date_end = "8/31/".$se_year;
-               }else if($se_month== 9){
-                   $date_start = "9/1/".$se_year;
-                   $date_end = "9/30/".$se_year;
-               }
-           }
+            if($se_quarter== 0){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 1){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/12/".($se_year-1);
+            }else if($se_quarter== 2){
+                $date_start = "01/01/".$se_year;
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 3){
+                $date_start = "01/04/".$se_year;
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 4){
+                $date_start = "01/07/".$se_year;
+                $date_end = "30/09/".$se_year;
+            }else if($se_quarter== 12){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "31/03/".$se_year;
+            }else if($se_quarter== 13){
+                $date_start = "01/10/".($se_year-1);
+                $date_end = "30/06/".$se_year;
+            }else if($se_quarter== 99){
+                if($se_month== 10){
+                    $date_start = "01/10/".($se_year-1);
+                    $date_end = "31/10/".($se_year-1);
+                }else if($se_month== 11){
+                    $date_start = "01/11/".($se_year-1);
+                    $date_end = "30/11/".($se_year-1);
+                }else if($se_month== 12){
+                    $date_start = "01/12/".($se_year-1);
+                    $date_end = "31/12/".($se_year-1);
+                }else if($se_month== 1){
+                    $date_start = "01/01/".$se_year;
+                    $date_end = "31/01/".$se_year;
+                }else if($se_month== 2){
+                    $date_start = "01/02/".$se_year;
+                    $date_end = strtotime("3/1/".$se_year)-1;
+                    $date_end = date("d/m/Y",$date_end);
 
-       }else if($se_time== 2){
+                }else if($se_month== 3){
+                    $date_start = "01/03/".$se_year;
+                    $date_end = "31/03/".$se_year;
+                }else if($se_month== 4){
+                    $date_start = "01/04/".$se_year;
+                    $date_end = "30/04/".$se_year;
+                }else if($se_month== 5){
+                    $date_start = "01/05/".$se_year;
+                    $date_end = "31/05/".$se_year;
+                }else if($se_month== 6){
+                    $date_start = "01/06/".$se_year;
+                    $date_end = "30/06/".$se_year;
+                }else if($se_month== 7){
+                    $date_start = "01/07/".$se_year;
+                    $date_end = "31/07/".$se_year;
+                }else if($se_month== 8){
+                    $date_start = "01/08/".$se_year;
+                    $date_end = "31/08/".$se_year;
+                }else if($se_month== 9){
+                    $date_start = "01/09/".$se_year;
+                    $date_end = "30/09/".$se_year;
+                }
+            }
 
-           $date_start = $_POST["date_start"];
-           $date_end = $_POST["date_end"];
-           
-           if($date_end==''){
-               $date_end = date("m/d/Y");
-           }
+        }else if($se_time== 2){
 
-       }
+            $date_start = $_POST["date_start"];
+            $date_end = $_POST["date_end"];
+            
+            if($date_end==''){
+                $date_end = date("D/M/Y");
+            }
+
+        }
+
+
+        if($date_start != "" ){
+            $yyyymmdd = substr($date_start,6,4)."/".substr($date_start,3,2)."/".substr($date_start,0,2);
+            $date_s =  $yyyymmdd;
+        }
+    
+        if($date_end != "" ){
+            $yyyymmdd = substr($date_end,6,4)."/".substr($date_end,3,2)."/".substr($date_end,0,2);
+            $date_e =  $yyyymmdd;
+        }
+
+        $ck_group = $_POST["group"];
+
+        if ( $ck_group <> ''){
+            $query_group = "and o.group = '".$ck_group."' ";
+        }else{
+            $query_group = "   ";
+        }
+
+        $sql = "select * from officer_groups";
+        $result = mysqli_query($conn, $sql); 
+        $i = 0;
+        while($row1 = $result->fetch_assoc()) {
+            $i++;
+            $g_code[$i] = $row1[code];
+            $g_name[$i] = $row1[groupname];
+            $loop_group = $i;
+
+        }
+
+        $sql = "SELECT * FROM r_problem_case";
+        $result = mysqli_query($conn, $sql); 
+        $i = 0;
+        while($row1 = $result->fetch_assoc()) {
+            $i++;
+            $p_code[$i] = $row1[code];
+            $p_name[$i] = $row1[name];
+            $loop_r_problem_case = $i;
+
+        }
 		
 
 		
@@ -180,101 +224,139 @@
             </ol>
         </nav>
 
-        <div class="text-center mb-3">
+        <div class="text-center p-4">
+            <div class="btn-group btn-group-toggle my-auto flex-wrap  ">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="dashboard3_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fas fa-chart-bar fs-4 " aria-hidden="true"></i> Dashboard สรุปสถานการณ์</h6>
+                <div class="dropdown tabtype btn ">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-chart-bar">&nbsp;</i> Dashboard สรุปสถานการณ์
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard3_new.php">
+                            ภาพรวม</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard5_new.php">
+                            ช่วงเวลา (รายปี/รายเดือน)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard7_new2.php">
+                            รายพื้นที่ (เขต/จังหวัด)</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard1_new.php">
+                            จำแนกสถานะการดำเนินงาน</a>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="dashboard2_new.php">
+                            จำแนกปัญหา</a>
+
+                    </div>
+
+                </div>
+
+                <a href="automated.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-file-alt">&nbsp;</i> รายงานการละเมิดสิทธิ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="automated.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-file-alt fs-4 " aria-hidden="true"></i> รายงานการละเมิดสิทธิ</h6>
+                <a href="mapcrisis_new.php" class="btn tabtype">
+                    <div class="p-1">
+                        <i class="fas fa-map">&nbsp;</i> พิกัดจุดเกิดเหตุ
                     </div>
                 </a>
 
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="mapcrisis_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="far fa-map fs-4 " aria-hidden="true"></i> พิกัดจุดเกิดเหตุ</h6>
-                    </div>
-                </a>
+                <div class="dropdown tabtype btn active">
+                    <a class="dropdown-toggle textcolor1 p-1" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-table">&nbsp;</i> สรุปข้อมูลภาพรวม
+                    </a>
+                    <div class="dropdown-menu color-h3 bg-gradient" aria-labelledby="dropdownMenu1">
+                        <a class="dropdown-item " id="dropdown-layouts" href="table_new.php">
+                            ภาพรวม</a>
 
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex" href="table.blade.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table fs-4 " aria-hidden="true"></i> สรุปข้อมูลภาพรวม</h6>
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown active" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">สรุปกรณีการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item active" href="report_c3_new.php">แยกตามกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c1_new.php">รายหน่วยบริการ
+                                </a>
+                                <a class="dropdown-item " href="report_c1-2_new.php">รายจังหวัด
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown dropright">
+                            <a class="dropdown-item dropdown-toggle custom-dropdown" id="dropdown-layouts" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">ตารางสรุปการละเมิดสิทธิ</a>
+                            <div class="dropdown-menu color-h3" aria-labelledby="dropdown-layouts">
+                                <a class="dropdown-item " href="mapreport1.php">แผนที่
+                                </a>
+                                <a class="dropdown-item " href="report_c44.php">แยกกรณีละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c2_new.php">รวมทุกกรณี
+                                </a>
+                                <a class="dropdown-item " href="report_c21_new.php">กรณี 1 บังคับตรวจเอชไอวี
+                                </a>
+                                <a class="dropdown-item " href="report_c22_new.php">กรณี 3
+                                    เลือกปฏิบัติในกลุ่มผู้ติดเชื้อ
+                                </a>
+                                <a class="dropdown-item " href="report_c23_new.php">กรณี 4 เลือกปฏิบัติในกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item " href="dashboard8_new.php">ข้อมูลกลุ่มเปราะบางรายเดือน
+                                </a>
+                                <a class="dropdown-item " href="dashboard4_new.php">สัดส่วนกลุ่มเปราะบาง
+                                </a>
+                                <a class="dropdown-item "
+                                    href="dashboard9_new.php">สัดส่วนกลุ่มเปราะบางเปรียบเทียบประชากรข้ามชาติ
+                                </a>
+                                <a class="dropdown-item " href="report_c41.php">สัดส่วนการละเมิดสิทธิ
+                                </a>
+                                <a class="dropdown-item " href="report_c4.php">สัดส่วนประเภทหน่วยงาน
+                                </a>
+                                <a class="dropdown-item " href="report_c43.php">สัดส่วนการดำเนินการ
+                                </a>
+                                <a class="dropdown-item " href="report_c42.php">สัดส่วนผลการดำเนินการ
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="dropdown-item " id="dropdown-layouts" href="report_performance_new2.php">
+                            ระยะเวลาการดำเนินการ</a>
+
                     </div>
-                </a>
+
+                </div>
+
 
             </div>
         </div>
 
-        <div class="text-center mb-3">
+        <div class=" p-0">
 
-            <div class="btn-group flex-wrap">
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="table.blade.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ภาพรวม</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-primary btn-rounded align-items-stretch d-flex"
-                    href="report_c1_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table " aria-hidden="true"></i> สรุปกรณีละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_c2_new.php">
-                    <div class="text text-right ">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ตารางสรุปการละเมิดสิทธิ</h6>
-                    </div>
-                </a>
-
-                <a type="button" class="btn btn-white btn-rounded   align-items-stretch d-flex border"
-                    href="report_performance_new.php">
-                    <div class="text text-right">
-                        <h6><i class="fa fa-table  " aria-hidden="true"></i> ระยะเวลาการดำเนินการ</h6>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <div class="text-center ">
-
-            <div class="btn-group flex-wrap">
-                <a class="btn btn-primary btn-rounded" href="report_c3_new.php">
-                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
-                    <span>แยกตามกรณี</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c1_new.php">
-                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
-                    <span>รายหน่วยบริการ</span>
-                </a>
-                <a class="btn btn-white btn-rounded border" href="report_c1-2_new.php">
-                    <span class="icon is-small"><i class="fa fa-table " aria-hidden="true"></i></span>
-                    <span>รายจังหวัด</span>
-                </a>
-            </div>
-
-        </div>
-
-
-
-        <div class=" p-4">
-
-        <div class="text-center p-3">
+            <div class="text-center p-3 mb-3">
                 <p class="h5">การรายงานการละเมิดสิทธิผ่านระบบ CRS แยกตามกรณี</p>
             </div>
 
             <form name="form_menu" method="post" action="report_c3_new.php">
+
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                        <label class="col-form-label"><strong> หน่วยงานหลัก </strong> </label>
+                    </div>
+                    <div class="col-auto">
+                            <select class="form-select form-control" id="group" name="group">
+                                <option value='' >ทั้งหมด</option>
+                                <?php
+                                    for($i = 1; $i <= $loop_group ; $i++){
+                                        if ($ck_group == $g_code[$i]) { $se_g = "selected";}
+                                        echo "<option value='$g_code[$i]' $se_g > $g_name[$i] </option>";
+                                        $se_g = "";
+                                    }
+                                ?>  
+                            </select>
+                    </div>
+                </div>
 
                 <div class="row g-3 align-items-center">
 
@@ -361,9 +443,8 @@
                     <br>
 
                     <p class="subtitle ">
-                        <strong> ข้อมูล ณ วันที่ (ด/ว/ป) </strong>
-
-                        <?php echo "  : ",date("m/d/Y")," เวลา : ",date("h:i:sa"); ?>
+                        <strong> ข้อมูล ณ วันที่ (ว/ด/ป) : </strong>
+                        <?php echo thai_date_short_number_time(strtotime(date("Y-m-d H:i:s"))); ?>
                     </p>
 
                 </div>
@@ -389,34 +470,68 @@
                 sum(CASE WHEN  sender_case = '1'  THEN 1 ELSE 0 END) as sendercase1,
                 sum(CASE WHEN  sender_case = '2'  THEN 1 ELSE 0 END) as sendercase2,
                 count(sender_case) as sendercaseall
-                FROM
-                case_inputs
-                left join r_problem_case 
-                on case_inputs.problem_case = r_problem_case.code
-                where
-                date(created_at) >= '".date("Y/m/d", strtotime($date_start))."' and date(created_at) <= '".date("Y/m/d", strtotime($date_end))."'
+                FROM case_inputs c
+                left join r_problem_case  on c.problem_case = r_problem_case.code
+                left join officers o on c.receiver_id = o.id
+                where c.activecase = 'yes' and
+                date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."'
+                 $query_group
                 GROUP BY problem_case order by problem_case";
+
+                //echo $sql1;
 
                 $result1 = mysqli_query($conn, $sql1); 
                 $row1 = mysqli_num_rows($result1); 
-                $i = '1';
+                $i = 0;
+                $result_loop = 0;
+                $sumsendercase3 = 0;
+                $sumsendercase2 = 0;
+                $sumsendercase1 = 0;
+                $sumsendercase_all = 0;
                 while($row1 = $result1->fetch_assoc()) {
+                    $i++;
+
+                    $id_p[$i] = $row1[problem_case];
+
+                    $case3[$i] = $row1[sendercase3];
+                    $case2[$i] = $row1[sendercase2];
+                    $case1[$i] = $row1[sendercase1];
+                    $case_all[$i] = $row1[sendercaseall];
+
+                    $sumsendercase3 = $sumsendercase3 + $case3[$i];
+                    $sumsendercase2 = $sumsendercase2 + $case2[$i];
+                    $sumsendercase1 = $sumsendercase1 + $case1[$i];
+                    $sumsendercase_all = $sumsendercase_all + $case_all[$i];
+
+                    $result_loop = $i;
+                }
+
+                
+                for($i=1; $i<=$loop_r_problem_case; $i++){
                     echo "<tr>";
-                    echo "<td>".$i."</td>";
-                    echo "<td>".$row1[name]."</td>";
-                    echo "<td>".$row1[sendercase3]."</td>";
-                    echo "<td>".$row1[sendercase1]."</td>";
-                    echo "<td>".$row1[sendercase2]."</td>";
-                    echo "<td>".$row1[sendercaseall]."</td>";
+                    echo "<td>".$p_code[$i]."</td>";
+                    echo "<td>".$p_name[$i]."</td>";
+
+                    $ck = 0;
+                    for($j=1;$j<=$result_loop;$j++){
+                        
+                        if($p_code[$i] == $id_p[$j]){
+                            $ck = 1;
+                            echo "<td>$case3[$j]</td>";
+                            echo "<td>$case2[$j]</td>";
+                            echo "<td>$case1[$j]</td>";
+                            echo "<td>$case_all[$j]</td>";
+                        }
+                    }
+
+                    if($ck == 0){
+                        echo "<td>0</td>";
+                        echo "<td>0</td>";
+                        echo "<td>0</td>";
+                        echo "<td>0</td>";
+                    }
 
                     echo "</tr>";
-
-                    $sumsendercase3 = $sumsendercase3 + $row1[sendercase3];
-                    $sumsendercase1 = $sumsendercase1 + $row1[sendercase1];
-                    $sumsendercase2 = $sumsendercase2 + $row1[sendercase2];
-                    $sumsendercase_all = $sumsendercase_all + $row1[sendercaseall];
-
-                    $i++;
                 }
 
             ?>
@@ -454,6 +569,81 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.3/b-2.0.1/b-html5-2.0.1/b-print-2.0.1/datatables.min.js">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
+    </script>
+
+    <script src="../public/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+    $.fn.dropdown = (function() {
+        var $bsDropdown = $.fn.dropdown;
+        return function(config) {
+            if (typeof config === 'string' && config === 'toggle') { // dropdown toggle trigged
+                $('.has-child-dropdown-show').removeClass('has-child-dropdown-show');
+                $(this).closest('.dropdown').parents('.dropdown').addClass(
+                    'has-child-dropdown-show');
+            }
+            var ret = $bsDropdown.call($(this), config);
+            $(this).off(
+                'click.bs.dropdown'
+            ); // Turn off dropdown.js click event, it will call 'this.toggle()' internal
+            return ret;
+        }
+    })();
+    </script>
+
+    <script type="text/javascript">
+    $(function() {
+        $('.dropdown [data-toggle="dropdown"]').on('click', function(e) {
+            $(this).dropdown('toggle');
+            e
+                .stopPropagation(); // do not fire dropdown.js click event, it will call 'this.toggle()' internal
+        });
+        $('.dropdown').on('hide.bs.dropdown', function(e) {
+            if ($(this).is('.has-child-dropdown-show')) {
+                $(this).removeClass('has-child-dropdown-show');
+                e.preventDefault();
+            }
+            e.stopPropagation(); // do not need pop in multi level mode
+        });
+    });
+
+    // for hover
+    $('.dropdown-hover').on('mouseenter', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover').on('mouseleave', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseenter', '.dropdown', function() {
+        if (!$(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    $('.dropdown-hover-all').on('mouseleave', '.dropdown', function() {
+        if ($(this).hasClass('show')) {
+            $('>[data-toggle="dropdown"]', this).dropdown('toggle');
+        }
+    });
+    </script>
+
+<script>
+        $('.input-daterange input').datepicker({
+            format: 'dd/mm/yyyy'
+        });
     </script>
 
     <script>
