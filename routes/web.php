@@ -22,9 +22,12 @@ Route::prefix('manager')->group(function (){
     
 
     Route::post('/reject_cfm', 'ManagerController@reject_cfm')->name('manager.reject_cfm');
+    Route::post('/endcase_cfm', 'ManagerController@endcase_cfm')->name('manager.endcase_cfm');
     Route::post('/transfer_cfm', 'ManagerController@transfer_cfm')->name('manager.transfer_cfm');
-   
 
+    Route::post('/deletecase_cfm', 'ManagerController@deletecase_cfm')->name('manager.deletecase_cfm');
+    Route::post('/recovercase_cfm', 'ManagerController@recovercase_cfm')->name('manager.recovercase_cfm');
+   
     Route::prefix('transfer_case')->group(function (){
         Route::get('ajax-amphur/{prov_id}','ManagerController@ajax_amphur');
     });
@@ -36,6 +39,10 @@ Route::prefix('manager')->group(function (){
 
 Route::prefix('officer')->group(function () {
     Route::get('/', 'OfficerController@index')->name('officer.main');
+
+    Route::post('/add_office_eva', 'OfficerController@office_eva')->name('officer.office_eva');
+
+
     Route::get('/show/{mode_id}', 'OfficerInputController@show')->name('officer.show');
     Route::get('/load_status/{prov_id}', 'OfficerInputController@load_status')->name('officer.load_status');
     Route::get('/confirm/{case_id}', 'OfficerInputController@open_confirm')->name('officer.open_cfm');
@@ -95,10 +102,14 @@ Route::prefix('officer')->group(function () {
     Route::post('/exportexcel', 'OfficerUpdateController@exportexcel')->name('officer.Export_Excel');
 
     Route::get('/verifydata', 'OfficerUpdateController@showverifydata')->name('officer.verifydata');
+    Route::post('verifydata', 'OfficerUpdateController@showverifydata')->name('verifydata');
 
     Route::get('/view_officer', 'ManageofficerController@view_officer')->name('officer.view_officer');
 
     //Route::post('/emailapprov', 'EmailController@sendEmailapprov')->name('send.emailapprov');
+
+    Route::get('/recase', 'OfficerUpdateController@recase')->name('officer.recase');
+    Route::post('recase', 'OfficerUpdateController@recase')->name('recase');
 
 });
 

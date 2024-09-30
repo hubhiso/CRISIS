@@ -95,7 +95,10 @@ class case_controller extends Controller
             $sender_case = 3;
         }
 
+        $activecase = "yes";
+        
         case_input::create([
+            'activecase'=> $activecase,
             'emergency'=>$request->input('emergency'),
             'sender_case'=>$sender_case,
             'sender'=>$request->input('sender'),
@@ -126,7 +129,12 @@ class case_controller extends Controller
             'file1'=>$request->input('file1'),
             'file2'=>$request->input('file2'),
             'file3'=>$request->input('file3'),
-            
+
+            'evaluate1'=>$request->input('eva1'),
+            'evaluate2'=>$request->input('eva2'),
+            'evaluate3'=>$request->input('eva3'),
+            'evaluate_comment'=>$request->input('eva_comment'),
+
             'accident_date'=>$accident_date
 
         ]);

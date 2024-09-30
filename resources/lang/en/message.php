@@ -117,7 +117,7 @@ return [
     "txt_month10" => "October",
     "txt_month11" => "November",
     "txt_month12" => "December",
-    "txt_day" => "Day &nbsp;",
+    "txt_day" => "Day &nbsp;&nbsp;",
 
     "txt_head_pr_rc" => "Choose Province",
     "txt_province" => "Province of Incident",
@@ -255,7 +255,22 @@ return [
     "tx_keep_id" => "Please keep your ID to track the status of your complaint.",
     "tx_id" => "ID to be used to track your status is",
 
-    "tx_des1" => "Please explain easily what happens."
+    "tx_des1" => "Please explain easily what happens.",
+
+    //eva
+    "h_eva" => "Satisfaction Assessment and Suggestion Survey for Reporters",
+    "tx_criteria" => "Criteria",
+    "tx_level" => "Level of Satisfaction",
+    "tx_s_agree" => "Strongly Agree",
+    "tx_agree" => "Agree",
+    "tx_neutral" => "Neutral",
+    "tx_disagree" => "Disagree",
+    "tx_s_disagree" => "Strongly Disagree",
+    "tx_eva1" => "Convenience and promptness of reporting.",
+    "tx_eva2" => "Accessing the system can be done easily and quickly.",
+    "tx_eva3" => "The system has appropriate security management and access control measures.",
+    "tx_suggestion" => "Suggestion (if applicable)",
+    "bt_input_details" => "Explain your details.",
 
 ];
 

@@ -8,7 +8,9 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
 
-    <link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet">
+    <!--link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet"-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+
     <link href="{{ asset('bulma-tooltip/bulma-tooltip.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/modal/modal.css') }}" rel="stylesheet">
@@ -38,7 +40,7 @@
 
 </head>
 
-<body class="has-background-light">
+<body class="has-background-light theme-light light">
 
     <form name="RegForm" id="RegForm" class="form-horizontal" enctype="multipart/form-data" role="form" method="POST"
         onsubmit="return vali_case();" action="{{ route('store') }}">
@@ -53,7 +55,8 @@
 
                     @if(Config::get('app.locale') == 'en')
 
-                    <a class="button is-danger is-inverted is-rounded is-small button_addshadow" href="{{ URL::to('change/th') }}"> Thai
+                    <a class="button btn_color1 is-rounded is-small button_addshadow" href="{{ URL::to('change/th') }}">
+                        Thai
                         Site&nbsp;
                         <span class="fa-stack fa-1x">
                             <i class="fa fa-circle fa-stack-2x"></i>
@@ -63,7 +66,7 @@
 
                     @elseif(Config::get('app.locale') == 'th')
 
-                    <a class="button is-danger is-inverted is-rounded is-small button_addshadow" href="{{ URL::to('change/en') }}">
+                    <a class="button btn_color1 is-rounded is-small button_addshadow" href="{{ URL::to('change/en') }}">
                         English
                         Site&nbsp;
                         <span class="fa-stack fa-1x">
@@ -85,7 +88,8 @@
                     <li><a href="{{ 'index.php' }}"><span class="icon is-small"><i class="fa fa-home"></i></span><span>
                                 {{ trans('message.nav_home') }} </span></a>
                     </li>
-                    <li class="is-active"><a><span class="icon is-small"><i class="fa fa-bullhorn"></i></span><span>
+                    <li class="is-active "><a class="has-text-black"><span class="icon is-small "><i
+                                    class="fa fa-bullhorn"></i></span><span>
                                 {{ trans('message.nav_complaint') }} </span></a>
                     </li>
                 </ul>
@@ -93,13 +97,13 @@
 
             <h2 id="modern-framework" class=""> {{ trans('message.txt_head_rc') }} </h2>
             <br>
-            
+
             <div class="level">
                 <!-- Left side -->
                 <div class="level-left">
                     <div class="level-item">
-                        <button  id="chk_agent" type="button" class="button is-info button_addshadow" value="1"
-                            onclick="showHideDiv('data-agent')"><i class="fa fa-user-plus"
+                        <button id="chk_agent" type="button" class="button is-info has-text-white button_addshadow"
+                            value="1" onclick="showHideDiv('data-agent')"><i class="fa fa-user-plus"
                                 aria-hidden="true"></i>&nbsp;{{ trans('message.bt_victim_rc') }}</button>
                     </div>
 
@@ -110,13 +114,12 @@
                 <!-- Right side -->
                 <div class="level-right">
                     <div class="level-item">
-                        <a class="button is-danger button_addshadow btn_colorred" style="margon: 30px;" id="showModal"><i
-                                class="fas fa-exclamation-triangle fa-shake" style="--fa-animation-duration: 3s;">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</a>
+                        <a class="button is-danger has-text-white button_addshadow btn_colorred" style="margon: 30px;"
+                            id="showModal"><i class="fas fa-exclamation-triangle fa-shake"
+                                style="--fa-animation-duration: 3s;">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</a>
                     </div>
                 </div>
             </div>
-
-
 
             <div class="box " id="data-agent">
                 <div class="field is-horizontal">
@@ -124,8 +127,6 @@
                         <!-- Left empty for spacing -->
                     </div>
                 </div>
-
-
 
                 @component('component.informer_detail') @endcomponent
 
@@ -170,8 +171,9 @@
                     </div>
                 </div>
 
-                <hr> @if($errors->any())
-
+                <hr> 
+                
+                @if($errors->any())
                 <ul class="notification is-warning">
                     @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -181,10 +183,7 @@
 
                 <div class="level">
                     <!-- Left side -->
-                    <div class="level-left">
-
-
-                    </div>
+                    <div class="level-left"></div>
 
                     <!-- Right side -->
                     <div class="level-right">
@@ -195,7 +194,7 @@
 
                         <div class="control  ">
                             <!--p>คลิกเพื่อระบุตำแหน่งในปัจจุบัน </p-->
-                            <a class="button is-danger button_addshadow" onclick="getLocation()">
+                            <a class="button is-danger has-text-white button_addshadow" onclick="getLocation()">
                                 <span class="icon is-left">
                                     <i class="fas fa-location-arrow"></i>
                                 </span>
@@ -205,10 +204,8 @@
                             {{ Form::hidden('geolon', null, array('id' => 'glon')) }}
                         </div>
 
-
                     </div>
                 </div>
-
 
                 <div class="field is-horizontal">
                     <div class="field-label ">
@@ -241,7 +238,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="field is-horizontal">
                     <div class="field-label ">
                         <!-- Left empty for spacing -->
@@ -253,14 +250,14 @@
                         <label class="label">{{ trans('message.txt_sex') }} *</label>
                     </div>
                     <div class="field-body">
-                         <div class="field is-narrow">
+                        <div class="field is-narrow">
                             <div class="control">
                                 <input class="is-checkradio is-info" type="radio" id="biosex1" name="biosex" value="1"
                                     checked="checked">
                                 <label for="biosex1">{{ trans('message.txt_sex1') }}</label>
-                                <input class="is-checkradio is-info" type="radio" id="biosex2" name="biosex" value="2">
+                                <input class="is-checkradio is-info " type="radio" id="biosex2" name="biosex" value="2">
                                 <label for="biosex2">{{ trans('message.txt_sex2') }}</label>
-                                <input class="is-checkradio is-info" type="radio" id="biosex0" name="biosex" value="0">
+                                <input class="is-checkradio is-info " type="radio" id="biosex0" name="biosex" value="0">
                                 <label for="biosex0">{{ trans('message.txt_sex0') }}</label>
                             </div>
                         </div>
@@ -296,12 +293,13 @@
                             <label for="nation7">{{ trans('message.txt_nat7') }}</label>
                             <input class="is-checkradio is-info" type="radio" id="nation6" name="nation" value="6">
                             <label for="nation6">{{ trans('message.txt_nat6') }}</label>
-                            <input type="text" class="input" name="nation_etc" placeholder="{{ trans('message.txt_nat6_sp') }}"
-                                style="display:none">
-                            
+                            <input type="text" class="input mt-3" name="nation_etc"
+                                placeholder="{{ trans('message.txt_nat6_sp') }}" style="display:none">
+
                         </div>
                     </div>
                 </div>
+
                 <div class="field is-horizontal">
                     <div class="field-label ">
                         <!-- Left empty for spacing -->
@@ -520,7 +518,7 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <textarea name="need" class="textarea" placeholder="กรอกรายละเอียด"></textarea>
+                                <textarea name="need" class="textarea" placeholder="{{ trans('message.bt_input_details') }}"></textarea>
                                 {{--<textarea name="detail" class="textarea" placeholder="กรอกรายละเอียด"></textarea>--}}
                             </div>
                         </div>
@@ -534,8 +532,8 @@
                     <div class="field-body">
                         <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
-                                <input class="input-file" id="file1" name="file1" type="file">
-                                <span class="file-cta">
+                                <input class="input-file has-text-white" id="file1" name="file1" type="file">
+                                <span class="file-cta has-text-white">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>
@@ -557,8 +555,8 @@
                     <div class="field-body">
                         <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
-                                <input class="input-file" id="file2" name="file2" type="file">
-                                <span class="file-cta">
+                                <input class="input-file " id="file2" name="file2" type="file">
+                                <span class="file-cta has-text-white">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>
@@ -581,7 +579,7 @@
                         <div class="file is-danger has-name is-fullwidth">
                             <label class="file-label">
                                 <input class="input-file" id="file3" name="file3" type="file">
-                                <span class="file-cta">
+                                <span class="file-cta has-text-white">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>
@@ -602,24 +600,333 @@
             <div class="field is-grouped">
                 <p class="control">
                     <!--{!! Form::submit('ส่งข้อมูล',['class'=>'button is-primary']) !!}-->
-                    <button type="submit" class="button is-danger button_addshadow" form="RegForm"
+                    <button type="submit" class="button is-danger has-text-white button_addshadow" form="RegForm"
                         onsubmit="return validateForm();">{{ trans('message.bt_submit') }}</button>
-
                     <input type="button" name="btn" value="Submit" id="submitBtn" data-toggle="modal"
                         data-target="#confirm-submit" class="btn btn-default button_addshadow" style="display:none" />
 
                 </p>
                 <p class="control">
-                    <a><a class="button is-outlined button_addshadow"
+                    <a><a class="button button_addshadow"
                             href="{{ route('guest_home') }}">{{ trans('message.bt_cancle') }}</a></a>
                 </p>
             </div>
         </div>
 
+        <input type="hidden" id="eva1" name="eva1" value="">
+        <input type="hidden" id="eva2" name="eva2" value="">
+        <input type="hidden" id="eva3" name="eva3" value="">
+        <input type="hidden" id="eva_comment" name="eva_comment" value="">
 
     </form>
 
     <br>
+
+    @extends('footer')
+
+    <!--  confirm-submit   -->
+    <div id="boxes">
+        <div style="top: 250px; left: 551.5px;  " id="confirm-submit" class="window sizebox2"
+            tabindex="-1" role="dialog">
+
+            <div class=" has-text-centered">
+                <div class="modal-card">
+                    <header class="modal-card-head p-3">
+                        <p class="modal-card-title is-normal"><b>{{ trans('message.tx_head_pop_con') }}</b></p>
+                    </header>
+                    <section class="modal-card-body p-3">
+
+                        <label class="label p-3 has-text-left">{{ trans('message.h_eva') }}</label>
+
+                        <div class="table-container">
+                            <table class="table is-bordered is-hoverable is-narrow is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" class="has-text-centered" style="white-space:nowrap; width:5%;">{{ trans('message.bt_rate_status_id') }}</th>
+                                        <th rowspan="2" class="has-text-centered" style=" width:250px;" >{{ trans('message.tx_criteria') }}
+                                        </th>
+                                        <th colspan="5" class="has-text-centered" style="white-space:nowrap;">
+                                        {{ trans('message.tx_level') }}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="has-text-centered colorbg1" style=" width:10%;">{{ trans('message.tx_s_agree') }}</th>
+                                        <th class="has-text-centered colorbg2" style=" width:10%;">{{ trans('message.tx_agree') }}</th>
+                                        <th class="has-text-centered colorbg3" style=" width:10%;">{{ trans('message.tx_neutral') }}</th>
+                                        <th class="has-text-centered colorbg4" style=" width:10%;">{{ trans('message.tx_disagree') }}</th>
+                                        <th class="has-text-centered colorbg5" style=" width:10%;">{{ trans('message.tx_s_disagree') }}
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="has-text-left" style="white-space:nowrap;">
+                                        {{ trans('message.tx_eva1') }}</td>
+                                        <td class="colorbg1">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score11" name="score1" value="5" checked>
+                                            <label for="score11"></label>
+                                        </td>
+                                        <td class="colorbg2">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score12" name="score1" value="4">
+                                            <label for="score12"></label>
+                                        </td>
+                                        <td class="colorbg3">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score13" name="score1" value="3">
+                                            <label for="score13"></label>
+                                        </td>
+                                        <td class="colorbg4">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score14" name="score1" value="2">
+                                            <label for="score14"></label>
+                                        </td>
+                                        <td class="colorbg5">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score15" name="score1" value="1">
+                                            <label for="score15"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td class="has-text-left" style="white-space:nowrap;">{{ trans('message.tx_eva2') }}</td>
+                                        <td class="colorbg1">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score21" name="score2" value="5" checked>
+                                            <label for="score21"></label>
+                                        </td>
+                                        <td class="colorbg2">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score22" name="score2" value="4">
+                                            <label for="score22"></label>
+                                        </td>
+                                        <td class="colorbg3">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score23" name="score2" value="3">
+                                            <label for="score23"></label>
+                                        </td>
+                                        <td class="colorbg4">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score24" name="score2" value="2">
+                                            <label for="score24"></label>
+                                        </td>
+                                        <td class="colorbg5">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score25" name="score2" value="1">
+                                            <label for="score25"></label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>3</td>
+                                        <td class="has-text-left" style="">
+                                        {{ trans('message.tx_eva3') }}</td>
+                                        <td class="colorbg1">
+                                            <div class="control">
+                                                <input class="is-checkradio has-background-color is-white" type="radio"
+                                                    id="score31" name="score3" value="5" checked>
+                                                <label for="score31"></label>
+                                            </div>
+                                        </td>
+                                        <td class="colorbg2">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score32" name="score3" value="4">
+                                            <label for="score32"></label>
+                                        </td>
+                                        <td class="colorbg3">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score33" name="score3" value="3">
+                                            <label for="score33"></label>
+                                        </td>
+                                        <td class="colorbg4">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score34" name="score3" value="2">
+                                            <label for="score34"></label>
+                                        </td>
+                                        <td class="colorbg5">
+                                            <input class="is-checkradio has-background-color is-white" type="radio"
+                                                id="score35" name="score3" value="1">
+                                            <label for="score35"></label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <div class="field has-text-left">
+                            <label class="label p-3">{{ trans('message.tx_suggestion') }}</label>
+                            <div class="control">
+                                <textarea id="s_comment" name="s_comment" class="textarea" rows="2"
+                                    placeholder="{{ trans('message.bt_input_details') }}"></textarea>
+                            </div>
+                        </div>
+
+                        <br>
+                        <p>{{ trans('message.tx_body1_pop_con') }}</p>
+                        <p>{{ trans('message.tx_body2_pop_con') }}</p>
+                        <br>
+
+                        <div class="columns is-desktop is-centered">
+
+                            <div id="form_sender" class="column is-half">
+                                <div class="box p-3">
+                                    <table class="table has-text-left is-narrow is-fullwidth">
+                                        <tr>
+                                            <th>{{ trans('message.txt_inf_name') }} : </th>
+                                            <td id="txt_sender_name"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ trans('message.txt_tel') }} : </th>
+                                            <td id="txt_agent_tel"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="column is-half">
+                                <div class="box p-3">
+                                    <table class="table has-text-left is-narrow is-fullwidth">
+                                        <tr>
+                                            <th>{{ trans('message.tx_name_pop_con') }} : </th>
+                                            <td id="txt_name"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>{{ trans('message.txt_tel') }} : </th>
+                                            <td id="txt_tel"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="field has-text-center">
+                            <button id="submit"
+                                class="button is-danger has-text-white button_addshadow">{{ trans('message.bt_submit') }}</button>
+                            &nbsp;
+                            <button type="button" class="button is-outlined is-danger close button_addshadow"
+                                data-dismiss="modal">{{ trans('message.bt_cancle2') }}</button>
+
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;"
+            id="mask_confirm">
+        </div>
+    </div>
+
+    <!--  alert  -->
+    <div id="modal_alert" class="modal ">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title has-text-danger"><i
+                            class="fas fa-exclamation-triangle">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</p>
+                </header>
+                <section class="modal-card-body">
+
+                    <p class="is-size-4">
+                        {{ trans('message.tx_h_table') }}
+                    </p>
+                    <p class="is-size-5 mb-3">
+                        {{ trans('message.tx_sh_table') }}
+                    </p>
+                    <div class="panel table-container">
+
+                        <table class="table is-fullwidth is-striped is-hoverable">
+                            <thead>
+                                <tr>
+                                    <th class="has-text-danger">{{ trans('message.tx_agency_name') }}</th>
+                                    <th class="has-text-danger">{{ trans('message.txt_tel') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>{{ trans('message.tx_rsat') }}</th>
+                                    <td class="has-text-left">02-7316533</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_tnp_plus') }}</th>
+                                    <td class="has-text-left">02-3775065</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_far') }}</th>
+                                    <td class="has-text-left">097-2194393</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_swing') }}</th>
+                                    <td class="has-text-left">02-6329502 </td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_rtf') }}</th>
+                                    <td class="has-text-left">063-2057188</td>
+                                </tr>
+                                <tr>
+                                    <th>Health and Opportunity Network (HON)</th>
+                                    <td class="has-text-left">038-425808</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_nam_kwan_sirung') }}</th>
+                                    <td class="has-text-left">054-070599</td>
+                                </tr>
+                                <tr>
+                                    <th>{{ trans('message.tx_stm') }}</th>
+                                    <td class="has-text-left">074-313409</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <p class="is-size-5">{{ trans('message.txt_ask_urgenthelp') }}</p>
+                    <p class="is-size-6 has-text-danger">{{ trans('message.txt_tell_urgenthelp') }}</p>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <div class="buttons">
+                        <button class="button color1 modalclose_alert button_addshadow"
+                            onclick="sitwch_alert('on')">{{ trans('message.btn_need') }}</button>
+                        <button class="button is-info modalclose_notalert button_addshadow"
+                            onclick="sitwch_alert('off')">{{ trans('message.btn_noneed') }}</button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <button class="modal-close modalclose"></button>
+    </div>
+
+    <!-- popup box -->
+    <div id="boxes">
+        <div style="top: 250px; left: 551.5px; display: none; " id="dialog" class="window sizebox2">
+            <div class="box">
+                <p>{{ trans('message.txt_new_explain_popup') }}
+                </p>
+                <br>
+
+                <div class="buttons has-text-centered">
+
+                    <a class="button  is-outlined is-danger close">{{ trans('message.txt_accept') }}</a>
+
+                    <a href="{{ 'index.php' }}" class="button ">{{ trans('message.bt_cancle') }}</a>
+                    <!--span class="is-size-7">By clicking Accept, you agree to be bound by the terms of this
+                        document.</!--span-->
+
+                </div>
+            </div>
+        </div>
+        <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;"
+            id="mask_intro">
+        </div>
+    </div>
 
     <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
     <script src="{{ asset('bulma/main.js') }}"></script>
@@ -632,166 +939,19 @@
 
     {{ Html::script('js/validation_case.js') }}
 
+    <script src="css/modal/modal.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <!--<script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"> </script>-->
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script-->
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+    <script src="css/modal/modal.js"></script>
+
+    {{ Html::script('css/nicelabel/js/jquery.nicelabel.js') }}
+
     <script>
-    $('#prov_id').on('change', function(e) {
-        // console.log(e);
-        var prov_id = e.target.value;
-
-        $.get('ajax-amphur/' + prov_id, function(data) {
-            //success data
-            $('#amphur_id').empty();
-
-            $.each(data, function($index, subcatObj) {
-
-                @if(Config::get('app.locale') == 'en')
-                $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
-                    '"style="width:250px">' + subcatObj.AMPHUR_NAME_EN + '</option>');
-                @elseif(Config::get('app.locale') == 'th')
-                $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
-                    '"style="width:250px">' + subcatObj.AMPHUR_NAME + '</option>');
-                @endif
-
-            });
-
-            // console.log(data);
-        });
-    });
-    /*
-        function load() {
-
-            $('input[name="sender_case"][value="1"]').attr('checked', true);
-            //  loadinput(val);
-            document.getElementById("data-agent").style.display = 'none';
-            document.getElementById("tabradio").style.display = 'none';
-
-            document.getElementById("form_sender").style.display = 'none';
-
-        }
-        */
-
-    var val = $('input[name="sender_case"]').val();
-
-
-    function showHideDiv(ele) {
-
-        var srcElement = document.getElementById(ele);
-
-        console.log("chk : " + val);
-
-        if (val == 2) {
-            //แจ้งเอง
-            srcElement.style.display = 'none';
-            document.getElementById("form_sender").style.display = 'none';
-
-            document.getElementById("case1").checked = true;
-
-            $('input[name="sender"]').val("");
-            $('input[name="sender"]').prop('disabled', true);
-            $('input[name="agent_tel"]').val("");
-            $('input[name="agent_tel"]').prop('disabled', true);
-            val = 1;
-            console.log("chk-val-loop1 : " + val);
-        } else {
-            // แจ้งแทน
-            srcElement.style.display = 'block';
-            document.getElementById("form_sender").style.display = 'block';
-            document.getElementById("case2").checked = true;
-
-            $('input[name="sender"]').prop('disabled', false);
-            $('input[name="agent_tel"]').prop('disabled', false);
-            val = 2;
-            console.log("chk-val-loop2 : " + val);
-        }
-        return false;
-
-        //loadinput(val)
-    }
-
-    $("input[name='nation']").on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 6) {
-            $("input[name='nation_etc']").show();
-        } else {
-            $("input[name='nation_etc']").hide();
-        }
-    });
-
-
-    //<!-- upload -->
-
-    document.querySelector("html").classList.add('js');
-
-    var fileInput1 = document.getElementById("file1"),
-        fileInput2 = document.getElementById("file2"),
-        fileInput3 = document.getElementById("file3"),
-        button1 = document.querySelector(".input-file-trigger1"),
-        button2 = document.querySelector(".input-file-trigger2"),
-        button3 = document.querySelector(".input-file-trigger3"),
-        the_return1 = document.querySelector(".file-return1");
-    the_return2 = document.querySelector(".file-return2");
-    the_return3 = document.querySelector(".file-return3");
-
-    button1.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput1.focus();
-        }
-    });
-    button2.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput2.focus();
-        }
-    });
-    button3.addEventListener("keydown", function(event) {
-        if (event.keyCode == 13 || event.keyCode == 32) {
-            fileInput3.focus();
-        }
-    });
-    button1.addEventListener("click", function(event) {
-        fileInput1.focus();
-        return false;
-    });
-    button2.addEventListener("click", function(event) {
-        fileInput2.focus();
-        return false;
-    });
-    button3.addEventListener("click", function(event) {
-        fileInput3.focus();
-        return false;
-    });
-    fileInput1.addEventListener("change", function(event) {
-        the_return1.innerHTML = this.files[0].name;
-    });
-    fileInput2.addEventListener("change", function(event) {
-        the_return2.innerHTML = this.files[0].name;
-    });
-    fileInput3.addEventListener("change", function(event) {
-        the_return3.innerHTML = this.files[0].name;
-    });
-
-    // Lcation Lat Long //
-    var getsuccess = document.getElementById("getsuccess");
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-            getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_wait') }}&nbsp;&nbsp;";
-        } else {
-            latlon.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-
-    function showPosition(position) {
-
-        getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_ss') }}&nbsp;&nbsp;";
-
-        document.getElementById('glat').value = position.coords.latitude;
-        document.getElementById('glon').value = position.coords.longitude;
-
-    }
-
 
     $(document).ready(function() {
 
@@ -887,186 +1047,174 @@
         });
 
     });
-    </script>
 
-    @extends('footer')
+    $('#prov_id').on('change', function(e) {
+        // console.log(e);
+        var prov_id = e.target.value;
 
-    <!-- popup box -->
-    <div id="boxes">
-        <div style="top: 250px; left: 551.5px; display: none; " id="dialog" class="window sizebox2">
-            <div class="box">
-                <p>{{ trans('message.txt_new_explain_popup') }}
-                </p>
-                <br>
+        $.get('ajax-amphur/' + prov_id, function(data) {
+            //success data
+            $('#amphur_id').empty();
 
-                <div class="buttons has-text-centered">
+            $.each(data, function($index, subcatObj) {
 
-                    <a class="button  is-outlined is-danger close">{{ trans('message.txt_accept') }}</a>
+                @if(Config::get('app.locale') == 'en')
+                $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
+                    '"style="width:250px">' + subcatObj.AMPHUR_NAME_EN + '</option>');
+                @elseif(Config::get('app.locale') == 'th')
+                $('#amphur_id').append('<option value="' + subcatObj.AMPHUR_CODE +
+                    '"style="width:250px">' + subcatObj.AMPHUR_NAME + '</option>');
+                @endif
 
-                    <a href="{{ 'index.php' }}" class="button is-outlined ">{{ trans('message.bt_cancle') }}</a>
-                    <!--span class="is-size-7">By clicking Accept, you agree to be bound by the terms of this
-                        document.</!--span-->
+            });
 
-                </div>
-            </div>
-        </div>
-        <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;"
-            id="mask_intro">
-        </div>
-    </div>
+            // console.log(data);
+        });
+    });
 
-    <!--modal popup -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>-->
+    /*
+    function load() {
 
-    <script src="css/modal/modal.js"></script>
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        $('input[name="sender_case"][value="1"]').attr('checked', true);
+        //  loadinput(val);
+        document.getElementById("data-agent").style.display = 'none';
+        document.getElementById("tabradio").style.display = 'none';
 
-    <!--<script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"> </script>-->
+        document.getElementById("form_sender").style.display = 'none';
 
-    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script-->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    }
+    */
 
-    <script src="css/modal/modal.js"></script>
-
-
-    <!--  confirm-submit   -->
-    <div id="boxes">
-        <div id="confirm-submit" class="window" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            aria-hidden="true" style="  ">
-            <div class=" has-text-centered">
-                <div class="modal-dialog">
-                    <div class="modal-header">
-                        <b>{{ trans('message.tx_head_pop_con') }}</b>
-                    </div>
-                    <div class="modal-body">
-                        {{ trans('message.tx_body1_pop_con') }}
-                        <br>{{ trans('message.tx_body2_pop_con') }}
-
-                        <table class="table " id="form_sender">
-                            <tr>
-                                <th>{{ trans('message.txt_inf_name') }}</th>
-                                <td id="txt_sender_name"></td>
-                            </tr>
-                            <tr>
-                                <th>{{ trans('message.txt_tel') }}</th>
-                                <td id="txt_agent_tel"></td>
-                            </tr>
-                        </table>
-                        <table class="table ">
-                            <tr>
-                                <th>{{ trans('message.tx_name_pop_con') }}</th>
-                                <td id="txt_name"></td>
-                            </tr>
-                            <tr>
-                                <th>{{ trans('message.txt_tel') }}</th>
-                                <td id="txt_tel"></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <br>
-                        <a href="#" id="submit"
-                            class="button is-medium   is-primary ">{{ trans('message.bt_submit') }}</a>
-                        <button type="button" class="button is-medium is-outlined is-danger close"
-                            data-dismiss="modal">{{ trans('message.bt_cancle2') }}</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div style="width: 1478px; font-size: 32pt; color:white; height: 602px; display: none; opacity: 0.8;"
-            id="mask_confirm">
-        </div>
-    </div>
-
-    <div id="modal_alert" class="modal ">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title has-text-danger"><i
-                            class="fas fa-exclamation-triangle">&nbsp;</i>{{ trans('message.bt_urgent_rc') }}</p>
-                </header>
-                <section class="modal-card-body">
-
-                    <p class="is-size-4">
-                        {{ trans('message.tx_h_table') }}
-                    </p>
-                    <p class="is-size-5 mb-3">
-                        {{ trans('message.tx_sh_table') }}
-                    </p>
-                    <div class="panel table-container">
-
-                        <table class="table is-fullwidth is-striped is-hoverable">
-                            <thead>
-                                <tr>
-                                    <th class="has-text-danger">{{ trans('message.tx_agency_name') }}</th>
-                                    <th class="has-text-danger">{{ trans('message.txt_tel') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>{{ trans('message.tx_rsat') }}</th>
-                                    <td class="has-text-left">02-7316533</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_tnp_plus') }}</th>
-                                    <td class="has-text-left">02-3775065</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_far') }}</th>
-                                    <td class="has-text-left">097-2194393</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_swing') }}</th>
-                                    <td class="has-text-left">02-6329502 </td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_rtf') }}</th>
-                                    <td class="has-text-left">063-2057188</td>
-                                </tr>
-                                <tr>
-                                    <th>Health and Opportunity Network (HON)</th>
-                                    <td class="has-text-left">038-425808</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_nam_kwan_sirung') }}</th>
-                                    <td class="has-text-left">054-070599</td>
-                                </tr>
-                                <tr>
-                                    <th>{{ trans('message.tx_stm') }}</th>
-                                    <td class="has-text-left">074-313409</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <p class="is-size-5">{{ trans('message.txt_ask_urgenthelp') }}</p>
-                    <p class="is-size-6 has-text-danger">{{ trans('message.txt_tell_urgenthelp') }}</p>
-
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-danger modalclose_alert button_addshadow" onclick="sitwch_alert('on')">{{ trans('message.btn_need') }}</button>
-                    <button class="button is-info modalclose_notalert button_addshadow" onclick="sitwch_alert('off')">{{ trans('message.btn_noneed') }}</button>
-                </footer>
-            </div>
-        </div>
-        <button class="modal-close modalclose"></button>
-    </div>
+    var val = $('input[name="sender_case"]').val();
 
 
-</body>
+    function showHideDiv(ele) {
 
-{{ Html::script('css/nicelabel/js/jquery.nicelabel.js') }}
+        var srcElement = document.getElementById(ele);
+
+        console.log("chk : " + val);
+
+        if (val == 2) {
+            //แจ้งเอง
+            srcElement.style.display = 'none';
+            document.getElementById("form_sender").style.display = 'none';
+
+            document.getElementById("case1").checked = true;
+
+            $('input[name="sender"]').val("");
+            $('input[name="sender"]').prop('disabled', true);
+            $('input[name="agent_tel"]').val("");
+            $('input[name="agent_tel"]').prop('disabled', true);
+            val = 1;
+            console.log("chk-val-loop1 : " + val);
+        } else {
+            // แจ้งแทน
+            srcElement.style.display = 'block';
+            document.getElementById("form_sender").style.display = 'block';
+            document.getElementById("case2").checked = true;
+
+            $('input[name="sender"]').prop('disabled', false);
+            $('input[name="agent_tel"]').prop('disabled', false);
+            val = 2;
+            console.log("chk-val-loop2 : " + val);
+        }
+        return false;
+
+        //loadinput(val)
+    }
+
+    $("input[name='nation']").on('change', function(e) {
+
+        var sel_value = e.target.value;
+        //alert(sel_value);
+
+        if (sel_value == 6) {
+            $("input[name='nation_etc']").show();
+        } else {
+            $("input[name='nation_etc']").hide();
+        }
+    });
+
+
+    //<!-- upload -->
+
+    document.querySelector("html").classList.add('js');
+
+    var fileInput1 = document.getElementById("file1"),
+        fileInput2 = document.getElementById("file2"),
+        fileInput3 = document.getElementById("file3"),
+        button1 = document.querySelector(".input-file-trigger1"),
+        button2 = document.querySelector(".input-file-trigger2"),
+        button3 = document.querySelector(".input-file-trigger3"),
+        the_return1 = document.querySelector(".file-return1");
+        the_return2 = document.querySelector(".file-return2");
+        the_return3 = document.querySelector(".file-return3");
+
+    button1.addEventListener("keydown", function(event) {
+        if (event.keyCode == 13 || event.keyCode == 32) {
+            fileInput1.focus();
+        }
+    });
+    button2.addEventListener("keydown", function(event) {
+        if (event.keyCode == 13 || event.keyCode == 32) {
+            fileInput2.focus();
+        }
+    });
+    button3.addEventListener("keydown", function(event) {
+        if (event.keyCode == 13 || event.keyCode == 32) {
+            fileInput3.focus();
+        }
+    });
+    button1.addEventListener("click", function(event) {
+        fileInput1.focus();
+        return false;
+    });
+    button2.addEventListener("click", function(event) {
+        fileInput2.focus();
+        return false;
+    });
+    button3.addEventListener("click", function(event) {
+        fileInput3.focus();
+        return false;
+    });
+    fileInput1.addEventListener("change", function(event) {
+        the_return1.innerHTML = this.files[0].name;
+    });
+    fileInput2.addEventListener("change", function(event) {
+        the_return2.innerHTML = this.files[0].name;
+    });
+    fileInput3.addEventListener("change", function(event) {
+        the_return3.innerHTML = this.files[0].name;
+    });
+
+    // Lcation Lat Long //
+    var getsuccess = document.getElementById("getsuccess");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+            getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_wait') }}&nbsp;&nbsp;";
+        } else {
+            latlon.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+
+        getsuccess.innerHTML = "&nbsp;&nbsp;{{ trans('message.tx_location_ss') }}&nbsp;&nbsp;";
+
+        document.getElementById('glat').value = position.coords.latitude;
+        document.getElementById('glon').value = position.coords.longitude;
+
+    }
+
+</script>
+
 <script>
 $(function() {
     $('#text-checkbox  > input').nicelabel();
-
 });
 </script>
-
-
 
 <script>
 function sitwch_alert(data) {
@@ -1091,5 +1239,7 @@ function sitwch_alert(data) {
 
 }
 </script>
+
+</body>
 
 </html>

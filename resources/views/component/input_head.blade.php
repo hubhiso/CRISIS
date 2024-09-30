@@ -4,7 +4,7 @@
         <div class="container">
             <div class="columns is-vcentered">
                 <div class="column">
-                    <p class="title"> Crisis Response System (CRS) </p>
+                    <p class="title has-text-white	"> Crisis Response System (CRS) </p>
                 </div>
             </div>
         </div>

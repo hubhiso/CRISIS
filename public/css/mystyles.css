@@ -2,6 +2,28 @@ body {
     font-family: 'Mitr', sans-serif;
 }
 
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.myradio{
+    border : 1rem solid #000 !important; 
+}
+
+.text-warning{
+    color:#ffb300 ;
+}
+
+.tabs > ul > li.is-active > a{
+    background-color: #f14668 !important; 
+    color: #FFFFFF !important;
+    border: 1px solid #f14668 !important;
+}
+
 .color1{
     background-color: #f14668 !important; 
     color: #FFFFFF !important; 
@@ -12,6 +34,32 @@ body {
 }
 .btn_colorred{
     background-color: #C70039 !important; 
+}
+
+.btn_color1{
+    color: #CC3366;
+    background-color: #fff !important; 
+}
+
+.btn_color2{
+    color: #fff;
+    background-color: #757575 !important; 
+}
+
+.colorbg1{
+    background-color: #f35d8f !important; 
+}
+.colorbg2{
+    background-color: #f56e9b !important; 
+}
+.colorbg3{
+    background-color: #f685ab !important; 
+}
+.colorbg4{
+    background-color: #f5a7c1 !important; 
+}
+.colorbg5{
+    background-color: #f9c7d8 !important; 
 }
 
 #btn_new1 {

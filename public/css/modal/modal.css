@@ -34,12 +34,12 @@
   opacity: 1;
 }
 
-.sizebox1,
-#confirm-submit {
+.sizebox1 {
   width: 50%;
 }
 
-.sizebox2 {
+.sizebox2,
+#confirm-submit, #modal_alert_eva {
   width: 70%;
 }
 
@@ -93,13 +93,13 @@
   }
 
   .sizebox1 {
-    margin-top: 50px;
+    margin-top: 150px;
     width: 85%;
   }
 
   .sizebox2,
   #confirm-submit {
-    margin-top: 50px;
+    margin-top: 150px;
     width: 85%;
   }
 }
