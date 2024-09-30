@@ -5,23 +5,22 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+    <meta name="theme-color" content="#ab3c3c" />
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+    <title> ปกป้อง (CRS) </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <!--link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet"-->
+
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
     {{ Html::script('js/jquery.min.js') }}
 
-    <title> ปกป้อง (CRS) </title>
-
-    <meta name="theme-color" content="#ab3c3c" />
-
-	<link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
-
 </head>
 
-<body class="layout-default has-background-light">
+<body class="layout-default has-background-light theme-light light">
 
     <div class="hero-head ">
         <div class=" ">
@@ -59,16 +58,16 @@
                                 <span>ส่วนเจ้าหน้าที่</span>
                             </a>
                         </li>
-						<li >
-							<a href="{{ route('officer.show',['mode_id' => "0"]) }}">
-								<span class="icon is-small">
-								<i class="fas fa-list" aria-hidden="true"></i>
-								</span>
-								<span>จัดการเหตุ</span>
-							</a>
-						</li>
-                        <li class="is-active">
-                            <a href="#">
+                        <li>
+                            <a href="{{ route('officer.show',['mode_id' => "0"]) }}">
+                                <span class="icon is-small">
+                                    <i class="fas fa-list" aria-hidden="true"></i>
+                                </span>
+                                <span>จัดการเหตุ</span>
+                            </a>
+                        </li>
+                        <li class="is-active ">
+                            <a href="#" class="has-text-black">
                                 <span class="icon is-small">
                                     <i class="fa fa-id-card" aria-hidden="true"></i>
                                 </span>
@@ -112,7 +111,7 @@
                                 <div class="field is-grouped">
                                     <p class="control is-expanded has-icons-left ">
                                         <input class="input" type="text" value="{{ $show_data->name }}" disabled>
-                                        <span class="icon is-small is-left">  </span>
+                                        <span class="icon is-small is-left"> </span>
                                     </p>
                                 </div>
                                 <div class="field-label is-normal">
@@ -135,7 +134,7 @@
                                     <p class="control  has-icons-left">
 
                                         <input class="input" type="text" value="{{ $show_data->victim_tel }}" disabled>
-                                        <span class="icon is-small is-left">  </span>
+                                        <span class="icon is-small is-left"> </span>
                                     </p>
                                 </div>
                             </div>
@@ -156,16 +155,18 @@
                                             disabled>
                                         @elseif($show_data->sex == 4)
                                         <input class="input" type="text" placeholder="ประเภท4" value="อื่นๆ" disabled>
-										@elseif($show_data->sex == 0)
-                                        <input class="input" type="text" placeholder="ประเภท4" value="ไม่ประสงค์ตอบ" disabled>
+                                        @elseif($show_data->sex == 0)
+                                        <input class="input" type="text" placeholder="ประเภท4" value="ไม่ประสงค์ตอบ"
+                                            disabled>
                                         @endif
 
                                 </div>
-								@if($show_data->sex == 4)
-								<div class="field is-narrow is-grouped">
-									<input class="input" type="text" placeholder="ประเภท4" value="{{ $show_data->sex_etc }}" disabled>
-								</div>
-								@endif
+                                @if($show_data->sex == 4)
+                                <div class="field is-narrow is-grouped">
+                                    <input class="input" type="text" placeholder="ประเภท4"
+                                        value="{{ $show_data->sex_etc }}" disabled>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="field is-horizontal">
@@ -199,7 +200,7 @@
                                 <div class="field is-grouped">
                                     <p class="control is-expanded  ">
                                         @if($show_data->geolat <> '' )
-                                            <a class="button is-primary" target="_blank"
+                                            <a class="button is-danger has-text-white" target="_blank"
                                                 href="https://www.google.com/maps/?q={{ $show_data->geolat }},{{ $show_data->geolon }}">
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
@@ -207,7 +208,7 @@
                                                 <span>คลิกเพื่อแสดงพิกัดบนแผนที่</span>
                                             </a>
                                             @else
-                                            <a class="button is-primary" target="_blank" href="" disabled>
+                                            <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
                                                 </span>
@@ -238,12 +239,11 @@
                                         @elseif($show_data->problem_case == 4)
                                         <input class="input" type="text" placeholder="ประเภท4"
                                             value="ถูกกีดกันหรือถูกเลือกปฏิบัติเนื่องมาจากเป็นกลุ่มเปราะบาง" disabled>
-                                            @elseif($show_data->problem_case == 5)
+                                        @elseif($show_data->problem_case == 5)
                                         <input class="input" type="text" placeholder="ประเภท5"
                                             value="อื่นๆ ที่เกี่ยวข้องกับเอชไอวี" disabled>
-                                            @elseif($show_data->problem_case == 6)
-                                        <input class="input" type="text" placeholder="ประเภท6"
-                                            value="อื่นๆ" disabled>
+                                        @elseif($show_data->problem_case == 6)
+                                        <input class="input" type="text" placeholder="ประเภท6" value="อื่นๆ" disabled>
                                         @endif
 
                                     </p>
@@ -335,9 +335,11 @@
                             <div class="field-body">
                                 <div class="field is-grouped">
                                     <p class="control has-icons-left ">
-                                    <input  class="input" type="text" value="{{  Auth::user()->name }}" disabled >
-									<input id="receive" name="receiver"  type="text" value="{{  Auth::user()->name }}" hidden >
-                                    <input id="receive_username" name="receive_username"  type="text" value="{{  Auth::user()->username }}" hidden >
+                                        <input class="input" type="text" value="{{  Auth::user()->name }}" disabled>
+                                        <input id="receive" name="receiver" type="text"
+                                            value="{{  Auth::user()->name }}" hidden>
+                                        <input id="receive_username" name="receive_username" type="text"
+                                            value="{{  Auth::user()->username }}" hidden>
 
 
                                     </p>
@@ -367,14 +369,14 @@
                                 <div class="field is-grouped">
                                     <div class="control is-expanded ">
                                         @if ($show_data->file1 == '')
-                                        <a class="button is-primary" target="_blank" href="" disabled>
+                                        <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                             <span class="icon is-left">
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
                                             <span>ไม่มีการบันทึกข้อมูลเพิ่มเติม</span>
                                         </a>
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white"
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file1)}}"
                                             download>
                                             <span class="icon is-left">
@@ -385,7 +387,7 @@
                                         @endif
                                         @if ($show_data->file2 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white"
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file2)}}"
                                             download>
                                             <span class="icon is-left">
@@ -396,7 +398,7 @@
                                         @endif
                                         @if ($show_data->file3 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white"
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file3)}}"
                                             download>
                                             <span class="icon is-left">
@@ -418,12 +420,22 @@
                     </div>
 
                     <div class="field is-grouped">
-
                         <div class="control">
                             @if (Auth::user()->p_receive == 'no')
                             @elseif (Auth::user()->p_receive == 'yes')
-                            {!! Form::submit('ยืนยันการรับเรื่อง',['class'=>'button is-primary']) !!}
+                            <button type="submit" class="button is-danger has-text-white">ยืนยันการรับเรื่อง</button>
                             @endif
+                        </div>
+
+                        <!--div class="control">
+                            <a class="button is-secondary  "
+                                href="{{ route('manager.reject_frm',['case_id' => $show_data->case_id]) }}">
+                                ปฎิเสธการรับเคส</a>
+                        </div-->
+                        <div class="control">
+                            <a type="button" id="btn_reject" class="button btn_color2">
+                                ปฏิเสธการรับเรื่อง
+                            </a>
                         </div>
                         <div class="control">
                             <a class="button" href="{{ route('officer.show',['mode_id' => "0"]) }}"> ยกเลิก </a>
@@ -438,9 +450,107 @@
     <br>
     @extends('officer.footer_m')
 
+    <div id="modal_reject" class="modal">
+        <div class="modal-background"></div>
+        <form role="form" method="POST" action="{{ route('manager.reject_cfm') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="case_id" value="{{ $show_data->case_id }}" >
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">ปฏิเสธการรับเรื่อง</p>
+                    <button type="button" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+
+                    <div class="field">
+                        <label class="label">ระบุเหตุผลที่ปฏิเสธการรับเรื่อง</label>
+                        <div class="control">
+                            <textarea class="textarea" name="reason" ></textarea>
+                        </div>
+                    </div>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <div class="buttons">
+                        <button type="submit" class="button is-success">ยืนยัน</button>
+                        <button type="button" class="button">ยกเลิก</button>
+                    </div>
+                </footer>
+            </div>
+        </form>
+    </div>
+
 </body>
 
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<!--<script type="text/javascript" src="//code.jquery.com/jquery-2.0.2.js"> </script>-->
+<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script-->
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+<script src="{{ asset('css/modal/modal.js') }}"></script>
+
+{{ Html::script('css/nicelabel/js/jquery.nicelabel.js') }}
+
 <script>
+$(document).ready(function() {
+    var modalDlg = document.querySelector('#modal_reject');
+    var btn_reject = document.querySelector('#btn_reject');
+
+    btn_reject.addEventListener('click', function() {
+        modalDlg.classList.add('is-active');
+    });
+
+
+});
+
+//js modal
+document.addEventListener('DOMContentLoaded', () => {
+    // Functions to open and close a modal
+    function openModal($el) {
+        $el.classList.add('is-active');
+    }
+
+    function closeModal($el) {
+        $el.classList.remove('is-active');
+    }
+
+    function closeAllModals() {
+        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+        });
+    }
+
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
+
+        $trigger.addEventListener('click', () => {
+            openModal($target);
+        });
+    });
+
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll(
+        '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach((
+        $close) => {
+        const $target = $close.closest('.modal');
+
+        $close.addEventListener('click', () => {
+            closeModal($target);
+        });
+    });
+
+    // Add a keyboard event to close all modals
+    document.addEventListener('keydown', (event) => {
+        if (event.key === "Escape") {
+            closeAllModals();
+        }
+    });
+});
+
 var p_id = $('#p_id').val();
 var p_po = $('#p_position').val();
 var p_ar = $('#p_area').val();

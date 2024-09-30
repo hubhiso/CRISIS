@@ -640,7 +640,7 @@
                             </div>
                             <div class="field">
                                 <p class="control  ">
-                                    <input class="input" name="age" id="age" value="{{$show_detail->age}}" readonly disabled>
+                                    <input class="input" type="number" name="age" id="age" value="{{$show_detail->age}}" readonly disabled>
                                 </p>
                             </div>
                         </div>

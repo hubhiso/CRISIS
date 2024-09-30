@@ -6,26 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ab3c3c" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('css/step.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
-
-    {{ Html::script('js/jquery.min.js') }}
-
     <title> ปกป้อง (CRS) </title>
 
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <!--link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet"-->
+    <!--link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet"-->
+    <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/step.css') }}" rel="stylesheet">
+
+
+    {{ Html::script('js/jquery.min.js') }}
+
+
 
 </head>
 @php
 $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 @endphp
 
-<body class="layout-default has-background-light">
+<body class="layout-default has-background-light theme-light light">
 
     <div class="hero-head ">
         <div class=" ">
@@ -65,7 +70,7 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                         </a>
                     </li>
                     <li class="is-active">
-                        <a href="#">
+                        <a href="#" class="has-text-dark">
                             <span class="icon is-small">
                                 <i class="fa fa-id-card" aria-hidden="true"></i>
                             </span>
@@ -261,7 +266,7 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                 <div class="field is-grouped">
                                     <p class="control is-expanded  ">
                                         @if($show_data->geolat <> '' )
-                                            <a class="button is-primary" target="_blank"
+                                            <a class="button is-danger has-text-white" target="_blank"
                                                 href="https://www.google.com/maps/?q={{ $show_data->geolat }},{{ $show_data->geolon }}">
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
@@ -269,7 +274,7 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                                 <span>คลิกเพื่อแสดงพิกัดบนแผนที่</span>
                                             </a>
                                             @else
-                                            <a class="button is-primary" target="_blank" href="" disabled>
+                                            <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
                                                 </span>
@@ -423,14 +428,14 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                 <div class="field is-grouped">
                                     <div class="control is-expanded ">
                                         @if ($show_data->file1 == '')
-                                        <a class="button is-primary" target="_blank" href="" disabled>
+                                        <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                             <span class="icon is-left">
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
                                             <span>ไม่มีการบันทึกข้อมูลเพิ่มเติม</span>
                                         </a>
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file1)}}"
                                             download>
                                             <span class="icon is-left">
@@ -441,7 +446,7 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                         @endif
                                         @if ($show_data->file2 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file2)}}"
                                             download>
                                             <span class="icon is-left">
@@ -452,7 +457,7 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                                         @endif
                                         @if ($show_data->file3 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file3)}}"
                                             download>
                                             <span class="icon is-left">
@@ -481,6 +486,21 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                             </div>
                         </div>
                         @endif
+                        @if( $show_data->status == 98)
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label"> เหตุผลที่ยุติการดำเนินการ </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <textarea class="textarea" placeholder="กรอกรายละเอียด"
+                                            disabled>{{ $show_data->reject_reason }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         <div class="field is-horizontal">
                             <div class="field-label">
                                 <!-- Left empty for spacing -->
@@ -490,10 +510,9 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
 
                     <div class="field is-grouped">
                         <div class="control">
-                            {{--{!! Form::submit('ยืนยันการรับเรื่อง',['class'=>'button is-primary']) !!}--}}
-                            <!-- @if( ($show_data->status  != 99) &&   (Auth::user()->position  == "admin")) -->
+                            {{--{!! Form::submit('ยืนยันการรับเรื่อง',['class'=>'button is-danger has-text-white']) !!}--}}
                         </div>
-                        @if($show_data->receiver != "")
+                        @if($show_data->receiver != "" && $show_data->status != 99 && $show_data->status != 98)
                         <div class="control">
                             <a class="button is-info "
                                 href="{{ route('manager.transfer_frm',['case_id' => $show_data->case_id]) }}">
@@ -501,19 +520,31 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
                             </a>
                         </div>
                         @endif
-                        <div class="control">
-                            <a class="button is-danger  "
-                                href="{{ route('manager.reject_frm',['case_id' => $show_data->case_id]) }}">
-                                ปฎิเสธการรับเคส</a>
-                            <!-- @endif -->
-                        </div>
 
+                        @if( $show_data->status == 1 && $show_data->status != 99 && $show_data->status != 98)
                         <div class="control">
-                            <a class="button is-primary "
+                            <a type="button" id="btn_reject" class="button btn_color2">
+                                ปฎิเสธการรับเคส
+                            </a>
+                        </div>
+                        @endif
+
+                        @if( $show_data->status > 1 && $show_data->status != 99 && $show_data->status != 98)
+                        <div class="control">
+                            <a type="button" id="btn_endcase" class="button btn_color2">
+                                ยุติการดำเนินการ
+                            </a>
+                        </div>
+                        @endif
+
+                        @if( $show_data->status != 99 && $show_data->status != 98)
+                        <div class="control">
+                            <a class="button is-danger has-text-white "
                                 href="{{ route('manager.share_case',['case_id' => $show_data->case_id]) }}">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>&nbsp;เชิญทีมร่วมจัดการเคส
                             </a>
                         </div>
+                        @endif
 
                         <p class="control">
                             <a class="button " href="{{ route('officer.show',['mode_id' => "0"]) }}"> กลับหน้าจัดการเหตุ </a>
@@ -529,12 +560,143 @@ $thaimonth = ["","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","�
     <br>
     @extends('officer.footer_m')
 
+    <div id="modal_reject" class="modal">
+        <div class="modal-background"></div>
+        <form role="form" method="POST" action="{{ route('manager.reject_cfm') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="case_id" value="{{ $show_data->case_id }}">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">ปฏิเสธการรับเรื่อง</p>
+                    <button type="button" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+
+                    <div class="field">
+                        <label class="label">ระบุเหตุผลที่ปฏิเสธไม่รับเรื่อง</label>
+                        <div class="control">
+                            <textarea class="textarea" name="reason"></textarea>
+                        </div>
+                    </div>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <div class="buttons">
+                        <button type="submit" class="button is-success">ยืนยัน</button>
+                        <button type="button" class="button">ยกเลิก</button>
+                    </div>
+                </footer>
+            </div>
+        </form>
+    </div>
+
+    <div id="modal_endcase" class="modal">
+        <div class="modal-background"></div>
+        <form role="form" method="POST" action="{{ route('manager.endcase_cfm') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="case_id" value="{{ $show_data->case_id }}">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">ยุติการดำเนินการ</p>
+                    <button type="button" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+
+                    <div class="field">
+                        <label class="label">ระบุเหตุผลที่ยุติการดำเนินการ</label>
+                        <div class="control">
+                            <textarea class="textarea" name="reason"></textarea>
+                        </div>
+                    </div>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <div class="buttons">
+                        <button type="submit" class="button is-success">ยืนยัน</button>
+                        <button type="button" class="button">ยกเลิก</button>
+                    </div>
+                </footer>
+            </div>
+        </form>
+    </div>
+
 </body>
 
 <script src="{{ asset('bulma/clipboard-1.7.1.min.js') }}"></script>
 <script src="{{ asset('bulma/main.js') }}"></script>
 
+
+
 <script>
+
+$(document).ready(function() {
+
+    @if( $show_data->status == 1)
+        var modalDlg = document.querySelector('#modal_reject');
+        var btn_reject = document.querySelector('#btn_reject');
+
+        btn_reject.addEventListener('click', function() {
+            modalDlg.classList.add('is-active');
+        });
+    @endif
+
+    @if( $show_data->status > 1)
+        var modalDlgendcase = document.querySelector('#modal_endcase');
+        var btn_endcase = document.querySelector('#btn_endcase');
+
+        btn_endcase.addEventListener('click', function() {
+            modalDlgendcase.classList.add('is-active');
+        });
+    @endif
+
+});
+
+//js modal
+document.addEventListener('DOMContentLoaded', () => {
+    // Functions to open and close a modal
+    function openModal($el) {
+        $el.classList.add('is-active');
+    }
+
+    function closeModal($el) {
+        $el.classList.remove('is-active');
+    }
+
+    function closeAllModals() {
+        (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            closeModal($modal);
+        });
+    }
+
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+        const modal = $trigger.dataset.target;
+        const $target = document.getElementById(modal);
+
+        $trigger.addEventListener('click', () => {
+            openModal($target);
+        });
+    });
+
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll(
+        '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach((
+        $close) => {
+        const $target = $close.closest('.modal');
+
+        $close.addEventListener('click', () => {
+            closeModal($target);
+        });
+    });
+
+    // Add a keyboard event to close all modals
+    document.addEventListener('keydown', (event) => {
+        if (event.key === "Escape") {
+            closeAllModals();
+        }
+    });
+});
+
 var p_id = $('#p_id').val();
 var p_po = $('#p_position').val();
 var p_ar = $('#p_area').val();

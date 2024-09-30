@@ -5,27 +5,31 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
-    {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
+    <meta name="theme-color" content="#ab3c3c" />
+    <title> ปกป้อง (CRS) </title>
+
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <!--link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet"-->
+    <!--link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet"-->
     <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
+
+    {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
+    {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
 
     {{ Html::script('js/jquery.min.js') }}
     {{ Html::script('js/thai_date_dropdown.js') }}
     {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
     {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
-    <meta name="theme-color" content="#ab3c3c" />
-
-    <title> ปกป้อง (CRS) </title>
 </head>
 
-<body class="has-background-light">
+<body class="has-background-light theme-light light">
 
     <div class="hero-head ">
         <div class=" ">
@@ -36,7 +40,8 @@
     <br>
 
     <div class="hero">
-        <form class="form-horizontal" role="form" method="POST" action="{{ route('officer.post_detail') }}">
+        <form class="form-horizontal" role="form" method="POST" onsubmit="return validate_data();"
+            action="{{ route('officer.post_detail') }}">
 
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input id="case_id" name="case_id" type="text" value="{{  $show_data->case_id }}" hidden>
@@ -61,16 +66,16 @@
                                 <span>ส่วนเจ้าหน้าที่</span>
                             </a>
                         </li>
-                        <li >
+                        <li>
                             <a href="{{ route('officer.show',['mode_id' => "0"]) }}">
                                 <span class="icon is-small">
-                                <i class="fas fa-list" aria-hidden="true"></i>
+                                    <i class="fas fa-list" aria-hidden="true"></i>
                                 </span>
                                 <span>จัดการเหตุ</span>
                             </a>
                         </li>
                         <li class="is-active">
-                            <a href="#">
+                            <a href="#" class="has-text-dark">
                                 <span class="icon is-small">
                                     <i class="far fa-address-card"></i>
                                 </span>
@@ -88,7 +93,8 @@
 
                     @if(Auth::user()->position != "officer")
                     <div class="has-text-right">
-                        <a class="button is-info is-rounded" href="{{ route('manager.transfer_frm',['case_id' => $show_data->case_id]) }}"><i
+                        <a class="button is-info is-rounded"
+                            href="{{ route('manager.transfer_frm',['case_id' => $show_data->case_id]) }}"><i
                                 class="fa fa-exchange-alt" aria-hidden="true"></i>&nbsp;เปลี่ยนผู้รับผิดชอบ</a>
                     </div>
                     <br>
@@ -367,7 +373,7 @@
                                 <div class="field is-grouped">
                                     <p class="control is-expanded  ">
                                         @if($show_data->geolat <> '' )
-                                            <a class="button is-primary" target="_blank"
+                                            <a class="button is-danger has-text-white" target="_blank"
                                                 href="https://www.google.com/maps/?q={{ $show_data->geolat }},{{ $show_data->geolon }}">
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
@@ -375,7 +381,7 @@
                                                 <span>คลิกเพื่อแสดงพิกัดบนแผนที่</span>
                                             </a>
                                             @else
-                                            <a class="button is-primary" target="_blank" href="" disabled>
+                                            <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
                                                 </span>
@@ -420,14 +426,14 @@
                                 <div class="field is-grouped">
                                     <div class="control is-expanded ">
                                         @if ($show_data->file1 == '')
-                                        <a class="button is-primary" target="_blank" href="" disabled>
+                                        <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                             <span class="icon is-left">
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
                                             <span>ไม่มีการบันทึกข้อมูลเพิ่มเติม</span>
                                         </a>
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file1)}}"
                                             download>
                                             <span class="icon is-left">
@@ -438,7 +444,7 @@
                                         @endif
                                         @if ($show_data->file2 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file2)}}"
                                             download>
                                             <span class="icon is-left">
@@ -449,7 +455,7 @@
                                         @endif
                                         @if ($show_data->file3 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file3)}}"
                                             download>
                                             <span class="icon is-left">
@@ -477,7 +483,7 @@
                             </div>
                         </div>
 
-                        <div class="field is-horizontal">
+                        <div class="field is-horizontal mb-4">
                             <div class="field-label ">
                                 <label class="label"> วันที่สอบถามข้อมูล </label>
                             </div>
@@ -546,92 +552,137 @@
                             </div>
                         </div>
 
-                        <div class="field is-horizontal">
-                            <div class="field-label ">
-                                <label class="label"> วันเกิด </label>
+                        <div class="field is-horizontal mb-4">
+                            <div class="field-label">
+                                <label class="label"> วันเดือนปีเกิด </label>
                             </div>
                             <div class="field-body">
-                                <div class="columns" data-provide="datepicker">
-                                    <div class="column ">
-                                        ปี พ.ศ.
-                                        <input class="form-control input" type="number" min="2400" max="2570"
-                                            maxlength="4" style="width: 100px;" id="yearInput" name="yearInput"
-                                            placeholder="ปปปป" onchange="date_birth();createbirthdate();">
+                                <div class="field is-narrow">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="มี" >
+                                            มีข้อมูลวันเดือนปีเกิด
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="ไม่มี" >
+                                            ไม่มีข้อมูลวันเดือนปีเกิด
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="ไม่ระบุ" >
+                                            ไม่ประสงค์ระบุข้อมูล
+                                        </label>
                                     </div>
-                                    <div class="column ">
-                                        เดือน
-                                        <div class="select">
-                                            <select id="monthInput" name="monthdate"
-                                                onchange="date_birth();createbirthdate();">
-                                                <option value="1"> มกราคม </option>
-                                                <option value="2"> กุมภาพันธ์ </option>
-                                                <option value="3"> มีนาคม </option>
-                                                <option value="4"> เมษายน </option>
-                                                <option value="5"> พฤษภาคม </option>
-                                                <option value="6"> มิถุนายน </option>
-                                                <option value="7"> กรกฎาคม </option>
-                                                <option value="8"> สิงหาคม </option>
-                                                <option value="9"> กันยายน </option>
-                                                <option value="10"> ตุลาคม </option>
-                                                <option value="11"> พฤศจิกายน </option>
-                                                <option value="12"> ธันวาคม </option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="column  ">
-                                        วันที่
-                                        <div class="select">
-                                            <select id="dayInput" name="birthdate" onchange="createbirthdate();">
-                                                @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}">{{$i}}</option>
-                                                    @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="column  is-3">
-                                        <input type="hidden" id="dateInput" name="birthdate" class="form-control">
-                                        <span class="glyphicon glyphicon-th"></span>
-                                    </div>
-                                </div>
-                                <div class="field-label is-normal">
-                                    <label class="label"> อายุ </label>
-                                </div>
-                                <div class="field">
-                                    <p class="control  ">
-                                        <input class="input" type="text" name="age" id="age" readonly>
-                                    </p>
+                                    <p id="ck_select_check_birthdate" class="help is-danger">* กรุณาระบุข้อมูลวันเดือนปีเกิด</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="field is-horizontal">
+                        <div id="input_birthdate">
+                            <div class="field is-horizontal ">
+                                <div class="field-label ">
+                                    <label class="label"> ระบุ </label>
+                                </div>
+                                <div class=" field-body">
+                                    <div class=" columns" data-provide="datepicker">
+                                        <div class="column ">
+                                            ปี พ.ศ.
+                                            <input class="form-control input" type="number" min="2400" max="2570"
+                                                maxlength="4" style="width: 100px;" id="yearInput" name="yearInput"
+                                                placeholder="ปปปป" onchange="date_birth();createbirthdate();">
+                                        </div>
+
+                                        <div class="column ">
+                                            เดือน
+                                            <div class="select">
+                                                <select id="monthInput" name="monthdate"
+                                                    onchange="date_birth();createbirthdate();">
+                                                    <option value="1"> มกราคม </option>
+                                                    <option value="2"> กุมภาพันธ์ </option>
+                                                    <option value="3"> มีนาคม </option>
+                                                    <option value="4"> เมษายน </option>
+                                                    <option value="5"> พฤษภาคม </option>
+                                                    <option value="6"> มิถุนายน </option>
+                                                    <option value="7"> กรกฎาคม </option>
+                                                    <option value="8"> สิงหาคม </option>
+                                                    <option value="9"> กันยายน </option>
+                                                    <option value="10"> ตุลาคม </option>
+                                                    <option value="11"> พฤศจิกายน </option>
+                                                    <option value="12"> ธันวาคม </option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="column  ">
+                                            วันที่
+                                            <div class="select">
+                                                <select id="dayInput" name="birthdate" onchange="createbirthdate();">
+                                                    @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}">{{$i}}</option>
+                                                        @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="column  is-3">
+
+                                            <input type="hidden" id="dateInput" name="birthdate" class="form-control">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="checkinput_birthdate" class="field is-horizontal">
+                                <div class="field-label is-normal">
+                                </div>
+                                <div class="field-body">
+                                    <p class="help is-danger">* กรุณาระบุข้อมูลวันเดือนปีเกิด</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="div_age" class="field is-horizontal mt-4">
                             <div class="field-label is-normal">
-                                <label class="label">สถานะภาพสมรส</label>
+                                <label class="label">อายุ</label>
                             </div>
                             <div class="field-body">
-                                <div class="field">
-                                    <label class="radio">
-                                        {{ Form::radio('marital-status', '1' , true) }}
-                                        โสด
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input class="input" type="number" type="text" name="age" id="age" maxlength="3" readonly>
+                                    </div>
+                                    <label for="addons" class=" p-2">
+                                        ปี
                                     </label>
-                                    &nbsp;
-                                    <label class="radio">
-                                        {{ Form::radio('marital-status', '2' , false) }}
-                                        สมรส
-                                    </label>
-                                    &nbsp;
-                                    <label class="radio">
-                                        {{ Form::radio('marital-status', '3' , false) }}
-                                        หม้าย / หย่า / แยก
-                                    </label>
-                                    &nbsp;
-                                    <label class="radio">
-                                        {{ Form::radio('marital-status', '4' , false) }}
-                                        สมณะ
-                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="field is-horizontal mb-4">
+                            <div class="field-label">
+                                <label class="label"> สถานะภาพสมรส </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field is-narrow">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="marital-status" value="1" checked>
+                                            โสด
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="marital-status" value="2">
+                                            สมรส
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="marital-status" value="3">
+                                            หม้าย / หย่า / แยก
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="marital-status" value="4">
+                                            สมณะ
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -937,9 +988,12 @@
                                             <select id="sub_problem" name="sub_problem" @if($show_data->sub_problem
                                                 ==
                                                 null){ disabled } @endif>
-                                                @if(($show_data->problem_case == 1)||($show_data->problem_case == 5)||($show_data->problem_case == 6))
-                                                <option value="1" style="width:250px" @if($show_data->sub_problem == 1){ selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
-                                                <option value="2" style="width:250px" @if($show_data->sub_problem == 2){ selected } @endif>กลุ่มเปราะบาง</option>
+                                                @if(($show_data->problem_case == 1)||($show_data->problem_case ==
+                                                5)||($show_data->problem_case == 6))
+                                                <option value="1" style="width:250px" @if($show_data->sub_problem == 1){
+                                                    selected } @endif>ผู้ติดเชื้อเอชไอวี</option>
+                                                <option value="2" style="width:250px" @if($show_data->sub_problem == 2){
+                                                    selected } @endif>กลุ่มเปราะบาง</option>
                                                 <option value="4" style="width:250px" @if($show_data->sub_problem ==
                                                     4){
                                                     selected } @endif>ครอบครัวและผู้ใกล้ชิดผู้ติดเชื้อเอชไอวี
@@ -1090,7 +1144,7 @@
                         </p>
                         @if (Auth::user()->p_receive == 'no')
                         @elseif (Auth::user()->p_receive == 'yes')
-                        <p class="control"> {!! Form::submit('ยืนยัน',['class'=>'button is-primary']) !!}</p>
+                        <p class="control"> {!! Form::submit('ยืนยัน',['class'=>'button is-danger has-text-white']) !!}</p>
                         @endif
 
                         <p class="control"> <a class="button" href="{{ route('officer.show',['mode_id' => "0"]) }}">
@@ -1104,115 +1158,22 @@
     </div>
     {{ Html::script('js/select_list.js') }}
 
-    <script>
-    //        $('.datepicker').datepicker();
-
-
-    $('#offender_type').on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if ((sel_value == 4) || (sel_value == 5)) {
-            document.getElementById("offender_subtype").disabled = true;
-        } else {
-            document.getElementById("offender_subtype").disabled = false;
-        }
-    });
-
-    ///// show and hide even btn ///////
-    $('#occupation').on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 9) {
-            $('#occupation_detail').show();
-        } else {
-            $('#occupation_detail').hide();
-        }
-    });
-    $("input[name='sex']").on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 4) {
-            $("input[name='sex_etc']").show();
-        } else {
-            $("input[name='sex_etc']").hide();
-        }
-    });
-    $("input[name='nation']").on('change', function(e) {
-
-        var sel_value = e.target.value;
-        //alert(sel_value);
-
-        if (sel_value == 6) {
-            $("input[name='nation_etc']").show();
-        } else {
-            $("input[name='nation_etc']").hide();
-        }
-    });
-    $("input[name='etc']").on('change', function(e) {
-
-        var sel_value = e.target.checked;
-        //alert(sel_value);
-        if (sel_value) {
-            $("input[name='etc_detail']").show();
-        } else {
-            $("input[name='etc_detail']").hide();
-        }
-    });
-    ///// end show and hide even btn ///////
-    /*
-            $('#type-violator').on('click change',function (e) {
-    			var type_id = e.target.value;
-                console.log(e.type);
-            });*/
-    function createbirthdate() {
-
-        $('#dateInput').val($('#monthInput').val() + "/" + $('#dayInput').val() + "/" + ($('#yearInput').val() - 543));
-        var dob = $('#dateInput').val();
-        dob = new Date(dob);
-        var today = new Date();
-        var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-        $("#age").val(age);
-        //console.log(age);
-    }
-
-    function createinterviewdate() {
-        $('#DateInterview').val($('#MonthInterview').val() + "/" + $('#DayInterview').val() + "/" + ($('#YearInterview')
-            .val() - 543));
-    }
-
-    function createaccidentdate() {
-        $('#DateAct').val($('#MonthAct').val() + "/" + $('#DayAct').val() + "/" + ($('#YearAct').val() - 543));
-    }
-
-    function handleClick(myRadio) {
-        if (myRadio.value == 1) {
-            document.getElementById("offender_organization").disabled = true;
-            document.getElementById("violator_name").disabled = false;
-            document.getElementById("violator_organization").disabled = false;
-        } else if (myRadio.value == 2) {
-            document.getElementById("offender_organization").disabled = false;
-            document.getElementById("violator_name").disabled = true;
-            document.getElementById("violator_organization").disabled = true;
-
-        }
-
-        //alert('New value: ' + myRadio.value);
-        //currentValue = myRadio.value;
-    }
-    </script>
-
     <br>
 
     @extends('officer.footer_m')
 
 </body>
+
 <script>
+$(document).ready(function() {
+
+    $("#input_birthdate").hide();
+    $("#ck_select_check_birthdate").hide();
+    $("#ck_select_check_birthdate").hide();
+    $("#checkinput_birthdate").hide(); 
+
+});
+
 var p_id = $('#p_id').val();
 var p_po = $('#p_position').val();
 var p_ar = $('#p_area').val();
@@ -1230,6 +1191,155 @@ $.ajax({
         $('#i-process').text(data.NotOp);
     }
 });
+
+//$('.datepicker').datepicker();
+
+$('#offender_type').on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if ((sel_value == 4) || (sel_value == 5)) {
+        document.getElementById("offender_subtype").disabled = true;
+    } else {
+        document.getElementById("offender_subtype").disabled = false;
+    }
+});
+
+///// show and hide even btn ///////
+$('#occupation').on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if (sel_value == 9) {
+        $('#occupation_detail').show();
+    } else {
+        $('#occupation_detail').hide();
+    }
+});
+$("input[name='sex']").on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if (sel_value == 4) {
+        $("input[name='sex_etc']").show();
+    } else {
+        $("input[name='sex_etc']").val('');
+        $("input[name='sex_etc']").hide();
+    }
+});
+$("input[name='nation']").on('change', function(e) {
+
+    var sel_value = e.target.value;
+    //alert(sel_value);
+
+    if (sel_value == 6) {
+        $("input[name='nation_etc']").show();
+    } else {
+        $("input[name='nation_etc']").hide();
+    }
+});
+$("input[name='etc']").on('change', function(e) {
+
+    var sel_value = e.target.checked;
+    //alert(sel_value);
+    if (sel_value) {
+        $("input[name='etc_detail']").show();
+    } else {
+        $("input[name='etc_detail']").hide();
+    }
+});
+///// end show and hide even btn ///////
+/*
+        $('#type-violator').on('click change',function (e) {
+			var type_id = e.target.value;
+            console.log(e.type);
+        });*/
+function createbirthdate() {
+
+    $('#dateInput').val($('#monthInput').val() + "/" + $('#dayInput').val() + "/" + ($('#yearInput').val() - 543));
+    var dob = $('#dateInput').val();
+    dob = new Date(dob);
+    var today = new Date();
+    var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+    $("#age").val(age);
+    //console.log(age);
+}
+
+function createinterviewdate() {
+    $('#DateInterview').val($('#MonthInterview').val() + "/" + $('#DayInterview').val() + "/" + ($('#YearInterview')
+        .val() - 543));
+}
+
+function createaccidentdate() {
+    $('#DateAct').val($('#MonthAct').val() + "/" + $('#DayAct').val() + "/" + ($('#YearAct').val() - 543));
+}
+
+function handleClick(myRadio) {
+    if (myRadio.value == 1) {
+        document.getElementById("offender_organization").disabled = true;
+        document.getElementById("violator_name").disabled = false;
+        document.getElementById("violator_organization").disabled = false;
+    } else if (myRadio.value == 2) {
+        document.getElementById("offender_organization").disabled = false;
+        document.getElementById("violator_name").disabled = true;
+        document.getElementById("violator_organization").disabled = true;
+
+    }
+
+    //alert('New value: ' + myRadio.value);
+    //currentValue = myRadio.value;
+}
+
+$('input[type=radio][name=check_birthdate]').change(function() {
+
+    if (this.value == 'มี') {
+
+        $("#input_birthdate").show();
+        $('#div_age').show();
+        $('#age').val('');
+        $('#age').attr('readonly', true);
+
+    } else if (this.value == 'ไม่มี') {
+
+        $("#input_birthdate").hide();
+        $('#div_age').show();
+        $('#age').val('');
+        $('#age').attr('readonly', false);
+
+    } else if (this.value == 'ไม่ระบุ') {
+
+        $("#input_birthdate").hide();
+        $('#div_age').hide();
+        $('#age').val('');
+        $('#age').attr('readonly', false);
+    }
+});
+
+function validate_data() { 
+
+    $("#ck_select_check_birthdate").hide();
+    $("#checkinput_birthdate").hide();
+    
+    if($('input[type=radio][name=check_birthdate]:checked').length == 0 ){
+
+        $('input[type=radio][name=check_birthdate]').focus();
+        $("#ck_select_check_birthdate").show();
+
+        return false;
+    }
+
+    if ( ($('input[type=radio][name=check_birthdate]:checked').val() == "มี") && ($("#yearInput").val() == "")) {
+
+        $("#yearInput").focus();
+        $("#checkinput_birthdate").show();
+
+        return false;
+    }
+
+}
 </script>
 
 </body>

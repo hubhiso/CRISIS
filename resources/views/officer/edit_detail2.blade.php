@@ -5,31 +5,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
-    {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
-
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
-    <link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
-
-    {{ Html::script('js/jquery.min.js') }}
-    {{--{{ Html::script('js/thai_date_dropdown.js') }}--}}
-
-    {{--{{ Html::script('js/select_list.js') }}--}}
-    {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
-    {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
-
     <meta name="theme-color" content="#ab3c3c" />
-
     <title> ปกป้อง (CRS) </title>
 
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <!--link href="{{ asset('bulma-0.9.0/css/bulma.css') }}" rel="stylesheet"-->
+    <!--link href="{{ asset('bulma-0.8.0/css/bulma.css') }}" rel="stylesheet"-->
+    <link href="{{ asset('css/mystyles.css') }}" rel="stylesheet">
+
+    {{--{{ Html::style('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}--}}
+    {{--{{ Html::style('bootstrap/css/bootstrap.css') }}--}}
+
+    {{ Html::script('js/jquery.min.js') }}
+    {{ Html::script('js/thai_date_dropdown.js') }}
+    {{--{{ Html::script('bootstrap/js/bootstrap.min.js') }}--}}
+    {{--{{ Html::script('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}--}}
+
 </head>
 
-<body class="layout-default has-background-light">
+<body class="layout-default has-background-light theme-light light">
 
     <div class="hero-head ">
         <div class=" ">
@@ -71,7 +70,7 @@
                         </a>
                     </li>
                     <li class="is-active">
-                        <a href="#">
+                        <a href="#" class="has-text-dark">
                             <span class="icon is-small">
                                 <i class="far fa-address-card"></i>
                             </span>
@@ -103,7 +102,7 @@
 
             <div class="content">
 
-                <form class="form-horizontal" role="form" method="POST" action="{{ route('officer.update_detail') }}">
+                <form class="form-horizontal" role="form" method="POST" onsubmit="return validate_data();" action="{{ route('officer.update_detail') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input id="case_id" name="case_id" type="text" value="{{  $show_data->case_id }}" hidden>
 
@@ -375,7 +374,7 @@
                                 <div class="field is-grouped">
                                     <p class="control is-expanded  ">
                                         @if($show_data->geolat <> '' )
-                                            <a class="button is-primary" target="_blank"
+                                            <a class="button is-danger has-text-white" target="_blank"
                                                 href="https://www.google.com/maps/?q={{ $show_data->geolat }},{{ $show_data->geolon }}">
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
@@ -383,7 +382,7 @@
                                                 <span>คลิกเพื่อแสดงพิกัดบนแผนที่</span>
                                             </a>
                                             @else
-                                            <a class="button is-primary" target="_blank" href="" disabled>
+                                            <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                                 <span class="icon is-left">
                                                     <i class="fas fa-map"></i>
                                                 </span>
@@ -428,14 +427,14 @@
                                 <div class="field is-grouped">
                                     <div class="control is-expanded ">
                                         @if ($show_data->file1 == '')
-                                        <a class="button is-primary" target="_blank" href="" disabled>
+                                        <a class="button is-danger has-text-white" target="_blank" href="" disabled>
                                             <span class="icon is-left">
                                                 <i class="fas fa-file-alt"></i>
                                             </span>
                                             <span>ไม่มีการบันทึกข้อมูลเพิ่มเติม</span>
                                         </a>
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file1)}}"
                                             download>
                                             <span class="icon is-left">
@@ -446,7 +445,7 @@
                                         @endif
                                         @if ($show_data->file2 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file2)}}"
                                             download>
                                             <span class="icon is-left">
@@ -457,7 +456,7 @@
                                         @endif
                                         @if ($show_data->file3 == '')
                                         @else
-                                        <a class="button is-primary "
+                                        <a class="button is-danger has-text-white "
                                             href="{{asset('/uploads/'.$show_data->case_id.'/'.$show_data->file3)}}"
                                             download>
                                             <span class="icon is-left">
@@ -487,7 +486,7 @@
                             </div>
                         </div>
 
-                        <div class="field is-horizontal">
+                        <div class="field is-horizontal mb-4">
                             <div class="field-label ">
                                 <label class="label"> วันที่สอบถามข้อมูล </label>
                             </div>
@@ -557,76 +556,150 @@
                             </div>
                         </div>
 
-                        <div class="field is-horizontal">
-                            <div class="field-label ">
-                                <label class="label"> วันเกิด </label>
+                        <div class="field is-horizontal mb-4">
+                            <div class="field-label">
+                                <label class="label"> วันเดือนปีเกิด </label>
                             </div>
                             <div class="field-body">
-                                <div class="columns" data-provide="datepicker">
-                                    <div class="column ">
-                                        ปี พ.ศ.
-                                        <input class="form-control input" type="number" min="2400" max="2570"
-                                            maxlength="4" id="yearInput" name="yearInput" placeholder="ปปปป"
-                                            value="{{date('Y',strtotime(str_replace('-','/', $show_detail->birth_date))) + 543 }}"
-                                            onchange="date_birth();createbirthdate();">
+                                <div class="field is-narrow">
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="มี"
+                                                <?php if( $show_detail->check_birthdate == "มี"){ echo "checked";} ?>>
+                                            มีข้อมูลวันเดือนปีเกิด
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="ไม่มี"
+                                                <?php if( $show_detail->check_birthdate == "ไม่มี"){ echo "checked";} ?>>
+                                            ไม่มีข้อมูลวันเดือนปีเกิด
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="check_birthdate" value="ไม่ระบุ"
+                                                <?php if( $show_detail->check_birthdate == "ไม่ระบุ"){ echo "checked";} ?>>
+                                            ไม่ประสงค์ระบุข้อมูล
+                                        </label>
                                     </div>
-                                    <div class="column ">
-                                        เดือน
-                                        <div class="select">
-                                            <select id="monthInput" name="monthdate"
+                                    <p id="ck_select_check_birthdate" class="help is-danger">*
+                                        กรุณาระบุข้อมูลวันเดือนปีเกิด</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="input_birthdate">
+                            <div class="field is-horizontal ">
+                                <div class="field-label ">
+                                    <label class="label"> ระบุ </label>
+                                </div>
+                                <div class=" field-body">
+                                    <div class=" columns" data-provide="datepicker">
+                                        <div class="column ">
+                                            ปี พ.ศ.
+                                            <input class="form-control input" type="number" min="2400" max="2570"
+                                                maxlength="4" id="yearInput" name="yearInput" placeholder="ปปปป"
+                                                value="{{date('Y',strtotime(str_replace('-','/', $show_detail->birth_date))) + 543 }}"
                                                 onchange="date_birth();createbirthdate();">
-                                                <option value="1" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 1){ selected } @endif> มกราคม</option>
-                                                <option value="2" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 2){ selected } @endif> กุมภาพันธ์</option>
-                                                <option value="3" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 3){ selected } @endif> มีนาคม
-                                                </option>
-                                                <option value="4" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 4){ selected } @endif> เมษายน
-                                                </option>
-                                                <option value="5" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 5){ selected } @endif> พฤษภาคม
-                                                </option>
-                                                <option value="6" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 6){ selected } @endif> มิถุนายน
-                                                </option>
-                                                <option value="7" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 7){ selected } @endif> กรกฎาคม
-                                                </option>
-                                                <option value="8" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 8){ selected } @endif> สิงหาคม
-                                                </option>
-                                                <option value="9" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 9){ selected } @endif> กันยายน
-                                                </option>
-                                                <option value="10" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 10){ selected } @endif> ตุลาคม
-                                                </option>
-                                                <option value="11" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 11){ selected } @endif> พฤศจิกายน
-                                                </option>
-                                                <option value="12" @if(date('m',strtotime(str_replace('-','/',$show_detail->birth_date))) == 12){ selected } @endif> ธันวาคม
-                                                </option>
-                                            </select>
                                         </div>
 
-                                    </div>
+                                        <div class="column ">
+                                            เดือน
+                                            <div class="select">
+                                                <select id="monthInput" name="monthdate"
+                                                    onchange="date_birth();createbirthdate();">
+                                                    <option value="1"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 1){ selected } @endif> มกราคม</option>
+                                                    <option value="2"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 2){ selected } @endif> กุมภาพันธ์</option>
+                                                    <option value="3"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 3){ selected } @endif> มีนาคม
+                                                    </option>
+                                                    <option value="4"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 4){ selected } @endif> เมษายน
+                                                    </option>
+                                                    <option value="5"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 5){ selected } @endif> พฤษภาคม
+                                                    </option>
+                                                    <option value="6"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 6){ selected } @endif> มิถุนายน
+                                                    </option>
+                                                    <option value="7"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 7){ selected } @endif> กรกฎาคม
+                                                    </option>
+                                                    <option value="8"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 8){ selected } @endif> สิงหาคม
+                                                    </option>
+                                                    <option value="9"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 9){ selected } @endif> กันยายน
+                                                    </option>
+                                                    <option value="10"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 10){ selected } @endif> ตุลาคม
+                                                    </option>
+                                                    <option value="11"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 11){ selected } @endif> พฤศจิกายน
+                                                    </option>
+                                                    <option value="12"
+                                                        @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                        birth_date))) == 12){ selected } @endif> ธันวาคม
+                                                    </option>
+                                                </select>
+                                            </div>
 
-                                    <div class="column  ">
-                                        วันที่
-                                        <div class="select">
-                                            <select id="dayInput" name="birthdate" onchange="createbirthdate();">
-                                                @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}"
-                                                    @if(date('d',strtotime(str_replace('-','/', $show_detail->
-                                                    birth_date))) == $i){ selected } @endif>{{$i}}</option>
-                                                    @endfor
-                                            </select>
                                         </div>
-                                    </div>
 
-                                    <div class="column  is-3">
-                                        <input type="hidden" id="dateInput" name="birthdate" class="form-control"
-                                            value="{{date('m/d/Y',strtotime(str_replace('-','/', $show_detail->birth_date)))}}">
-                                        <span class="glyphicon glyphicon-th"></span>
+                                        <div class="column  ">
+                                            วันที่
+                                            <div class="select">
+                                                <select id="dayInput" name="birthdate" onchange="createbirthdate();">
+                                                    @for ($i = 1; $i <= 31; $i++) <option value="{{$i}}"
+                                                        @if(date('d',strtotime(str_replace('-','/', $show_detail->
+                                                        birth_date))) == $i){ selected } @endif>{{$i}}</option>
+                                                        @endfor
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="column  is-3">
+
+                                            <input type="hidden" id="dateInput" name="birthdate" class="form-control">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+
                                     </div>
                                 </div>
+                            </div>
+
+                            <div id="checkinput_birthdate" class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label"> อายุ </label>
                                 </div>
-                                <div class="field">
-                                    <p class="control  ">
-                                        <input class="input" name="age" id="age" value="{{$show_detail->age}}" readonly>
-                                    </p>
+                                <div class="field-body">
+                                    <p class="help is-danger">* กรุณาระบุข้อมูลวันเดือนปีเกิด</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="div_age" class="field is-horizontal mt-4">
+                            <div class="field-label is-normal">
+                                <label class="label">อายุ</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <input class="input" type="number" name="age" id="age" value="{{$show_detail->age}}" maxlength="3" readonly>
+                                    </div>
+                                    <label for="addons" class=" p-2">
+                                        ปี
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -945,29 +1018,53 @@
                                         <div class="select">
                                             <select id="MonthAct" name="MonthAct"
                                                 onchange="date_acc();createaccidentdate();">
-                                                <option value="1" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 1){ selected } @endif> มกราคม
+                                                <option value="1"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 1){ selected } @endif> มกราคม
                                                 </option>
-                                                <option value="2" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 2){ selected } @endif> กุมภาพันธ์
+                                                <option value="2"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 2){ selected } @endif> กุมภาพันธ์
                                                 </option>
-                                                <option value="3" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 3){ selected } @endif> มีนาคม
+                                                <option value="3"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 3){ selected } @endif> มีนาคม
                                                 </option>
-                                                <option value="4" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 4){ selected } @endif> เมษายน
+                                                <option value="4"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 4){ selected } @endif> เมษายน
                                                 </option>
-                                                <option value="5" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 5){ selected } @endif> พฤษภาคม
+                                                <option value="5"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 5){ selected } @endif> พฤษภาคม
                                                 </option>
-                                                <option value="6" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 6){ selected } @endif> มิถุนายน
+                                                <option value="6"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 6){ selected } @endif> มิถุนายน
                                                 </option>
-                                                <option value="7" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 7){ selected } @endif> กรกฎาคม
+                                                <option value="7"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 7){ selected } @endif> กรกฎาคม
                                                 </option>
-                                                <option value="8" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 8){ selected } @endif> สิงหาคม
+                                                <option value="8"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 8){ selected } @endif> สิงหาคม
                                                 </option>
-                                                <option value="9" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 9){ selected } @endif> กันยายน
+                                                <option value="9"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 9){ selected } @endif> กันยายน
                                                 </option>
-                                                <option value="10" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 10){ selected } @endif> ตุลาคม
+                                                <option value="10"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 10){ selected } @endif> ตุลาคม
                                                 </option>
-                                                <option value="11" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 11){ selected } @endif> พฤศจิกายน
+                                                <option value="11"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 11){ selected } @endif> พฤศจิกายน
                                                 </option>
-                                                <option value="12" @if(date('m',strtotime(str_replace('-','/',$show_detail->accident_date))) == 12){ selected } @endif> ธันวาคม
+                                                <option value="12"
+                                                    @if(date('m',strtotime(str_replace('-','/',$show_detail->
+                                                    accident_date))) == 12){ selected } @endif> ธันวาคม
                                                 </option>
                                             </select>
                                         </div>
@@ -1212,7 +1309,7 @@
 
                         @if (Auth::user()->p_receive == 'no')
                         @elseif (Auth::user()->p_receive == 'yes')
-                        <p class="control"> {!! Form::submit('ยืนยัน',['class'=>'button is-primary']) !!}</p>
+                        <p class="control"> {!! Form::submit('ยืนยัน',['class'=>'button is-danger has-text-white']) !!}</p>
                         @endif
 
                         <p class="control"> <a class="button" href="{{ route('officer.show',['mode_id' => "0"]) }}">
@@ -1228,11 +1325,15 @@
     {{ Html::script('js/select_list.js') }}
 
     <script>
-    //        $('.datepicker').datepicker({
-    //            onSelect: function(){
-    //               // alert("test");
-    //            }
-    //        });
+    $(document).ready(function() {
+
+        $("#input_birthdate").hide();
+        $("#ck_select_check_birthdate").hide();
+        $("#ck_select_check_birthdate").hide();
+        $("#checkinput_birthdate").hide();
+
+    });
+
 
     function createbirthdate() {
 
@@ -1370,6 +1471,54 @@ function copyurl() {
 
     // Copy the text inside the text field
     navigator.clipboard.writeText(copyText.value);
+
+}
+
+$('input[type=radio][name=check_birthdate]').change(function() {
+
+if (this.value == 'มี') {
+
+    $("#input_birthdate").show();
+    $('#div_age').show();
+    $('#age').val('');
+    $('#age').attr('readonly', true);
+
+} else if (this.value == 'ไม่มี') {
+
+    $("#input_birthdate").hide();
+    $('#div_age').show();
+    $('#age').val('');
+    $('#age').attr('readonly', false);
+
+} else if (this.value == 'ไม่ระบุ') {
+
+    $("#input_birthdate").hide();
+    $('#div_age').hide();
+    $('#age').val('');
+    $('#age').attr('readonly', false);
+}
+});
+
+function validate_data() {
+
+    $("#ck_select_check_birthdate").hide();
+    $("#checkinput_birthdate").hide();
+
+    if ($('input[type=radio][name=check_birthdate]:checked').length == 0) {
+
+        $('input[type=radio][name=check_birthdate]').focus();
+        $("#ck_select_check_birthdate").show();
+
+        return false;
+    }
+
+    if (($('input[type=radio][name=check_birthdate]:checked').val() == "มี") && ($("#yearInput").val() == "")) {
+
+        $("#yearInput").focus();
+        $("#checkinput_birthdate").show();
+
+        return false;
+    }
 
 }
 </script>

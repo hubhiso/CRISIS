@@ -93,15 +93,15 @@
                                 <th class="has-text-light">Active</th>
                                 <th class="has-text-light">username</th>
                                 <th class="has-text-light">ชื่อ</th>
-                                <th class="has-text-light">ชื่อหน่วยงาน</th>
+                                <th class="has-text-light">หน่วยงานย่อย</th>
                                 <th class="has-text-light">เบอร์ติดต่อ</th>
                                 <th class="has-text-light">Email</th>
                                 <th class="has-text-light">ตำแหน่ง</th>
                                 <th class="has-text-light">เขต</th>
                                 <th class="has-text-light">จังหวัด</th>
                                 
-                                <th class="has-text-light">กลุ่ม</th>
-                                <th class="has-text-light">ดูทั้งหมดในกลุ่ม</th>
+                                <th class="has-text-light">หน่วยงานหลัก</th>
+                                <th class="has-text-light">ดูทั้งหมดในหน่วยงานหลัก</th>
                                 <th class="has-text-light">ดูเคสทั้งหมด</th>
                                 <th class="has-text-light">รับเคส</th>
                                 <th class="has-text-light">วันที่ update</th>
