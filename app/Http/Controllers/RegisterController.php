@@ -121,11 +121,14 @@ class RegisterController extends Controller
 
         if(!$ck_officer_tel or !$ck_officer_email){
 
+            $active = "wait"; echo "<br>active $active";
+            $approv = "wait"; echo "<br>approv $approv";
+
             
             officer::create([
 
-                'active' => 'no',
-                'approv' => 'no',
+                'active' => $active,
+                'approv' => $approv,
                 'username'=>$request->input('username'),
                 'name'=>$request->input('name'),
                 'nameorg'=>$request->input('nameorg'),
@@ -166,11 +169,14 @@ class RegisterController extends Controller
 
             officer::where('username','=',$username)->update([ 'fileupload1' => $fileupload1, 'fileupload2' => $fileupload2]);
 
+            echo "createusersuccess";
             return redirect('createusersuccess');
 
         }else{
 
-            //$_SESSION["error"] = "เบอร์ติดต่อซ้ำ";
+            echo "เบอร์ติดต่อ หรือ Email ซ้ำ";
+
+            $_SESSION["error"] = "เบอร์ติดต่อซ้ำ";
             return redirect()->back()->with(['message' => 'เบอร์ติดต่อ หรือ Email ซ้ำ']);
             //return redirect('register');
         }

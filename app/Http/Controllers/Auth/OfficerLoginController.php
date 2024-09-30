@@ -48,32 +48,29 @@ class OfficerLoginController extends Controller
 
         }*/
 
-        if(Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'no' , 'approv' => 'no'])){
+
+        if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'wait' , 'approv' => 'wait'])  ){
 
             Auth::guard('officer')->logout();
-            return redirect()->back()->with(['message' => 'ID นี้กำลังรอการอนุมัติจากเจ้าหน้าที่ดูแลระบบ']);
+            return redirect()->back()->with(['status'=> 'warning', 'message' => 'Username นี้กำลังรอการอนุมัติจากผู้ดูแลระบบ']);
 
-        }else if(Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'no' , 'approv' => NULL])){
+        }else if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'no', 'approv' => 'no']) ){
 
             Auth::guard('officer')->logout();
-            return redirect()->back()->with(['message' => 'ID นี้กำลังรอการอนุมัติจากเจ้าหน้าที่ดูแลระบบ']);
+            return redirect()->back()->with(['status'=> 'danger', 'message' => 'Username นี้ถูกปิดการใช้งานบัญชีผู้ใช้ โปรดแจ้งผู้ดูแลระบบหากต้องการเข้าใช้งาน']);
+
+        }else if(Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password ] , $request->remember)){
+
+            officer::where('username','=', $request->username)->update(['last_login_at' => Carbon::now()]);
+
+
+            return redirect()->intended(route('officer.main'))->with(['login_eva'=> 'yes']);
 
         }else{
-            
-            if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password , 'active' => 'no']))
-            {
-                Auth::guard('officer')->logout();
-                return redirect()->back()->with(['message' => 'ID นี้ถูกระงับชั่วคราวจากการที่ไม่ได้ login เป็นเวลานาน โปรดแจ้งผู้ดูแลเพื่อเข้าใช้งาน']);
-            }else{
 
-                if( Auth::guard('officer')->attempt(['username' => $request->username , 'password' => $request->password ]
-                , $request->remember)){
+            Auth::guard('officer')->logout();
+            return redirect()->back()->with(['status'=> 'danger', 'message' => 'Username หรือ Password ไม่ถูกต้อง']);
 
-                    officer::where('username','=', $request->username)->update(['last_login_at' => Carbon::now()]);
-                    return redirect()->intended(route('officer.main'));
-                }
-
-            }
         }
 
 
