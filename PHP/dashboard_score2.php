@@ -576,7 +576,7 @@
                         </span>ส่วนเจ้าหน้าที่</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <span class="icon is-small"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>&nbsp;รายงาน
+                    <span class="icon is-small"><i class="fas fa-chart-pie"></i></span>&nbsp;ค่าประมาณ Dashboard ความพึงพอใจ
                 </li>
             </ol>
         </nav>
