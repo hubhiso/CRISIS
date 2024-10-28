@@ -61,7 +61,7 @@
                                 จัดการรายชื่อเจ้าหน้าที่ </a>
 
                             <a class="navbar-item  has-text-link" href="../php/dashboard_score.php">
-                                <i class="fa-solid fa-chart-pie"></i>&nbsp;
+                                <i class="fas fa-chart-pie"></i>&nbsp;
                                 ค่าประมาณ Dashboard ความพึงพอใจ </a>
 
                             @else
