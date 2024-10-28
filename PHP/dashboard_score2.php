@@ -706,7 +706,7 @@
 
                 </div>
 
-                <div class="col-sm-3 p-3 ">
+                <div class="col-sm-6 p-3 ">
 
                     <div class="row  text-center ">
 
