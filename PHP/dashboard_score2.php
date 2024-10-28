@@ -913,7 +913,7 @@
 
                         <tr >
                             <td <?php echo $color; ?>><?php echo $order; ?></td>
-                            <td <?php echo $color; ?> class="text-start"><?php echo $oname2[$i]; ?></td>
+                            <td <?php echo $color; ?> class="text-start" style=" white-space:nowrap;"><?php echo $oname2[$i]; ?></td>
                             <td <?php echo $color; ?>><?php echo thai_date_short_number2($eva_date[$i]); ?></td>
                             <td <?php echo $color; ?>><?php 
                                     if(($oname2[$i-1] == $oname2[$i]) && ($eva_date[$i-1] == $eva_date[$i])){
