@@ -547,21 +547,27 @@
 
                 </div>
 
-                <div class="col-sm-3 p-3 ">
+                <div class="col-sm-6 p-3 ">
 
-                    <div class="p-3 p-3 bgcolor5 rounded-3 text-center shadow-sm" style="margin-top: 90px;">
+                    <div class="row  text-center ">
 
-                        <img class="bg-white" src="../public/images/survey_icon2.png" width="100"
-                            style="border-radius: 50%; margin-top: -70px; border: 2px solid #86adae;">
+                        <div class="col-sm-6  offset-md-3">
 
-                        <div class=" p-1 mt-3">
-                            <label>จำนวนผู้ประเมินความพึงพอใจ</label>
+                            <div class="p-3 p-3 bgcolor5 rounded-3 text-center shadow-sm" style="margin-top: 90px;">
+
+                                <img class="bg-white" src="../public/images/survey_icon2.png" width="100"
+                                    style="border-radius: 50%; margin-top: -70px; border: 2px solid #86adae;">
+
+                                <div class=" p-1 mt-3">
+                                    <label>จำนวนผู้ประเมินความพึงพอใจ</label>
+                                </div>
+
+                                <div class="bg-white p-3 mt-3" style="color: #000;">
+                                    <label><?php echo $counteva; ?> ราย</label>
+                                </div>
+
+                            </div>
                         </div>
-
-                        <div class="bg-white p-3 mt-3" style="color: #000;">
-                            <label><?php echo $counteva; ?> ราย</label>
-                        </div>
-
                     </div>
 
                 </div>

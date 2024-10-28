@@ -60,6 +60,10 @@
                                 <i class="fa fa-users"></i>&nbsp;
                                 จัดการรายชื่อเจ้าหน้าที่ </a>
 
+                            <a class="navbar-item  has-text-link" href="../php/dashboard_score.php">
+                                <i class="fa-solid fa-chart-pie"></i>&nbsp;
+                                ค่าประมาณ Dashboard ความพึงพอใจ </a>
+
                             @else
                             
                             <a class="navbar-item  has-text-link" href="{{ route('officer.view_officer') }}">
