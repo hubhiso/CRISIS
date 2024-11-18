@@ -65,9 +65,12 @@ class OfficerController extends Controller
             if(Session::has('login_eva') == 'yes'){
                 if($yy_datecreate >= "1" or $mm_datecreate >= "1"){
                     $show_eva = "yes";
+                }else if($officer_datecreate == NULL){
+                    $show_eva = "yes";
                 }else{
                     $show_eva = "no";
                 }
+
             }else{
                 $show_eva = "no";
             }
