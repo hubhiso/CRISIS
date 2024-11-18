@@ -158,7 +158,7 @@
 
         $sql = "SELECT
             oe.username AS oe_username,
-            o.NAME AS oname,
+            o.NAME AS oname, date(oe.created_at),
             count( oe.username ) AS feq,
             AVG( oe.eva1 ) AS eva1,
             AVG( oe.eva2 ) AS eva2,
@@ -171,7 +171,7 @@
         WHERE date(oe.created_at) >= '".date($date_s)."' and date(oe.created_at) <= '".date($date_e)."'
         GROUP BY
             oe.username,
-            o.NAME;";
+            o.NAME, date(oe.created_at);";
 
         //echo $sql;
 
@@ -576,7 +576,7 @@
                         </span>ส่วนเจ้าหน้าที่</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <span class="icon is-small"><i class="fas fa-chart-pie"></i></span>&nbsp;ค่าประมาณ Dashboard ความพึงพอใจ
+                    <span class="icon is-small"><i class="fas fa-chart-pie"></i></span>&nbsp;Dashboard สรุปผลการประเมินความพึงพอใจ
                 </li>
             </ol>
         </nav>
@@ -756,7 +756,7 @@
                         <tr style="text-align: center;">
                             <th class="text-center" rowspan="2">ลำดับ</th>
                             <th class="text-center" rowspan="2" style="width: 40%;">ประเด็น</th>
-                            <th class="text-center" colspan="5">จำนวนผู้แจ้งเหตุที่ประเมินความพึงพอใจ จำแนกตามระดับความพึงพอใจ</th>
+                            <th class="text-center" colspan="5">จำนวนเจ้าหน้าที่ที่ประเมินความพึงพอใจ จำแนกตามระดับความพึงพอใจ</th>
                         </tr>
                         <tr>
                             <th class="text-center" style="width: 10%;">มากที่สุด</th>
@@ -1245,7 +1245,7 @@
             type: 'bar'
         },
         title: {
-            text: 'ภาพรวมคะแนนเฉลี่ยความพึงพอใจต่อการใช้งานระบบของผู้แจ้งเหตุ',
+            text: 'คะแนนความพึงพอใจต่อการใช้งานระบบของเจ้าหน้าที่',
             align: 'center'
         },
         subtitle: {
@@ -1327,7 +1327,7 @@
                     "c": "<?php echo $bar_icon5; ?>"
                 },
             ],
-            color: '#86adae'
+            color: '#fff'
 
         }]
     });
@@ -1338,7 +1338,7 @@
             type: 'bar'
         },
         title: {
-            text: 'จำนวนผู้แจ้งเหตุที่ประเมินความพึงพอใจต่อการใช้งานระบบ'
+            text: 'จำนวนเจ้าหน้าที่ที่ประเมินความพึงพอใจ จำแนกตามระดับความพึงพอใจ'
         },
         subtitle: {
             text: 'จำแนกตามระดับความพึงพอใจ',
@@ -1346,7 +1346,7 @@
         },
         tooltip: {
                 headerFormat: '',
-                pointFormat: '<b>{series.name}</b><br>จำนวน {point.y} ราย'
+                pointFormat: '<b>{series.name}</b><br><span style="color:{point.color}">\u25cf</span> จำนวน: {point.y} ราย'
         },
         xAxis: {
             categories: [

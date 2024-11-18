@@ -62,7 +62,7 @@
                             <hr class="navbar-divider">
                             <a class="navbar-item  has-text-link" href="../php/dashboard_score.php">
                                 <i class="fas fa-chart-pie"></i>&nbsp;
-                                ค่าประมาณ Dashboard ความพึงพอใจ </a>
+                                Dashboard สรุปผลการประเมินความพึงพอใจ </a>
 
                             @else
                             

@@ -417,7 +417,7 @@
                         </span>ส่วนเจ้าหน้าที่</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                <span class="icon is-small"><i class="fas fa-chart-pie"></i></span>&nbsp;ค่าประมาณ Dashboard ความพึงพอใจ
+                <span class="icon is-small"><i class="fas fa-chart-pie"></i></span>&nbsp;Dashboard สรุปผลการประเมินความพึงพอใจ
                 </li>
             </ol>
         </nav>
@@ -1006,7 +1006,7 @@
             type: 'bar'
         },
         title: {
-            text: 'ภาพรวมคะแนนเฉลี่ยความพึงพอใจต่อการใช้งานระบบของผู้แจ้งเหตุ',
+            text: 'คะแนนความพึงพอใจต่อการใช้งานระบบของผู้แจ้งเหตุ',
             align: 'center'
         },
         subtitle: {
@@ -1073,7 +1073,7 @@
                     "c": "<?php echo $bar_icon3; ?>"
                 },
             ],
-            color: '#86adae'
+            color: '#fff'
 
         }]
     });
@@ -1092,7 +1092,7 @@
         },
         tooltip: {
                 headerFormat: '',
-                pointFormat: '<b>{series.name}</b><br>จำนวน {point.y} ราย'
+                pointFormat: '<b>{series.name}</b><br> <span style="color:{point.color}">\u25cf</span> จำนวน: {point.y} ราย'
         },
         xAxis: {
             categories: [
