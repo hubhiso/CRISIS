@@ -226,72 +226,105 @@
             $eva4[$i] = $row["eva4"];
             $eva5[$i] = $row["eva5"];
 
+            /*
             $cal1 += $eva1[$i];
             $cal2 += $eva2[$i];
             $cal3 += $eva3[$i];
             $cal4 += $eva4[$i];
             $cal5 += $eva5[$i];
+            */
 
 
             if($eva1[$i] <= 1.49){
+                $caleva1[$i] = 1;
                 $count_eva1_1++;
             }else if($eva1[$i] <= 2.49){
+                $caleva1[$i] = 2;
                 $count_eva1_2++; 
             }else if($eva1[$i] <= 3.49){
+                $caleva1[$i] = 3;
                 $count_eva1_3++; 
             }else if($eva1[$i] <= 4.49){
+                $caleva1[$i] = 4;
                 $count_eva1_4++; 
             }else if($eva1[$i] <= 5){
+                $caleva1[$i] = 5;
                 $count_eva1_5++; 
             }
 
             if($eva2[$i] <= 1.49){
+                $caleva2[$i] = 1;
                 $count_eva2_1++;
             }else if($eva2[$i] <= 2.49){
+                $caleva2[$i] = 2;
                 $count_eva2_2++; 
             }else if($eva2[$i] <= 3.49){
+                $caleva2[$i] = 3;
                 $count_eva2_3++; 
             }else if($eva2[$i] <= 4.49){
+                $caleva2[$i] = 4;
                 $count_eva2_4++; 
             }else if($eva2[$i] <= 5){
+                $caleva2[$i] = 5;
                 $count_eva2_5++; 
             }
 
             if($eva3[$i] <= 1.49){
+                $caleva3[$i] = 1;
                 $count_eva3_1++;
             }else if($eva3[$i] <= 2.49){
+                $caleva3[$i] = 2;
                 $count_eva3_2++; 
             }else if($eva3[$i] <= 3.49){
+                $caleva3[$i] = 3;
                 $count_eva3_3++; 
             }else if($eva3[$i] <= 4.49){
+                $caleva3[$i] = 4;
                 $count_eva3_4++; 
             }else if($eva3[$i] <= 5){
+                $caleva3[$i] = 5;
                 $count_eva3_5++; 
             }
 
             if($eva4[$i] <= 1.49){
+                $caleva4[$i] = 1;
                 $count_eva4_1++;
             }else if($eva4[$i] <= 2.49){
+                $caleva4[$i] = 2;
                 $count_eva4_2++; 
             }else if($eva4[$i] <= 3.49){
+                $caleva4[$i] = 3;
                 $count_eva4_3++; 
             }else if($eva4[$i] <= 4.49){
+                $caleva4[$i] = 4;
                 $count_eva4_4++; 
             }else if($eva4[$i] <= 5){
+                $caleva4[$i] = 5;
                 $count_eva4_5++; 
             }
 
             if($eva5[$i] <= 1.49){
+                $caleva5[$i] = 1;
                 $count_eva5_1++;
             }else if($eva5[$i] <= 2.49){
+                $caleva5[$i] = 2;
                 $count_eva5_2++; 
             }else if($eva5[$i] <= 3.49){
+                $caleva5[$i] = 3;
                 $count_eva5_3++; 
             }else if($eva5[$i] <= 4.49){
+                $caleva5[$i] = 4;
                 $count_eva5_4++; 
             }else if($eva5[$i] <= 5){
+                $caleva5[$i] = 5;
                 $count_eva5_5++; 
             }
+
+            $cal1 += $caleva1[$i];
+            $cal2 += $caleva2[$i];
+            $cal3 += $caleva3[$i];
+            $cal4 += $caleva4[$i];
+            $cal5 += $caleva5[$i];
 
             
             $count_user = $i;
@@ -1338,7 +1371,7 @@
             type: 'bar'
         },
         title: {
-            text: 'จำนวนเจ้าหน้าที่ที่ประเมินความพึงพอใจ จำแนกตามระดับความพึงพอใจ'
+            text: 'จำนวนเจ้าหน้าที่ที่ประเมินความพึงพอใจ'
         },
         subtitle: {
             text: 'จำแนกตามระดับความพึงพอใจ',

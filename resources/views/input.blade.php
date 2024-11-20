@@ -1022,6 +1022,17 @@
         });
 
         $('#submit').click(function() {
+            var s1 = $('input[type=radio][name=score1]:checked').val()
+            var s2 = $('input[type=radio][name=score2]:checked').val()
+            var s3 = $('input[type=radio][name=score3]:checked').val()
+            var s_comment = $('#s_comment').val();
+
+            $('#eva1').val(s1);
+            $('#eva2').val(s2);
+            $('#eva3').val(s3);
+            $('#eva_comment').val(s_comment);
+
+            $(this).addClass('is-loading');
             document.RegForm.submit();
         });
 
