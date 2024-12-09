@@ -971,17 +971,22 @@
             name: 'คะแนนเฉลี่ย',
             data: [<?php if(is_nan($average_percent) == true){ echo "0";}else{echo number_format($average_percent,2);} ?>],
             tooltip: {
-                valueSuffix: '%'
+                valueSuffix: '%',
+                headerFormat: '',
+                pointFormat: 'คะแนนเฉลี่ย: <b>{point.y}</b>'
             },
             dataLabels: {
                 enabled: true,
                 align: 'center',
                 useHTML: true,
                 formatter: function() {
-                    return "<img src='<?php echo $path_icon; ?>' width='30'> คะแนนเฉลี่ย <?php echo number_format($average,2); ?> (<?php if(is_nan($average_percent) == true){ echo "0";}else{echo number_format($average_percent,2);} ?>%) <br>  <?php echo $txt_score; ?> ";
+                    return "<img src='<?php echo $path_icon; ?>' width='30'> คะแนนเฉลี่ย <?php echo number_format($average,2); ?> (<?php if(is_nan($average_percent) == true){ echo "0";}else{echo number_format($average_percent,2);} ?>%) <br> <?php echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$txt_score; ?> ";
                 },
                 //format: "<img src='../public/images/survey_icon2.png' width='20'> คะแนนเฉลี่ย 4.41 {y}%",
                 borderWidth: 0,
+                style: {
+                    whiteSpace: 'nowrap',
+                },
             },
             dial: {
                 radius: '80%',

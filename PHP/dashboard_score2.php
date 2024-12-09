@@ -1243,7 +1243,9 @@
             name: 'คะแนนเฉลี่ย',
             data: [<?php echo number_format($average_percent,2); ?>],
             tooltip: {
-                valueSuffix: '%'
+                valueSuffix: '%',
+                headerFormat: '',
+                pointFormat: 'คะแนนเฉลี่ย: <b>{point.y}</b>'
             },
             dataLabels: {
                 enabled: true,
@@ -1254,6 +1256,9 @@
                 },
                 //format: "<img src='../public/images/survey_icon2.png' width='20'> คะแนนเฉลี่ย 4.41 {y}%",
                 borderWidth: 0,
+                style: {
+                    whiteSpace: 'nowrap',
+                },
             },
             dial: {
                 radius: '80%',
