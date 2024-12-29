@@ -35,7 +35,7 @@
         <div class="container">
             <nav class="breadcrumb ">
                 <ul>
-                    <li><a href="{{ '../index.php' }}"><span class="icon is-small"><i
+                    <li><a href="{{ route('guest_home') }}"><span class="icon is-small"><i
                                     class="fa fa-home"></i></span><span>
                                 {{ trans('message.nav_home') }} </span></a>
                     </li>
