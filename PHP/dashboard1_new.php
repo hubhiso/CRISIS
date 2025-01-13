@@ -174,13 +174,13 @@
             $date_e =  $yyyymmdd;
         }
 
-        if($se1 != '0'){
+        if($se1 != '0' and $se1 != '' ){
             $q_se1 = " and problem_case = '$se1' ";
 
-            if($se2 != '0'){
+            if($se2 != '0' and $se2 != ''){
                 $q_se2 = " and sub_problem = '$se2' ";
 
-                if($se3 != '0'){
+                if($se3 != '0' and $se3 != ''){
 
                     $q_se2 = " and group_code = '$se3' ";
                 }
@@ -198,6 +198,8 @@
 		where c.activecase = 'yes' $q_se1 $q_se2 $q_se3 and date(c.created_at) >= '".date($date_s)."' and date(c.created_at) <= '".date($date_e)."'
 		$pr_q
 		group by r.code";
+
+        //echo $sql1;
 		
 		$result1 = mysqli_query($conn, $sql1); 
 		$i = 0;
