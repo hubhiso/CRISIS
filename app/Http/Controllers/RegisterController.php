@@ -132,14 +132,13 @@ class RegisterController extends Controller
         $username = $request->input('username');
 
         $len_user = strlen($username);
+        $regex = '/^[a-zA-Z0-9]*$/';
 
-        if($len_user < 6){
-
-            $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ Username น้อยกว่า 6 ตัว";
-            return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ Username น้อยกว่า 6 ตัว']);
-
+        if($len_user < 6 or !preg_match($regex,$username)){
+            $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ Username อาจจะน้อยกว่า 6 ตัว หรือไม่ใช่ภาษาอังกฤษ";
+            return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ Username อาจจะน้อยกว่า 6 ตัว หรือไม่ใช่ภาษาอังกฤษ']);
         }
-
+        
         $this->validator($request->all())->validate();
         //$this->create($request->all());
 
