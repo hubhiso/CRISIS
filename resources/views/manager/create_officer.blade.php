@@ -111,7 +111,7 @@
                                 <label class="label" for="username">Username</label>
                                 <div class="control">
                                     <input id="username" type="text" class="form-control input" name="username"
-                                        value="{{ old('username') }}" required autofocus>
+                                        value="{{ old('username') }}" placeholder="กำหนดเป็นภาษาอังกฤษ หรือตัวเลขไม่น้อยกว่า 6 ตัว" required autofocus>
 
                                     @if ($errors->has('username'))
                                     <span class="help-block">
@@ -119,6 +119,7 @@
                                     </span>
                                     @endif
                                 </div>
+                                <p id="ckusername" class="help is-success"></p>
                             </div>
                         </div>
                         <div class="column">
@@ -532,6 +533,50 @@
         } else {
             $ck = "";
             $('#cktel').text($ck);
+        }
+    });
+
+    $('#username').on('change', function(e) {
+        // console.log(e);
+        var username = e.target.value;
+
+        if (username) {
+
+            $.get('ajax-username-regis/' + username, function(data) {
+
+                if (data == 1) {
+                    console.log(data);
+
+                    $ck = "Username นี้ใช้งานได้";
+
+                    $("#ckusername").removeClass("is-danger");
+                    $("#ckusername").addClass("is-success");
+
+                    $('#ckusername').text($ck);
+                } else if (data == 0) {
+                    console.log(data);
+
+                    $ck = "Username นี้มีการลงทะเบียนในระบบแล้ว";
+
+                    $("#ckusername").removeClass("is-success");
+                    $("#ckusername").addClass("is-danger");
+
+                    $('#ckusername').text($ck);
+                } else if (data == 2) {
+                    console.log(data);
+
+                    $ck = "ต้องใส่เป็นภาษาอังกฤษและตัวเลข";
+
+                    $("#ckusername").removeClass("is-success");
+                    $("#ckusername").addClass("is-danger");
+
+                    $('#ckusername').text($ck);
+                }
+            });
+
+        } else {
+            $ck = "";
+            $('#ckusername').text($ck);
         }
     });
 

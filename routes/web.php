@@ -128,6 +128,8 @@ Route::post('/register_cfm', 'RegisterController@create_officer')->name('registe
 Route::get('ajax-email-regis/{email}','RegisterController@ajax_email');
 Route::get('ajax-tel-regis/{tel}','RegisterController@ajax_tel');
 
+Route::get('ajax-username-regis/{username}','RegisterController@ajax_username');
+
 
 
 Route::get('manage', function () {
@@ -182,5 +184,8 @@ Route::get('/createusersuccess', function () {
 });
 
 
+Route::get('../php/dashboard_score.php', function() {
+    return redirect()->to('../php/dashboard_score.php');
+})->name('dashboard_score');
 
 

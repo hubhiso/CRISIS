@@ -80,6 +80,28 @@ class RegisterController extends Controller
         return response()->json($ck_tel);
     }
 
+    public function ajax_username($username) {
+
+        $len_user = strlen($username);
+
+        $regex = '/^[a-zA-Z0-9]*$/';
+
+        if($len_user >= 6 and preg_match($regex,$username)){
+        
+            $ck_officer = officer::where('username', '=', $username)->first();
+
+            if(!$ck_officer){
+                $ck_user = 1;
+            }else{
+                $ck_user = 0;
+            }
+        }else{
+            $ck_user = 2;
+        }
+       
+        return response()->json($ck_user);
+    }
+
     protected function create(array $data)
     {
 
@@ -109,20 +131,29 @@ class RegisterController extends Controller
 
         $username = $request->input('username');
 
+        $len_user = strlen($username);
+
+        if($len_user < 6){
+
+            $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ Username น้อยกว่า 6 ตัว";
+            return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ Username น้อยกว่า 6 ตัว']);
+
+        }
+
         $this->validator($request->all())->validate();
         //$this->create($request->all());
 
         $tel = $request->input('tel');
         $email = $request->input('email');
 
+        $ck_username = officer::where('username', '=', $username)->first();
         $ck_officer_tel = officer::where('tel', '=', $tel)->first();
-
         $ck_officer_email = officer::where('email', '=', $email)->first();
 
-        if(!$ck_officer_tel or !$ck_officer_email){
+        if(!$ck_username and !$ck_officer_tel and !$ck_officer_email){
 
-            $active = "wait"; echo "<br>active $active";
-            $approv = "wait"; echo "<br>approv $approv";
+            $active = "wait"; echo "<br>active : $active";
+            $approv = "wait"; echo "<br>approv : $approv";
 
             
             officer::create([
@@ -174,11 +205,34 @@ class RegisterController extends Controller
 
         }else{
 
-            echo "เบอร์ติดต่อ หรือ Email ซ้ำ";
+            if($ck_officer_email){
+                echo "<br> email -> "."ซ้ำ";
+            }
 
-            $_SESSION["error"] = "เบอร์ติดต่อซ้ำ";
-            return redirect()->back()->with(['message' => 'เบอร์ติดต่อ หรือ Email ซ้ำ']);
-            //return redirect('register');
+            if($ck_username){
+                echo "<br> email -> "."ซ้ำ";
+            }
+
+            if($ck_officer_tel){
+                echo "<br> email -> "."ซ้ำ";
+            }
+
+            if($ck_username){
+                $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ มีการลงทะเบียน Username นี้เข้ามาในระบบก่อนหน้านี้แล้ว";
+                return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ มีการลงทะเบียน Username นี้เข้ามาในระบบก่อนหน้านี้แล้ว']);
+            }else if($ck_officer_tel){
+
+                $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ มีการลงทะเบียนเบอร์ติดต่อนี้เข้ามาในระบบก่อนหน้านี้แล้ว";
+                return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ มีการลงทะเบียนเบอร์ติดต่อนี้เข้ามาในระบบก่อนหน้านี้แล้ว']);
+            }elseif($ck_officer_email){
+
+                $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ มีการลงทะเบียน Email นี้เข้ามาในระบบก่อนหน้านี้แล้ว";
+                return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ มีการลงทะเบียน Email นี้เข้ามาในระบบก่อนหน้านี้แล้ว']);
+            }else{
+                $_SESSION["error"] = "ลงทะเบียนไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง";
+                return redirect()->back()->with(['message' => 'ลงทะเบียนไม่สำเร็จ กรุณาตรวจสอบข้อมูลอีกครั้ง']);
+            }
+
         }
     }
 }
