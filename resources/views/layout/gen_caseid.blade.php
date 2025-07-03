@@ -53,6 +53,7 @@
                             $emer_tx = '';
                         }
                     
+                        /*
                         if ($case_id != ""){
                             //echo "text";
 
@@ -77,7 +78,7 @@
                         $res = json_decode($result);
                         //return $res;
                         //}
-                        }
+                        }*/
 
                         
                     ?>
