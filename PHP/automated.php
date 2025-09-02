@@ -1065,7 +1065,11 @@
                     <?php } ?>
                     <?php if (trim($case_array[4]) != ""){ ?>
                     <?php echo $problem_array[4]; ?> อีกจำนวน <?php echo $case_array[4]; ?> เรื่อง คิดเป็นร้อยละ
-                    <?php echo number_format(($case_array[4]*100/$case_total),1);?>
+                    <?php echo number_format(($case_array[4]*100/$case_total),1);?> และ
+                    <?php } ?>
+                    <?php if (trim($case_array[5]) != ""){ ?>
+                    <?php echo $problem_array[5]; ?> อีกจำนวน <?php echo $case_array[5]; ?> เรื่อง คิดเป็นร้อยละ
+                    <?php echo number_format(($case_array[5]*100/$case_total),1);?>
                     <?php } ?>
                 </p>
             </div>
