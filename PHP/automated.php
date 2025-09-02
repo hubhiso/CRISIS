@@ -548,11 +548,11 @@
                     //if ($type_area != "2"){
                         $query = "select ";
                         $query .= "sum(CASE WHEN status > '0' THEN 1 ELSE 0 END) as casestep1,";
-                        $query .= "sum(CASE WHEN status > '1' THEN 1 ELSE 0 END) as casestep2,";
-                        $query .= "sum(CASE WHEN status > '2' THEN 1 ELSE 0 END) as casestep3,";
-                        $query .= "sum(CASE WHEN status > '3' THEN 1 ELSE 0 END) as casestep4,";
-                        $query .= "sum(CASE WHEN status > '4' THEN 1 ELSE 0 END) as casestep5,";
-                        $query .= "sum(CASE WHEN status > '5' THEN 1 ELSE 0 END) as casestep6 ";
+                        $query .= "sum(CASE WHEN status > '1' and status != '99' THEN 1 ELSE 0 END) as casestep2,";
+                        $query .= "sum(CASE WHEN status > '2' and status != '99' THEN 1 ELSE 0 END) as casestep3,";
+                        $query .= "sum(CASE WHEN status > '3' and status != '99' THEN 1 ELSE 0 END) as casestep4,";
+                        $query .= "sum(CASE WHEN status > '4' and status != '99' THEN 1 ELSE 0 END) as casestep5,";
+                        $query .= "sum(CASE WHEN status > '5' and status != '99' THEN 1 ELSE 0 END) as casestep6 ";
                         $query .= "FROM case_inputs c inner join prov_geo p on c.prov_id = p.code ";
                         $query .= "where (sender_case is not null) ";
                         $query .=  $query_date_range;
